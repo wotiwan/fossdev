@@ -8,6 +8,14 @@
    :glob:
    :caption: Культура и интструменты разработки
 
+Раздел 1. Введение, подходы к программированию 
+==============================================
+   
+.. toctree::
+   :maxdepth: 3
+   :glob:
+   :caption: Раздел 1. Введение, подходы к программированию 
+
 
 Терминология 
 ============
@@ -35,20 +43,28 @@
    :maxdepth: 2   
    
    educational_materials/git_base/content.md
-   
+
 Git как инструмент командной работы. Работа с удаленными репозиториями
 ======================================================================
 
 .. toctree::
    :maxdepth: 2   
+
+   educational_materials/team_work_on_a_project/content.md
+   educational_materials/team_work_on_a_project/exercises.md
+   educational_materials/team_work_on_a_project/quiz.md
    
-Возможности платформам размещения исходного кода программ на примере Github
-===========================================================================
+Знакомство с платформами размещения исходного кода программ на примере GitFlic
+==============================================================================
 
 .. toctree::
    :maxdepth: 2   
+
+   educational_materials/team_work_on_a_gitflic/content.md
+   educational_materials/team_work_on_a_gitflic/exercises.md
+   educational_materials/team_work_on_a_gitflic/quiz.md
    
-   
+
 Среда разработки
 ================
 
@@ -83,9 +99,6 @@ Git как инструмент командной работы. Работа с
    :maxdepth: 3
    :glob:
    :caption: Раздел 2. Работа над проектом
-   
-   educational_materials/stages
-   educational_materials/mvp
 
 Стадии жизни проекта
 ====================
@@ -148,6 +161,9 @@ GitHub Pages
    educational_materials/github_pages/content.md
    educational_materials/github_pages/exercises.md
    educational_materials/github_pages/quiz.md
+
+Раздел 3. Инструменты разработки
+================================
 
 .. toctree::
    :maxdepth: 3
@@ -214,23 +230,18 @@ GitHub Pages
    educational_materials/managers/exercises.md
    educational_materials/managers/quiz.md
    
-Контейнерезация с Dcoker
+Контейнерезация с Docker
 ========================
 
 .. toctree::
    :maxdepth: 2   
    
    educational_materials/docker_base/content.md
+   educational_materials/docker_base/exercises.md
    educational_materials/docker_base/quiz.md
    
-Практическое использование Docker
-=================================
-
-.. toctree::
-   :maxdepth: 2   
-   
-   educational_materials/docker_base/content.md
-   educational_materials/docker_base/quiz.md
+Дополнительные материалы
+========================
 
 .. toctree::
    :maxdepth: 3
@@ -246,7 +257,7 @@ GitHub Pages
    educational_materials/docker_network/content.md
    
 Реестр Docker
-=======================
+=============
 
 .. toctree::
    :maxdepth: 2      
