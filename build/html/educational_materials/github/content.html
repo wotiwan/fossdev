@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Сервис GitHub &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Стадии жизни проекта" href="../stages/content.html" />
+    <link rel="prev" title="Вопросы" href="../styles/quiz.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="github">
+<h1>Сервис GitHub<a class="headerlink" href="#github" title="Link to this heading">¶</a></h1>
+<section id="id1">
+<h2>Учимся читать и использовать в своем проекте чужой код с GitHub<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>Перенимаем опыт других разработчиков: ищем, читаем, клонируем, внедряем…</p>
+<p><img alt="github-logo-vector.png" src="../../_images/github-logo-vector.png" /></p>
+<p>Как только вы начинаете погружаться в атмосферу IT-сообщества, в вашем информационном поле постепенно формируется круг экспертов, которых вы встречаете на конференциях, подкастах и за просмотром онлайн-митапа крупной компании. Большинство советов, которыми делятся опытные разработчики, можно разделить на 3 категории:</p>
+<ol class="arabic simple">
+<li><p>Читайте документацию и книги;</p></li>
+<li><p>Изучайте новый язык или инструмент, используйте его в разработке своего PetProject;</p></li>
+<li><p>Изучайте чужой код и участвуйте в «open source» разработке.</p></li>
+</ol>
+<p>Касательно книг обычно все понятно, рекомендуют конкретных авторов и печатные издания. Про PetProject тоже довольно ясно: хотите понять, как работает Django? Создайте свой веб-сервис на любую тему. Например, для обработки заказов небольшой пиццерии, с админкой, меню и регистрацией клиентов. В общем, используйте все, что идет из коробки Django, чтобы разобраться, как работает этот фреймворк.</p>
+<p>А что по поводу третьего пункта? «Изучайте чужой код…». Обычно мысль на этом обрывается.</p>
+<p>Сегодня попытаемся восполнить этот пробел и закрасим «белое пятно». Выстроим цепочку алгоритма, которая поможет начинающим программистам сориентироваться в поиске «чужого кода» и использовании его в своем проекте. Чтобы «не научиться плохому».</p>
+<ol class="arabic simple">
+<li><p>Где и как искать код?</p></li>
+<li><p>Выбрали проект — на что в первую очередь стоит обратить внимание?</p></li>
+<li><p>С чего начать знакомство с чужим кодом?</p></li>
+<li><p>Как использовать его в своем проекте?</p></li>
+<li><p>Как опубликовать свой проект на GitHub?</p></li>
+</ol>
+</section>
+<section id="id2">
+<h2>Где и как искать код?<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Самой популярной площадкой для поиска и размещения кода является GitHub (https://github.com). Если вы ранее не пользовались этим сервисом, следует начать именно с него.</p>
+<p>GitHub — это веб-платформа для контроля версий и совместной работы, которая была запущена в апреле 2008 года. Она была основана Томом Престон-Вернером, Крисом Ванстратом и П. Дж. Хайеттом, а сейчас принадлежит компании Microsoft.
+Платформа была построена на основе системы контроля версий Git, созданной Линусом Торвальдсом в 2005 году. Git — мощная и эффективная система для управления исходным кодом и другими файлами. GitHub стремился сделать Git более доступным, предоставляя веб-интерфейс и набор инструментов для совместной работы и совместного использования.
+GitHub быстро стал популярным среди разработчиков открытого исходного кода. Одной из ключевых особенностей платформы является возможность разветвления репозитория, что позволяет пользователям создавать собственную копию проекта и вносить изменения, не затрагивая оригинал. Это упростило для разработчиков совместную работу и участие в проектах с открытым исходным кодом.
+За прошедшие годы GitHub добавил множество функций и инструментов, чтобы сделать совместную работу еще проще, в том числе:</p>
+<ul class="simple">
+<li><p>Запросы на вытягивание (Merge Request), которые позволяют пользователям отправлять изменения в проект для проверки.</p></li>
+<li><p>Проблемы (Issue), которые позволяют пользователям отслеживать ошибки и запросы функций.</p></li>
+<li><p>Вики (Wiki), которые позволяют пользователям создавать документацию и другую информацию для проекта.</p></li>
+<li><p>GitHubPages, который позволяет пользователям создавать и размещать веб-страницы для своих проектов.</p></li>
+<li><p>GitHubActions, которые позволяют пользователям создавать и развертывать свой код с помощью GitHub.</p></li>
+</ul>
+<p>В 2018 году Microsoft приобрела GitHub за 7,5 млрд долларов. С тех пор он продолжал развивать и улучшать платформу, включая запуск GitHubDiscussions, GitHubCodespaces и GitHubActions. Сегодня GitHub — это крупнейшее хранилище исходного кода в мире с более чем 40 миллионами пользователей и более чем 200 миллионами репозиториев.</p>
+<p>Для поиска проекта достаточно ввести в строку поиска одно или несколько ключевых слов.</p>
+<p><img alt="github_repository_with_bad_project_structure.png" src="../../_images/github_repository_with_bad_project_structure.png" /></p>
+<p>Рисунок 1 — Репозиторий с плохой структурой проекта</p>
+<p><img alt="github_repository_without_description_and_instructions.png" src="../../_images/github_repository_without_description_and_instructions.png" />
+Рисунок 2 — Репозиторий без описания и инструкций</p>
+<p><img alt="github_repository_with_good_structure.png" src="../../_images/github_repository_with_good_structure.png" /></p>
+<p>Рисунок 3 — Репозиторий с хорошей структурой</p>
+<p>Посмотрим описание «Readme.md»</p>
+<p><img alt="github_instructions_for_working_with_the_project_code.png" src="../../_images/github_instructions_for_working_with_the_project_code.png" /></p>
+<p>Рисунок 4 – Инструкция по работе с кодом проекта</p>
+<p>После знакомства с инструкцией приступаем к просмотру файлов проекта, чтобы выполнить «поверхностную реверсивную инженерию» объектов и понять его структуру. Этот процесс может занять некоторое время. В результате нам надо разобраться в коде и оценить его достоинства и недостатки, понять зависимости и попробовать составить структуру проекта в виде блок-схемы или псевдокода. В процессе изучения кода можно встретить различные решения, которые мы бы могли реализовать в этой задаче иначе, это вполне распространенная практика. Давайте кратко постараемся определить, каковы признаки «<em>хорошего кода</em>»:</p>
+<ul class="simple">
+<li><p>Структура проекта понятна.</p></li>
+<li><p>Задачи распределены по отдельным файлам.</p></li>
+<li><p>Предусмотрена модификация кода проекта.</p></li>
+<li><p>Реализована поддержка разных операционных систем (ОС). В коде есть проверка текущей ОС и сценарий корректной работы в случае отличий из-за разных версий ОС.</p></li>
+<li><p>Ключевые места в коде прокомментированы.</p></li>
+<li><p>Реализована обработка исключений.</p></li>
+<li><p>Минимальная зависимость от сторонних библиотек.</p></li>
+<li><p>Внешние библиотеки представлены в файле requirements.txt.</p></li>
+</ul>
+<p><img alt="github_view_file_requirements.png" src="../../_images/github_view_file_requirements.png" /></p>
+<p>Рисунок 5 — Файл requirements.txt — список сторонних библиотек</p>
+<section id="id3">
+<h3>Выбрали проект — на что в первую очередь стоит обратить внимание?<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p><img alt="github_view_project_files.png" src="../../_images/github_view_project_files.png" /></p>
+<p>Рисунок 6 — Файлы проекта</p>
+</section>
+<section id="id4">
+<h3>С чего начать знакомство с чужим кодом?**<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p>Скачаем проект и проанализируем его содержимое. Скачать проект с GitHub можно двумя способами:</p>
+<ul class="simple">
+<li><p>используя консольное приложение git;</p></li>
+<li><p>скачать проект zip-архивом.</p></li>
+</ul>
+<p>Наша цель — не только посмотреть исходный код проекта, но и модифицировать его по мере знакомства с проектом.</p>
+<p><img alt="github_code_download_tab_from_github.png" src="../../_images/github_code_download_tab_from_github.png" /></p>
+<p>Рисунок 7 — Вкладка загрузки кода с GitHub</p>
+<p>В таком случае использование системы контроля версий git нам сильно облегчит задачу отслеживания изменений в проекте. Внося изменения в чужой код, стоит учитывать возможность возникновения ошибок и сбоев на этапе тестирования ПО. Таким образом, мы сможем лучше разобраться в коде, откатить последние изменения и выложить свой проект на GitHub, и т.д.</p>
+<p>Приступим к подготовке рабочего окружения. Создадим на компьютере папку, в которой будет размещаться проект. Для примера будем считать, что такой директорией является: «<strong>project_github</strong>».</p>
+<ol class="arabic simple">
+<li><p>Откроем консоль в данной папке и выполним инициализацию нового проекта командой <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code>.</p></li>
+<li><p>Выполним загрузку кода из репозитория, используя команду <strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code></strong>, добавив в качестве аргумента ссылку на проект: «<strong><code class="docutils literal notranslate"><span class="pre">https://github.com/bfontaine/term2048.git</span></code></strong>».</p></li>
+</ol>
+<p><img alt="github_downloa_repository_from_github_in_terminal.png" src="../../_images/github_downloa_repository_from_github_in_terminal.png" /></p>
+<p>Рисунок 8 — Инициализация локального <strong>Git</strong> репозитория и загрузка проекта из GitHub</p>
+<p>В качестве альтернативы можно использовать команду <strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code></strong>. Можно сказать, что команда <strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code></strong> выполняет две команды: <strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code></strong> и <strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code></strong>.
+<strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code></strong> применяется для того, чтобы создать пустой репозиторий, а <strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code></strong> — чтобы наполнить его из другого репозитория. Поэтому, если вы новый участник проекта, и вам нужно получить код проекта, чтобы с ним познакомиться, то рекомендуется делать <strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code></strong>:</p>
+<p><img alt="github_clone_repository_from_github_in_terminal_descriptions.png" src="../../_images/github_clone_repository_from_github_in_terminal_descriptions.png" /></p>
+<p>После успешного клонирования проекта из GitHub мы можем приступить к изучению кода. В нашей папке с названием «<strong>project_github</strong>» появятся все файлы репозитория (см. рисунок), их можно открыть любым редактором, например, «<em>Sublime 3</em>». На что обращать внимание при работе с чужим кодом, чтобы прокачать <em>hard &amp; soft skills</em>?</p>
+<ol class="arabic simple">
+<li><p>Постарайтесь внимательно изучить код, учитывая инструкции и комментарии автора.</p></li>
+<li><p>Может быть так, что вам попался код, который вам непонятен. Например, вы не знакомы с таким объектом/функцией, или ранее вы не использовали его подобным образом. Вам стоит попробовать написать небольшой пример для его исследования и постараться ответить на вопрос: почему разработчик использовал такое решение и чем оно лучше/хуже альтернативного варианта, который известен вам.</p></li>
+<li><p>Обратите внимание, можно ли сократить код, если встречаются повторения. Например, вынести часть кода в отдельные функции или методы класса, а может, и вовсе стоит вынести участок кода в отдельный модуль. Подумайте об этом.</p></li>
+<li><p>Если вы видите, что в коде допущены очевидные ошибки, например: отсутствует проверка типа аргументов; в арифметических выражениях отсутствует проверка деления на ноль; или повторяется набор одинаковых действий, которые можно оформить в цикл и т.д., оставьте комментарий и сформулируйте, как сделать лучше. Но не пытайтесь сразу приступать к работе над изменением кода до того, как ознакомитесь с ним полностью. Могут выясниться различные ограничения или структурные решения, которые привели к такой реализации.</p></li>
+</ol>
+<p>Если вы запустите команду <strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></strong> в каталоге клонированного проекта, вы увидите следующий вывод:</p>
+<p><img alt="github_result_command_git_log.png" src="../../_images/github_result_command_git_log.png" /></p>
+<p>Рисунок 9 — Просмотр изменений командой git log</p>
+<p><img alt="github_result_command_git_log_key_p.png" src="../../_images/github_result_command_git_log_key_p.png" /></p>
+<p>Рисунок 10 — Просмотр изменений последнего коммита</p>
+</section>
+<section id="id5">
+<h3>Как использовать чужой код в своем проекте?<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p>В процессе подробного изучения кода проекта у вас наверняка появится несколько идей, как его изменить, что-то поменять или добавить новый функционал. Например, мы можем изменить размер игрового поля, количество генерируемых чисел на поле и ввести свой рейтинг-лист с 10 лучшими результатами, и т.д. Так вы не только потренируете изучение чужого кода, но и разовьете навык внесения в него модификаций. Также после завершения этапа отладки кода и тестирования можно выгрузить код в репозиторий GitHub.</p>
+</section>
+</section>
+<section id="id6">
+<h2>Работа с GitHub<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<p>Первым делом надо зарегистрироваться на сервисе github.com и авторизоваться на сайте (рисунок 11).</p>
+<p><img alt="github_login_or_registration_in_github.png" src="../../_images/github_login_or_registration_in_github.png" /></p>
+<p>Рисунок 11 — Авторизация в Github</p>
+<p>Затем переходим к созданию первого репозитория. В правой верхней части, рядом с иконкой вашего профиля, нужно нажать на значок + (плюс) и выбрать пункт «New repository» (рисунок 12).</p>
+<p><img alt="github_form_create_new_repository.png" src="../../_images/github_form_create_new_repository.png" /></p>
+<p>Рисунок 12 — Создание нового репозитория</p>
+<p>Откроется страница, на которой нужно выбрать параметры и указать дополнительную информацию о проекте (рисунок 13). Введите название нового репозитория и краткое описание, отражающее главную задачу и способ ее решения, который вы планируете реализовать. Например, в нашем случае можно назвать репозиторий «<em>terminalGame2048</em>» или «<em>py2048CLI</em>». При выборе названия старайтесь использовать «говорящие слова», чтобы разработчику со стороны было интуитивно понятно, о чем ваш проект. Использование «py» укажет, что проект на Python, а слово «game» говорит о том, что это игра. 2048 — это очень известное название игры и многих ее вариаций, а слова «terminal» и «CLI» указывают на то, что игра использует в качестве интерфейса пользователя консольное окно (терминал, командная строка). Таким образом, мы кратко в 3 словах сказали, что это игра 2048, запускается в консоли и написана на языке <em>Python</em>.</p>
+<p><img alt="github_page_with_parameters_of_the_new_repository.png" src="../../_images/github_page_with_parameters_of_the_new_repository.png" /></p>
+<p>Рисунок 13 — Страница с параметрами нового репозитория</p>
+<p>По желанию в поле «Описание репозитория» можно ввести краткую информацию об особенностях проекта. Например, какой новый функционал вы предлагаете реализовать; в чем отличие от классической игры 2048; разработка кода выполнена в рамках конкурса, школьного/студенческого проекта или хакатона. Затем следует выбрать, какого типа будет ваш новый репозиторий — открытый или закрытый:</p>
+<ul class="simple">
+<li><p><strong>Открытый/публичный</strong> — исходный код этого репозитория будет доступен всем. Вы даете согласие, что другие разработчики могут просматривать и скачивать ваш код. Все проекты open source распространяются в открытых репозиториях.</p></li>
+<li><p><strong>Закрытый/приватный</strong> — данный вариант часто используется коммерческими организациями. Приватные репозитории не отображаются в процессе поиска, и весь код будет скрыт для сторонних разработчиков, не участвующих в разработке этого проекта.</p></li>
+</ul>
+<p>Далее вы можете добавить файл «<strong>README</strong>» — это документ, в котором разработчики размещают справочную информацию и инструкции по работе с проектом.</p>
+<p>Следует помнить о том, что существует большое количество лицензий, которые регламентируют условия распространения и использования кода. В частности, это необходимо для защиты прав авторства разработчиков. Например, вы можете полностью разрешить доступ к вашему коду и дать права на его использование всем желающим в любом виде.</p>
+<p>После нажатия на кнопку «Create repository» перед вами откроется страница с вашим только что созданным репозиторием (рисунок 14). Не стоит волноваться о настройках репозитория, их можно изменить в любое время.</p>
+<p><img alt="github_page_change_settings_repository.png" src="../../_images/github_page_change_settings_repository.png" /></p>
+<p>Рисунок 14 — Страница репозитория</p>
+<p>После того как был создан репозиторий, мы можем составить описание проекта в файле «Readme.md». Информация из этого файла отображается на странице репозитория в поле сразу после файлов с кодом. Добавим описание нашего проекта, как показано на рисунке 15.</p>
+<p><img alt="github_page_edite_file_readme.png" src="../../_images/github_page_edite_file_readme.png" /></p>
+<p>Рисунок 15 — Редактирование описания репозитория</p>
+<p>Чтобы посмотреть, как будет отображаться информация с описанием на странице, нужно переключиться на вкладку «Preview» (рисунок 16).</p>
+<p><img alt="github_page_preview_file_readme.png" src="../../_images/github_page_preview_file_readme.png" /></p>
+<p>Рисунок 16 — Предварительный просмотр c использованием стилей Markdown</p>
+<p>Когда отображение справочной информации о нашем проекте будет удовлетворять нашим интересам, нужно сохранить изменения (рисунок 17), нажав на кнопку «Commit change». Кстати, это будет зарегистрировано системой git как создание нового коммита (commit). Это значит, что файл «Readme.md» изменил свое содержание и, следовательно, нужно его обновить.</p>
+<p><img alt="github_page_save_change_to_file_readme.png" src="../../_images/github_page_save_change_to_file_readme.png" /></p>
+<p>Рисунок 17 — Сохранение изменений в файле Readme</p>
+<p>Далее нам нужно загрузить код из нашего локального репозитория (на компьютере) в удаленный репозиторий GitHub. Для этого нужно скопировать путь к удаленному репозиторию (рисунок 18).</p>
+<p><img alt="github_address_of_the_remote_repository_in_github.png" src="../../_images/github_address_of_the_remote_repository_in_github.png" /></p>
+<p>Рисунок 18 — Адрес удаленного репозитория в GitHub</p>
+<p>Теперь перейдем в окно консоли git. Нам надо добавить ссылку на удаленный репозиторий в конфигурацию git на нашем локальном репозитории, чтобы система git понимала, куда отправлять код (сервер и репозиторий).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Проверка удаленного адреса репозитория
+git remote -v
+# Указание на новый удаленный репозиторий
+git remote add origin «*ссылка_на_удаленный_репозиторий*»
+# Отправка изменений локального репозитория в удаленный, помеченный как источник
+git push origin master
+</pre></div>
+</div>
+<p>Система git потребует авторизации на сервере github. Нужно будет ввести логин и пароль, указанный при регистрации.</p>
+<p><img alt="github_successful_upload_of_local_repository_to_github.png" src="../../_images/github_successful_upload_of_local_repository_to_github.png" /></p>
+<p>Рисунок 19 — Успешная загрузка локального репозитория на GitHub</p>
+<p>После успешной загрузки кода из локального репозитория мы увидим наши файлы в репозитории на GitHub (рисунок 20).</p>
+<p><img alt="github_project_files_in_a_remote_github_repository.png" src="../../_images/github_project_files_in_a_remote_github_repository.png" /></p>
+<p>Рисунок 20 — Файлы проекта в удаленном репозитории GitHub</p>
+<p><strong>Альтернативный вариант</strong></p>
+<p>Мы подробно рассмотрели вариант работы с GitHub, но есть и более простой способ создать копию чужого репозитория. Если вы хотите вносить свой вклад в уже существующие проекты, в которых у вас нет прав на внесение изменений путем их отправки (push), вы можете создать свое собственное ответвление (fork) проекта. Это означает, что GitHub создаст вашу собственную копию проекта, она будет находиться в вашем пространстве имен, и вы сможете легко менять ее путем отправки (push) изменений.</p>
+<blockquote>
+<div><p><strong>Примечание</strong>
+Исторически так сложилось, что англоязычный термин «fork» (создание ветвления проекта) имел негативный контекстный смысл. Он означал, что кто-то повел проект с открытым исходным кодом в другом, отличном от оригинала, направлении. Иногда данный термин также означал создание конкурирующего проекта с другими авторами. В контексте GitHub «fork» просто означает создание ветвления проекта в собственном пространстве имен, что позволяет вносить публичные изменения и делать свой собственный вклад в более открытом виде.</p>
+</div></blockquote>
+<p>Таким образом, авторы проектов не обеспокоены тем, чтобы пользователи, которые хотели бы выступать в роли соавторов, имели право на внесение изменений путем их отправки (<strong><code class="docutils literal notranslate"><span class="pre">push</span></code></strong>). Люди просто могут создавать свои собственные ветвления (<em>fork</em>), вносить туда изменения, а затем отправлять свои внесенные изменения в оригинальный репозиторий проекта, создавая запрос на принятие изменений (<em>Pull Request</em>). Сами же запросы на принятие изменений (<em>Pull Request</em>) будут описаны далее. Запрос на принятие изменений (<em>Pull Request</em>) откроет новую ветвь с обсуждением отправляемого кода, и автор оригинального проекта, а также другие его участники, могут обсуждать предлагаемые изменения до тех пор, пока автор проекта не будет ими доволен, после чего сможет добавить предлагаемые изменения в проект.</p>
+<p>Для того, чтобы создать ответвление проекта, зайдите на страницу проекта и нажмите кнопку «Создать ответвление» («<em>Fork</em>»), которая расположена в правом верхнем углу.</p>
+<p><img alt="github_create_fork.png" src="../../_images/github_create_fork.png" /></p>
+<p>Далее</p>
+<p><img alt="github_finish_create_fork.png" src="../../_images/github_finish_create_fork.png" /></p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Сервис GitHub</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Учимся читать и использовать в своем проекте чужой код с GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Где и как искать код?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Работа с GitHub</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../styles/quiz.html" title="предыдущая глава">Вопросы</a></li>
+      <li>Next: <a href="../stages/content.html" title="следующая глава">Стадии жизни проекта</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/github/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

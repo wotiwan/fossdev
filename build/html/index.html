@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Раздел 1. Введение, подходы к программированию &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Терминология" href="educational_materials/terms/content.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<section id="id1">
+<h1>Раздел 1. Введение, подходы к программированию<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="id2">
+<h1>Терминология<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/terms/content.html">Терминология</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#application">Приложение (англ. Application)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#module-package-library-framework">Модуль/Пакет/Библиотека/Фреймворк (англ. Module/Package/Library/Framework)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#id2">Модули привносят множество преимуществ в наш код:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#programming-paradigm">Парадигма программирования (англ. programming paradigm)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#id3">Статическое и динамическое типизирование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#id4">Тестирование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#logging">Логирование (англ. Logging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#markup-language">Язык разметки (англ. Markup Language)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#version-control-system">Система контроля версий (англ. Version Control System)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#bug">Ошибка (англ. bug)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#issues">Задачи/Проблемы (англ. Issues)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#fail-fast">Fail-fast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/terms/content.html#exceptions">Исключение (англ. Exceptions)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id3">
+<h1>Командная строка<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/bash/content.html">Работа в командной строке</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#cd-change-directory">cd - change directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#ls-list">ls - list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#clear">clear</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#mkdir-make-directory">mkdir - make directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#touch">touch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#cat-concatenate">cat - concatenate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#echo">echo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#export">export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#id3">$</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#rm-remove">rm — remove</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#rmdir-remove-directory">rmdir — remove directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#cp-copy">cp — copy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#mv-move">mv — move</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#chmod-change-mode">chmod — change mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#sudo-superuser-do">sudo — superuser do</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#chown-change-owner">chown — change owner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#history">history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#grep-global-regular-expression-print">grep — global regular expression print</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#top-table-of-process">top — table of process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/content.html#id4">Практические примеры</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/bash/exercises.html">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/exercises.html#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/exercises.html#id3">Задача 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/exercises.html#id4">Задача 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/exercises.html#id5">Задача 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/bash/exercises.html#id6">Задача 5</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/bash/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="git">
+<h1>Система контроля версий Git<a class="headerlink" href="#git" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/git_base/content.html">Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id1">Система контроля версий Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id2">Краткий исторический экскурс</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id3">Приступаем к использованию Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id4">Тестовый код программы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id5">Описание тестовой программы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id6">Оформление рабочего каталога</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id7">Настройка конфигурации git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id8">Первый пример работы с git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id9">Вот несколько шагов, которые помогут начать работу с Git:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id10">Что такое публичный и приватный репозиторий?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id11">Зафиксируйте изменения git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/git_base/content.html#id12">Немного статистики о системе git</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id4">
+<h1>Git как инструмент командной работы. Работа с удаленными репозиториями<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#scrum">Знакомство с методом SCRUM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id1">Знакомство с канбан-доской</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id2">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id3">Заключение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id5">Справочная информация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id6">Роли каждого участника команды</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id7">Краткая история методологии SCRUM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id8">Управление коммуникациями</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id9">Планирование коммуникаций:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id10">Мониторинг и контроль коммуникаций:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html#id11">Процесс управления коммуникациями в стартапе, использующем SCRUM, может выглядеть следующим образом:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="gitflic">
+<h1>Знакомство с платформами размещения исходного кода программ на примере GitFlic<a class="headerlink" href="#gitflic" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/content.html#gitflic">Знакомство с отечественным сервисом GitFlic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/content.html#id1">Типовой процесс совсместной работы с кодом</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/content.html#telegram-gitflick">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/content.html#id2">Заключение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/content.html#id3">Справочная информация</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="id5">
+<h1>Среда разработки<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/ide/content.html">Среда разработки</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/ide/content.html#id2">Подсветка синтаксиса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/ide/content.html#id3">Автодополнение кода (завершение кода)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/ide/content.html#id4">Рефакторинг</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/ide/content.html#id5">Компиляция</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/ide/content.html#id6">Настройка окружения под себя</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id6">
+<h1>Стили оформления кода<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/styles/content.html">Оформление кода</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/content.html#id2">Используйте отступы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/content.html#id3">Соблюдайте принятую длину строки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/content.html#id4">Используйте фигурные скобки правильно</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/content.html#id5">Именуйте объекты правильно</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/content.html#id6">Придерживаться определенного подхода</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/content.html#flat-is-better-than-nested">Избегайте вложенности (Flat is better than nested)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/content.html#sparse-is-better-than-dense">Не перегружайте код (Sparse is better than dense)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/content.html#id7">Выводы</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/styles/exercises.html">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/exercises.html#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/exercises.html#id3">Задача 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/exercises.html#id4">Задача 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/exercises.html#id5">Задача 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/styles/exercises.html#id6">Задача 5</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/styles/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="github">
+<h1>Польза документации на примере поиска проекта на GitHub<a class="headerlink" href="#github" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/github/content.html">Сервис GitHub</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/github/content.html#id1">Учимся читать и использовать в своем проекте чужой код с GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/github/content.html#id2">Где и как искать код?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/github/content.html#id6">Работа с GitHub</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id7">
+<h1>Раздел 2. Работа над проектом<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="id8">
+<h1>Стадии жизни проекта<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/stages/content.html">Стадии жизни проекта</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id2">От человека:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id3">Поехали</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id5">Идея</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id7">Визуализация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id9">Архитектура</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id11">Разработка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id13">Отладка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id15">Документация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id17">Релиз</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id19">Сборка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/stages/content.html#id21">Контейнеризация</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id9">
+<h1>Минимально полезный продукт<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/mvp/content.html">Работа над MVP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/mvp/content.html#id1">Этапы разработки и проверка гипотез</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/mvp/content.html#id5">Вот пример MVP для новой службы доставки еды:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/mvp/content.html#id6">Вот пример MVP для нового мобильного приложения:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/mvp/content.html#id8">Как оценить качество MVP, какие показатели, критерии?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/mvp/content.html#id9">Задание для проверки</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="uml">
+<h1>UML диаграммы<a class="headerlink" href="#uml" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/uml/content.html#uml-unified-modeling-language">Возможности использования UML (Unified Modeling Language)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/uml/content.html#uml">Что такое UML?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/uml/content.html#id3">Каковы основные типы диаграмм в UML?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/uml/exercises.html">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/uml/exercises.html#telegram">1. Построение диаграммы классов для чат-бота Telegram:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/uml/exercises.html#id2">2. Создание диаграммы последовательности для обработки запросов от пользователя:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/uml/exercises.html#id3">3. Построение диаграммы состояний для управления состоянием чат-бота:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/uml/exercises.html#id4">4. Разработка диаграммы компонентов для чат-бота Telegram:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/uml/exercises.html#id5">5. Построение диаграммы прецедентов для чат-бота Telegram:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/uml/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="vs">
+<h1>Код vs. Библиотека<a class="headerlink" href="#vs" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/code_to_lib/content.html">Код -&gt; Библиотека</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/code_to_lib/content.html#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/code_to_lib/content.html#id3">Определяем функциональность библиотеки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/code_to_lib/content.html#id4">Собираем проект</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/code_to_lib/content.html#id5">Выводы</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/code_to_lib/exercises.html">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/code_to_lib/exercises.html#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/code_to_lib/exercises.html#id3">Задача 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/code_to_lib/exercises.html#id4">Задача 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/code_to_lib/exercises.html#id5">Задача 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="open-source">
+<h1>Основы Open Source<a class="headerlink" href="#open-source" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_source/content.html#id1">Что такое Open Source?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_source/content.html#id2">Как развивалось сообщество открытого исходного кода?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_source/content.html#id3">Как открытый исходный код помогает развивать технологии и ускорять прогресс?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id10">
+<h1>Лицензии Open Source<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/open_license/content.html">Лицензии Open Source</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_license/content.html#id1">Самые распространенные лицензии Open Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_license/content.html#id2">Какая лицензия ПО позволяет использовать исходный код для коммерческой разработки ПО?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_license/content.html#id3">Какая лицензия ПО запрещает использование кода в коммерческих целях, для получения прибыли?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_license/content.html#gpl">Какие есть варианты использования лицензии GPL?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_license/content.html#android">Какая лицензия у ОС Android?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_license/content.html#id4">Какую лицензию выбрать, если я хочу использовать чужой код в своем проекте?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_license/content.html#id5">Несколько общих советов по лицензированию и защите прав разработчиков программного обеспечения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/open_license/content.html#id6">Интересный вопрос: кому принадлежат права на результат работы искусственного интеллекта?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="github-pages">
+<h1>GitHub Pages<a class="headerlink" href="#github-pages" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/github_pages/content.html">Github Pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/github_pages/content.html#id1">С какой целью используют сервис GitHub Pages?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/github_pages/content.html#id2">Преимущества и недостатки сервиса GitHub Pages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/github_pages/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="id11">
+<h1>Раздел 3. Инструменты разработки<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="id12">
+<h1>Виртуальное окружение<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/path_venv/content.html">Знакомство с рабочим окружением</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/path_venv/content.html#path">Добавить директорию в PATH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/path_venv/content.html#virtualenv">Знакомство с virtualenv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/path_venv/content.html#id8">Справочный материал</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/path_venv/exercises.html">Задачи для практики</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/path_venv/exercises.html#venv">Задача: настроить виртуальную среду с помощью venv для управления зависимостями проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/path_venv/exercises.html#venv-git">Задача: настроить виртуальную среду с помощью venv и отправить код в репозиторий Git.</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+</div>
+</section>
+<section id="id13">
+<h1>Инструменты для создания документации<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docs/content.html">Документирование</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/content.html#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/content.html#markdown">Markdown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/content.html#restructuredtext">reStructuredText</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/content.html#sphinx">Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/content.html#markdown-sphinx">Markdown и Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/content.html#id11">Документация из кода</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/content.html#id12">Оформление документации</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docs/exercises.html">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/exercises.html#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/exercises.html#id3">Задача 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docs/exercises.html#id4">Задача 3</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docs/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="id14">
+<h1>Основы тестирования<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/testing/content.html">Тестирование</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/content.html#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/content.html#id3">Виды тестов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/content.html#id7">Интеграционное тестирование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/content.html#id8">Больше тестов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/content.html#id9">Разработка через тестирование</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/testing/exercises.html">Задачи:</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/exercises.html#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/exercises.html#id3">Задача 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/exercises.html#id4">Задача 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/testing/exercises.html#id5">Задача 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/testing/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="id15">
+<h1>Логгирование работы приложения<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/logging/content.html">Логирование. Что это и в чем его польза?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/content.html#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/content.html#id3">Зачем нужно логирование?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/content.html#id4">Уровни логирования</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/content.html#id5">Основы грамотного логирования</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/content.html#python">Библиотеки логирования для языка программирования Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/content.html#id6">Централизация логов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/content.html#id7">Вывод</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/logging/exercises.html">Задача</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/exercises.html#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/exercises.html#id3">Задача 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/logging/exercises.html#id4">Задача 3</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/logging/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="pip">
+<h1>Сборка проекта в pip пакет<a class="headerlink" href="#pip" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/packaging/content.html">Менеджеры пакетов</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/packaging/content.html#ctrl-c-ctrl-v">Ctrl-C/Ctrl-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/packaging/content.html#sys">Клонируем и указываем путь через sys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/packaging/content.html#pip-git">Ставим через pip, используя git репозиторий</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/packaging/content.html#id2">Делаем сборку библиотеки для публикации. <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/packaging/content.html#pypi">Публикация в PyPI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/packaging/exercises.html">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/packaging/exercises.html#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/packaging/exercises.html#id3">Задача 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/packaging/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="id16">
+<h1>Менеджеры служб и планировщики задач<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/managers/content.html">Менеджеры и планировщики</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/managers/content.html#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/managers/content.html#crontab">Планировщик crontab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/managers/content.html#systemctl">Менеджер systemctl</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/managers/exercises.html">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/managers/exercises.html#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/managers/exercises.html#id3">Задача 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/managers/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="docker">
+<h1>Контейнерезация с Docker<a class="headerlink" href="#docker" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_base/content.html">Контейнеризация на примере Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/content.html#id1">Введение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/content.html#id2">Рассмотрим пример: как Docker может помочь в разработке ПО</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/content.html#id4">Концепции Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/content.html#id5">Установка и использование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/content.html#dockerfile">Файл Dockerfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/content.html#python-docker">Практическое задание: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/content.html#id12">Заключение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/content.html#id13">Ссылки на дополнительные материалы по Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_base/exercises.html#python-docker-alpine">Практическое задание 2: Развертывание Python кода в Docker контейнере с использованием образа Alpine</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_base/quiz.html">Вопросы</a></li>
+</ul>
+</div>
+</section>
+<section id="id17">
+<h1>Дополнительные материалы<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="id18">
+<h1>Работа с сетью в Docker<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_network/content.html">Концепция сети в Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_network/content.html#id1">Познакомимся с тем, как объединять несколько контейнеров в сеть Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_network/content.html#id2">Сети: вводная часть</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_network/content.html#bridge-host">Познакомимся с сетями <strong>Bridge</strong> и <strong>Host</strong> на практике</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id19">
+<h1>Реестр Docker<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_hub/content.html">Реестр Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_hub/content.html#id1">Создание первого Docker репозитория</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_hub/content.html#id2">Поиск Docker образа</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_hub/content.html#docker-docker-hub">Загрузка Docker образа из реестра Docker Hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_hub/content.html#id3">Создание Docker образа</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_hub/content.html#id4">Как это работает?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_hub/content.html#dockerfile">Создайте Dockerfile, который определяет конфигурацию нашего приложения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="educational_materials/docker_hub/content.html#docker-hub">Образ на Docker Hub</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="educational_materials/docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="educational_materials/terms/content.html" title="следующая глава">Терминология</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

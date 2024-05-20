@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Среда разработки &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Оформление кода" href="../styles/content.html" />
+    <link rel="prev" title="Вопросы" href="../team_work_on_a_gitflic/quiz.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Среда разработки<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p><strong>Среда разработки</strong> или, если дословно с английского, интегрированная среда разработки (Integrated Development Environment, IDE) — это приложение, которое позволяет разрабатывать код более эффективно, чем в текстовом редакторе, например <a class="reference external" href="https://kate-editor.org/">Kate</a> или <a class="reference external" href="https://notepad-plus-plus.org/downloads/">Notepad++</a>. Среда разработки объединяет в себе несколько функций, которые обычно разработчики хотят в ней увидеть: автоматизация написания кода, подсветка синтаксиса, автоматическое дополнение кода, форматирование, рефакторинг, компиляция, сборка и отладка. Также среды разработки поддерживают основные инструменты разработчиков в виде дополнений, так, можно подключить плагины, которые позволят пользоваться <code class="docutils literal notranslate"><span class="pre">git</span></code> и прогонять тесты прямо из среды разработки. Сейчас сложно найти среды разработки, которые имеют поддержку только одного языка программирования. Существуют среды разработки, специализирующиеся на одном языке программирования для серверных приложений (backend), такие как PyCharm, но даже в них есть <a class="reference external" href="https://www.jetbrains.com/help/pycharm/supported-languages.html">поддержка</a> JavaScript, HTML и других инструментов для разработки приложений пользователя (frontend). Это необходимо, так как есть понятие fulstack разработки, и переключаться между средами для разработки отдельно серверной и пользовательской частей было бы неудобно. В таких средах разработки, как <a class="reference external" href="https://code.visualstudio.com/">VisualStudioCode</a> и <a class="reference external" href="https://www.eclipse.org/downloads/">Eclipse</a>, существует поддержка, наверное, всех возможных языков программирования, языков разметки, форматов сериализации данных и так далее. Поддержка устанавливается как дополнение, при этом визуальный интерфейс остается без изменений, что положительно влияет на разработку, так как мы не тратим время на привыкание к другому интерфейсу.</p>
+<p><img alt="ide_select_language" src="../../_images/ide_select_language.png" /></p>
+<section id="id2">
+<h2>Подсветка синтаксиса<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Подсветка синтаксиса — достаточно распространенная функция, поддерживающаяся даже в текстовых редакторах, которые нельзя отнести к IDE. Подсветка синтаксиса использует свойство человеческого глаза, который лучше (быстрее) воспринимает цвет, а не смысл написанного. Поэтому идея подсветки кода в том, чтобы разделить код на сущности, которые принадлежат к одним группам (функции к функциям, переменные к переменным) и подсветить их одним цветом.</p>
+<p><img alt="ide_code_highlight" src="../../_images/ide_code_highlight.png" /></p>
+</section>
+<section id="id3">
+<h2>Автодополнение кода (завершение кода)<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>Среда разработки понимает, какие имена переменных, функций и классов доступны в данном приложении, и использует их, чтобы разработчик мог выбрать подходящий объект при наборе неполного имени:</p>
+<p><img alt="ide_auto_completion" src="../../_images/ide_auto_completion.png" /></p>
+<p>Автодополнение бывает не особо полезно, когда мы знаем название объекта, часто написать его быстрее, чем выбрать из списка. Но если мы забыли название метода или поля класса, мы можем легко его вспомнить, если увидим название в списке, без вызова документации по классу.</p>
+<p><img alt="ide_auto_completion_methods" src="../../_images/ide_auto_completion_methods.png" /></p>
+<p>Кроме автодополнения кода существует такое понятие, как «интеллектуальное дополнение кода». Например, если мы написали название метода, среда разработки может подсказать, какие аргументы можно передать в этот метод. Так как мы ничего не писали, это уже нельзя отнести к автодополнению кода. В VSCode это реализовано в виде <a class="reference external" href="https://code.visualstudio.com/docs/editor/intellisense">IntelliSense</a>.</p>
+<p><img alt="ide_auto_completion_arguments" src="../../_images/ide_auto_completion_arguments.png" /></p>
+</section>
+<section id="id4">
+<h2>Рефакторинг<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>Рефакторинг — это изменение формы кода без изменения содержания. Мы можем объединить повторяющийся код в функцию или метод, назвать переменные более понятным образом, изменить цикл и совершить другие действия, которые улучшают читаемость кода, но не поменяют то, что он делает. Это и будет рефакторингом.</p>
+<p><img alt="ide_refactoring" src="../../_images/ide_refactoring.png" /></p>
+</section>
+<section id="id5">
+<h2>Компиляция<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>Среды разработки могут выполнять все действия, чтобы запустить код или скомпилировать его в исполняемый файл. Эти действия — такие же, как и при ручном запуске или компиляции. Следует помнить, что среда разработки выполняет некоторые действия неявно, например, осуществляет выбор виртуального окружения, в котором могут быть установлены зависимости, не прописанные нигде явно. Это может приводить к тому, что код не запустится у другого разработчика без дополнительных действий. Часто начинающие просто «нажимают зеленую стрелочку» без понимания, что именно происходит после нажатия. Вы как разработчики, прошедшие этот курс, должны понимать, что запуск и сборка кода может происходить там, где не установлена та же среда разработки, что и у вас. Поэтому все инструкции по запуску, компиляции и сборки проекта должны быть отражены в соответствующих файлах, например, make-файлах. Среда разработки должна использовать эти файлы при работе. Проще говоря, <strong>среда разработки должна упрощать разработку и не подменять ее этапы</strong>. Сборка из командной строки становится незаменимой, когда нужно собрать множество проектов, которые должны работать в рамках одной системы. Нужно также помнить, что среды разработки гораздо разнообразнее, чем командные строки, и пользователь, скорее всего, воспользуется командной строкой вместо того, чтобы устанавливать новую среду разработки.</p>
+</section>
+<section id="id6">
+<h2>Настройка окружения под себя<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<p>Вы можете приобрести какие-то привычки при написании кода. Например, использовать табуляцию для отделения блоков кода, при том что общепринятым способом делать отступы являются 4 пробела. Т.е. вы забираете код с git, правите его, и часть строк вместо отступов с пробелами получаются с табуляцией. И даже если это не вызовет ошибку при исполнении кода (в Python вызовет), это будет все равно будет неудобно, так как длина табуляции может быть различна для различных редакторов. Мы можем настроить среду разработки так, чтобы когда мы нажимаем на <code class="docutils literal notranslate"><span class="pre">Tab</span></code>, вместо табуляции подставлялось 4 пробела (или столько, сколько принято для данного проекта). Поэтому среда разработки может взять на себя часть функций по редактированию кода, а разработчик продолжит работать так, как привык. Это упрощенный пример.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Среда разработки</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Подсветка синтаксиса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Автодополнение кода (завершение кода)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Рефакторинг</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Компиляция</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Настройка окружения под себя</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../team_work_on_a_gitflic/quiz.html" title="предыдущая глава">Вопросы</a></li>
+      <li>Next: <a href="../styles/content.html" title="следующая глава">Оформление кода</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/ide/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

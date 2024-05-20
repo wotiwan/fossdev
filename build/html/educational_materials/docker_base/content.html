@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Контейнеризация на примере Docker &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Практическое задание 1: Развертывание Python кода в Docker контейнере" href="exercises.html" />
+    <link rel="prev" title="Вопросы" href="../managers/quiz.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="docker">
+<h1>Контейнеризация на примере Docker<a class="headerlink" href="#docker" title="Link to this heading">¶</a></h1>
+<section id="id1">
+<h2>Введение<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>С появлением персональных компьютеров, разработка программного обеспечения (ПО) стала более доступной, однако с появлением новых возможностей также возрастали и потребности. Приложения становились все сложнее, а машины – мощнее. Тем не менее, возникал вопрос о ресурсоемкости исполнения приложений и изоляции зависимостей. Первым решением стало появление и развитие виртуальных машин (Virtual machine, VM). Они позволяли создавать изолированные окружения на одной физической машине выделив ресурсы для VM. Это был большой шаг для упрощения разработки ПО и гибкому управлению ресурсов. Использование виртуальных машин позволило выполнять запуск нескольких операционных систем (ОС) на мощностях одного ПК. Это решало многие проблемы, но и создавало новые – виртуализация требовала больших ресурсов и замедляла производительность. С ростом сложности и разнообразия современных приложений, стало ясно, что использование только виртуальных машин не всегда оптимально. Они потребляют много ресурсов, так как каждая из них включает полноценную ОС и дополнительные ресурсы для виртуализации. Это может привести к избыточным затратам ресурсов и низкой плотности приложений на серверах.</p>
+<p>Так и началось развитие контейнеризации. Вместо виртуальных машин, контейнеры используют общую ОС ПК и разделяют только необходимые ресурсы и библиотеки. Это позволяет достичь более высокой плотности приложений на серверах, экономить ресурсы и ускорять развертывание. Однако контейнеры также сталкиваются с некоторыми ограничениями, например, они могут иметь ограниченный доступ к ресурсам хоста.</p>
+<p>С появлением виртуализации, идея контейнеризации была вполне логичной эволюцией, так и появился Docker. Контейнеры позволяют упаковать приложение и его зависимости в изолированный и легкий для перемещения образ, который может быть запущен на любом ПК с Docker. Это значит, что разработчики больше не зависят от окружения, на котором запускается приложение – оно будет работать одинаково везде потребляя на порядок меньше ресурсов, чем VM. Однако с появлением множества контейнеров возник вопрос управления ими. В этот момент появляется кластеризация – способ управления сетью из множества контейнеров. Это стало ответом на потребность в гибкости, масштабируемости и автоматизации управления развертыванием приложений.</p>
+<p>Таким образом, процесс разработки ПО постепенно эволюционировал от огромных машин и долгих циклов разработки к легковесным контейнерам. Это открыло новые горизонты для разработчиков, позволив им создавать, тестировать и масштабировать приложения гораздо эффективнее и быстрее, а также отвечать на постоянно изменяющиеся требования технологических решений.</p>
+<p>Во многом это привело к тому, что нас сегодняшний день Docker используют как одного из основных инструментов для организации микросервисной архитектуры, где приложение разбивается на небольшие, независимые контейнеры, каждый из которых отвечает за определенную функциональность. Таким образом, появление Docker и его развитие играет значимую роль разработке ПО и способствовало развитию современных методологий позволивших повысить эффективность разработки.</p>
+<blockquote>
+<div><p>С появлением Docker в 2013 году контейнеризация стала гораздо более доступной и удобной. Docker предоставил унифицированный способ упаковки приложений и их зависимостей в контейнеры, которые могут быть развернуты на любой поддерживаемой платформе. Это позволило разработчикам и инженерам работать с одинаковой средой в разных этапах жизненного цикла приложения, от разработки до развертывания. Крупные компании, такие как Yandex, Sber, Google, Amazon, Microsoft, Netflix и другие, успешно используют Docker для разработки своих продуктов и сервисов.</p>
+</div></blockquote>
+</section>
+<section id="id2">
+<h2>Рассмотрим пример: как Docker может помочь в разработке ПО<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Представим ситуацию, вы разрабатываете программный модуль, который должен облегчить использование QR-кодов в чат-ботах. В качестве языка программирования вы выбрали Python. Спустя некоторое время ваш проект готов, вы провели тесты, и всё работает как часы и вы публикуете его в открытом репозитории, например в GitHub. Но, вскоре вы получаете сообщения от первых пользователей, которые столкнулись с проблемой: их чат-бот исправно работал на одном сервере, но неожиданно переставал функционировать на других. Оказалось, что источник проблем был некоторых различиях рабочего окружения. В одном случае проблема была в конфигурации операционной системы на VPS. В других случаях — ошибки в зависимостях некоторых модулей Python и различия в версиях используемых библиотек. Что в совокупности приводило к появлению ошибок в процессе функционирования чат-ботов использующих ваш программный модуль. Такие проблемы совместимости программных пакетов сложно отлавливать в процессе разработки.</p>
+<p>Использование Docker может значительно упростить и решить проблему совместимости, с которой вы столкнулись при развертывании вашего программного модуля для работы с QR-кодами. Вот как вы можете это сделать. Рассмотрим вариант решение данной проблемы используя Docker:</p>
+<p>Создадим новый Docker-образ, в котором будет все, что нужно для работы приложения — код, библиотеки, переменные окружения. Также, в нем будет запускаться ваш экземпляр чат-бота. Docker обеспечит изоляцию окружения, что позволит вам управлять зависимостями, конфигурацией операционной системы и версиями библиотек внутри контейнера. Затем можно опубликовать Docker-образ в реестре Docker Hub или на другой подобной платформе. Что позволит другим пользователям легко получить и использовать ваш образ. Пользователи могут легко развернуть ваш Docker-образ на своих серверах. Образ будет запущен в изолированном контейнере, и все зависимости будут корректно настроены, таким образом, устраняя проблемы совместимости. Так, используя Docker, вы можете унифицировать окружение и избежать проблем совместимости вашего проекта с различными серверами и системами, а также облегчите развертывание и обновление вашего программного модуля.</p>
+<p>Как можно подытожить эту историю. Если упростить, то Docker-образ похож на «компьютер», который может запустить код приложения находящийся в нем. И где бы мы не включили этот «компьютер», в офисе, дома, у заказчиков или у друзей - он всегда будет работать одинаково. Если ваше приложение использует компоненты операционной системы (ОС), вы можете её установить. Как правило, это Linux.</p>
+<blockquote>
+<div><p>Примечание: В Docker отсутствует поддержка установки в Docker-образ ОС семейства Windows, и как следствие приложений под эту ОС.</p>
+</div></blockquote>
+<section id="id3">
+<h3>Образ и контейнер в Docker<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p>Выше мы уже говорили об «образах». Что это такое? Хороший вопрос. То, что в терминологии Docker называется «образом», можно сравнить с чертежами, классом из ООП, или с пресс-формой для чеканки монет. В Docker «контейнер» и «образ» — это две разные вещи  разными целями.</p>
+<p>Docker образ — это шаблон, определяющий приложение и его зависимости. Это схема или снимок приложения, доступный только для чтения, который можно использовать для создания контейнеров Docker. Образ создается путем запуска файла Dockerfile, в котором указывается используемый базовый образ, любые зависимости, которые необходимо установить, а также любая пользовательская конфигурация или код. После создания образа его можно распространять и делиться с другими.</p>
+<p>Docker контейнер — это работающий экземпляр образа. Его можно рассматривать как легкий автономный исполняемый пакет, включающий все необходимое для запуска приложения, в том числе программный код, среду выполнения, системные инструменты, библиотеки и настройки. Когда контейнер запускается, в верхнюю часть образа добавляется новый доступный для записи слой, позволяющий вносить изменения в работающее приложение.</p>
+<p>Несколько контейнеров могут быть созданы из одного и того же образа, каждый со своим отдельным записываемым слоем. Проще говоря, образ — это статический файл, который включает в себя все необходимое для запуска приложения, а контейнер — это работающий экземпляр образа, который можно изменять и с которым можно взаимодействовать.</p>
+<p>Давайте разберемся, в чем отличие образа и контейнера. Если сказать в двух словах, то Docker контейнер — это запущенный (активный) образ. Образ в свою очередь — это то, что представляет собой функциональную часть одной или нескольких программ, скриптов, данных и т.д., то, что будет выполняться при запуске образа в контейнере. Образы достаточно просто создаются инструментами Docker. На базовом уровне контейнер представляет собой набор инструкций, который выполняется на некоем процессоре, обрабатывая какие-то данные.</p>
+<p><strong>Знакомство с Docker: контейнеры и образы:</strong></p>
+<p>Docker - это платформа для разработки, доставки и запуска приложений в контейнерах. Контейнеры - это изолированные среды, которые объединяют приложение и его зависимости, обеспечивая портативность однообразие в разных окружениях. Образы - это шаблоны для создания контейнеров, содержащие все необходимое для работы приложения. За счет контейнеров и образов Docker упрощает разработку, развертывание и масштабирование приложений.</p>
+<p>Основные компоненты Docker:</p>
+<ol class="arabic simple">
+<li><p><strong>Docker Engine:</strong> Это основной компонент Docker, который управляет контейнерами и образами. Docker Engine включает в себя Docker Daemon (серверная часть) и Docker CLI (командная строка). Docker Daemon управляет жизненным циклом контейнеров, созданием, запуском и остановкой, а Docker CLI позволяет разработчикам взаимодействовать с Docker Engine с помощью команд.</p></li>
+<li><p><strong>Docker Images:</strong> Образы Docker - это основа контейнеров. Они содержат файловую систему, зависимости и настройки приложения. Образы создаются на основе Dockerfile - текстового файла, который описывает, как создать образ. Образы могут быть сохранены в реестре, таком как Docker Hub или частном реестре, и используются для развертывания контейнеров.</p></li>
+<li><p><strong>Docker Containers:</strong> Контейнеры - это экземпляры образов. Каждый контейнер изолирован от других контейнеров и имеет свою собственную файловую систему, зависимости и окружение. Они используют технологии Linux-контейнеров для обеспечения изоляции, но все же разделяют ядро операционной системы хоста.</p></li>
+<li><p><strong>Docker Compose:</strong> Этот инструмент позволяет определить и управлять множеством связанных контейнеров в единой конфигурации. С Docker Compose вы можете описать все контейнеры, сети, тома и настройки в файле docker-compose.yml, что упрощает развертывание и управление многоконтейнерными приложениями.</p></li>
+<li><p><strong>Docker Swarm:</strong> Docker Swarm - это инструмент для создания и управления кластерами Docker, позволяющим распределить приложение на несколько узлов (хостов) и обеспечить высокую доступность и масштабируемость.</p></li>
+<li><p><strong>Docker Hub:</strong> Docker Hub - это облачный реестр образов Docker, где разработчики могут сохранять и делиться своими образами. Это упрощает распространение приложений и обмен образами между разработчиками.</p></li>
+</ol>
+<p>Все эти компоненты взаимодействуют, чтобы предоставить разработчикам среду для создания, развертывания и управления контейнерами. Docker позволяет упаковать приложения и все их зависимости в контейнеры, что облегчает портирование и запуск приложений на разных окружениях, повышает скорость разработки и обеспечивает изоляцию между приложениями.</p>
+</section>
+</section>
+<section id="id4">
+<h2>Концепции Docker<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>Несколько контейнеров могут объединяться в сеть и совместно выполнять свою задачу. Например, Контейнер №1 содержит код приложения: Linux, Python, Flask, SQLAlchemy. Контейнер №2 содержит базу данных и выполняет обработку внешних запросов к данным, находящимся в базе данных. Контейнер №3 выполняет мониторинг и анализ данных, формирует отчетность на основе данных из базы данных в контейнере №2 и предоставляет пользователям контейнера №1. Таким образом, каждый контейнер решает отдельную задачу. Физически контейнеры могут находиться в разных помещениях, городах и даже странах. Это и есть возможность масштабирования приложений.</p>
+</section>
+<section id="id5">
+<h2>Установка и использование<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>Установка и настройка Docker - это первый шаг в изучении контейнеризации и использовании Docker для разработки и развертывания приложений. Этот процесс обеспечивает удобный способ управления окружением и приложениями, что делает Docker популярным инструментом среди разработчиков и операционных команд.</p>
+<section id="windows">
+<h3>Установка Докера в Windows<a class="headerlink" href="#windows" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Перейдите на веб-сайт Docker и загрузите установщик Docker Desktop для Windows.</p></li>
+<li><p>Запустите программу установки и следуйте инструкциям для завершения установки.</p></li>
+<li><p>После установки Docker Desktop должен запуститься автоматически. Если это не так, вы можете запустить его из меню «Пуск».</p></li>
+<li><p>После запуска Docker Desktop вы можете использовать его для создания и запуска контейнеров Docker.</p></li>
+</ol>
+</section>
+<section id="linux">
+<h3>Установка Докера в Linux<a class="headerlink" href="#linux" title="Link to this heading">¶</a></h3>
+<p>Точные шаги по установке Docker в Linux зависят от используемого вами дистрибутива. Вот
+основные шаги для Ubuntu:</p>
+<ol class="arabic simple">
+<li><p>Откройте терминал и выполните следующую команду, чтобы установить зависимости Docker:
+<strong><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">update</span></code></strong>
+<strong><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">apt-transport-https</span> <span class="pre">ca-certificates</span> <span class="pre">curl</span> <span class="pre">software-properties-common</span></code></strong></p></li>
+<li><p>Добавьте ключ Docker GPG в свою систему:
+<strong><code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-fsSL</span> <span class="pre">https://download.docker.com/linux/ubuntu/gpg</span> <span class="pre">|</span> <span class="pre">sudo</span> <span class="pre">apt-key</span> <span class="pre">add</span> <span class="pre">-</span></code></strong></p></li>
+<li><p>Добавьте репозиторий Docker в ваши источники APT:
+<strong><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">add-apt-repository</span> <span class="pre">&quot;</span> <span class="pre">deb</span> <span class="pre">[arch=amd64]</span> <span class="pre">https://download.docker.com/linux/ubuntu</span> <span class="pre">$</span> <span class="pre">(lsb_release</span> <span class="pre">-cs)</span> <span class="pre">stable</span> <span class="pre">&quot;</span></code></strong></p></li>
+<li><p>Обновите индекс пакета APT и установите Docker:
+<strong><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">update</span></code></strong>
+<strong><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">docker-ce</span></code></strong></p></li>
+<li><p>После установки Docker должен быть запущен в вашей системе. Вы можете проверить это, выполнив следующую команду:
+<strong><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">docker</span> <span class="pre">run</span> <span class="pre">hello-world</span></code></strong></p></li>
+</ol>
+<p>Это загрузит тестовый образ Docker и запустит его в контейнере. Это основной процесс установки Docker в Linux. Точные шаги могут различаться в зависимости от используемого дистрибутива и версии. Здесь мы исходим из предположения, в соответствии с которым используется образ Docker, основанный на Unix-подобной ОС. Конечно, тут можно воспользоваться и образом, основанным на Windows, но использование Windows — это менее распространенная практика, работать с такими образами сложнее. В результате, если у вас есть такая возможность, рекомендуем использовать Unix. Однако для выполнения практических примеров можно использовать любую ОС, поскольку мы будем использовать только базовые команды Docker в консольном режиме.</p>
+</section>
+<section id="id6">
+<h3>Быстрый Старт<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<p>Чтобы запустить контейнер Docker, вы можете выполнить следующие общие шаги:</p>
+<p>Извлеките образ Docker. Если вы еще этого не сделали, вам потребуется извлечь образ Docker, который вы хотите запустить, из реестра Docker, такого как Docker Hub. Вы можете сделать это с помощью команды <strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span></code></strong>, за которой следует имя и тег образа.
+<strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">&lt;image-name&gt;:&lt;tag&gt;</span></code></strong>
+Например, чтобы получить официальный образ nginx, вы можете использовать:
+<strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">nginx:latest</span></code></strong>
+Запустите контейнер Docker: получив образ, вы можете запустить контейнер, выполнив команду запуска docker, за которой следует имя образа и любые дополнительные параметры, которые вы хотите указать.
+<strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">[OPTIONS]</span> <span class="pre">&lt;image-name&gt;</span></code></strong>
+Например, чтобы запустить контейнер из образа nginx, вы можете использовать:
+<strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-p</span> <span class="pre">8080:80</span> <span class="pre">nginx:latest</span></code></strong>
+В результате выполнения этой команды у нас запустится контейнер с образом nginx. Следует отметить, что мы указали параметр [-p 8080:80] для предоставления доступа внешних приложений к нашему запущенному контейнеру, используя порт 8080. Чтобы в этом убедиться, откроем браузер и введем следующий адрес: (http://localhost:8080/). Нам откроется приветственная HTML страница nginx, сообщающая о том, что веб-сервер nginx успешно запустился. В данном случае мы указали порт 8080 для того, чтобы достучаться до 80 порта внутри нашего контейнера, это очень полезный параметр. Ведь если нам потребуется запустить несколько контейнеров, внутри которых используется стандартный порт, например, 80, то мы не сможем использовать его для отдельного обращения к каждому контейнеру. Эта команда запускает новый контейнер из образа <code class="docutils literal notranslate"><span class="pre">nginx:latest</span></code> и сопоставляет порт 80 в контейнере с портом 8080 на хост-компьютере. Параметр <code class="docutils literal notranslate"><span class="pre">-p</span></code> указывает сопоставление портов. Убедитесь, что контейнер работает, для этого вы можете использовать команду <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code>.</p>
+<section id="docker-ps">
+<h4>docker ps<a class="headerlink" href="#docker-ps" title="Link to this heading">¶</a></h4>
+<p>Эта команда выводит список всех запущенных контейнеров. Если вы не видите свой контейнер в списке, обязательно используйте команду <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code>, чтобы увидеть все контейнеры (включая остановленные). Чтобы остановить работающий контейнер, вы можете использовать команду <strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">stop</span></code></strong>, за которой следует идентификатор или имя контейнера.
+<strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">stop</span> <span class="pre">&lt;container-id&gt;</span></code></strong>
+Например, чтобы остановить контейнер с идентификатором <code class="docutils literal notranslate"><span class="pre">abc123</span></code>, вы можете использовать:
+<strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">stop</span> <span class="pre">abc123</span></code></strong>
+Это основные шаги для запуска контейнера Docker. Вы можете найти более расширенное использование Docker с дополнительными параметрами и конфигурациями в документации Docker.</p>
+</section>
+<section id="docker-run">
+<h4>docker run<a class="headerlink" href="#docker-run" title="Link to this heading">¶</a></h4>
+<p>Команда <strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code></strong> имеет ряд опций, которые можно использовать для настройки поведения контейнера во время выполнения. Вот некоторые из наиболее часто используемых
+опций:
+<code class="docutils literal notranslate"><span class="pre">-d</span></code> или <code class="docutils literal notranslate"><span class="pre">--detach</span></code>: Запуск контейнера в фоновом режиме (режим отсоединения).
+<code class="docutils literal notranslate"><span class="pre">-p</span></code> или <code class="docutils literal notranslate"><span class="pre">--publish</span></code>: Публиковать порт(ы) контейнера на хост-машине.
+<code class="docutils literal notranslate"><span class="pre">-v</span></code> или <code class="docutils literal notranslate"><span class="pre">--volume</span></code>: Смонтировать каталог хоста в качестве тома данных в контейнере.
+<code class="docutils literal notranslate"><span class="pre">-e</span></code> или <code class="docutils literal notranslate"><span class="pre">--env</span></code>: Установить переменные окружения для контейнера.
+<code class="docutils literal notranslate"><span class="pre">--name</span></code>: Присвоить имя контейнеру.
+<code class="docutils literal notranslate"><span class="pre">--restart</span></code>: Задать политику перезапуска для контейнера.
+<code class="docutils literal notranslate"><span class="pre">-it</span></code> или <code class="docutils literal notranslate"><span class="pre">--interactive</span></code> и <code class="docutils literal notranslate"><span class="pre">--tty</span></code>: Запустить интерактивный сеанс с контейнером и выделить
+псевдо-TTY.
+<code class="docutils literal notranslate"><span class="pre">--rm</span></code>: Автоматически удалять контейнер при выходе из него.
+<code class="docutils literal notranslate"><span class="pre">--network</span></code>: Подключить контейнер к сети.</p>
+</section>
+</section>
+</section>
+<section id="dockerfile">
+<h2>Файл Dockerfile<a class="headerlink" href="#dockerfile" title="Link to this heading">¶</a></h2>
+<p>Dockerfile – это текстовый файл, который содержит набор инструкций для автоматической сборки Docker-образа. Этот файл описывает, какие базовые образы использовать, как установить зависимости, куда и какие файлы копировать и как настроить рабочее окружение внутри контейнера. Dockerfile служит для создания образов – снимков файловой системы и настроек, необходимых для работы приложения. Он автоматизирует процесс сборки образа и обеспечивает воспроизводимость этого процесса на разных окружениях.</p>
+<p>Допустим, вы пишете приложение для обработки QR-кода. В вашем проекте используются различные модули, сторонние библиотеки, конфигурационные файлы. Для развития проекта нужно наделить  его автономность и средствами мониторинга и диагностики, а также инструментами информирования на тот случай, если потребуется ваше вмешательство. В такой ситуации вам будет удобно использовать инструменты ОС. Например, легковесный дистрибутив линукс <a class="reference external" href="https://www.alpinelinux.org/">Alpine</a>. В этой задаче он будет выбран в качестве «базового образа». Базовый образ это основа (ОС, сборка Python b и т.д.) для вашего проекта, который вы планируете использовать в Docker. Среди популярных официальных базовых образов можно отметить:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://hub.docker.com/_/python">python</a>,</p></li>
+<li><p><a class="reference external" href="https://hub.docker.com/_/ubuntu">ubuntu</a>,</p></li>
+<li><p><a class="reference external" href="https://hub.docker.com/_/alpine">alpine</a>.</p></li>
+</ol>
+<p>Ознакомиться с актуальным списком образов можно на сайте <a class="reference external" href="https://hub.docker.com/">docker hub</a>.</p>
+<p>Для того чтоб собрать Docker-образ, в котором будет всё то что упоминалось выше и используют Dockerfile.</p>
+<p>В образ контейнера, поверх базового образа, можно добавлять дополнительные слои (установка библиотек и программ, добавление внешних файлов и т.д.). Делается это в соответствии с инструкциями из Dockerfile. Например, если Dockerfile описывает образ, который планируется использовать для решения задач машинного обучения, то в нем могут быть инструкции для включения в промежуточный слой Docker-образа библиотек: NumPy, Pandas и Scikit-learn. Наконец, в Docker-образе может содержаться, поверх всех остальных, еще один тонкий слой, в котором хранятся данные, поддающиеся изменению. Это небольшой по объему слой, содержащий программу, которую планируется запускать в контейнере. Dockerfile может состоять из одной строки с базовым образом:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">ubuntu:18.04</span><span class="w"> </span><span class="c">#  &lt;--- Базовый образ Ubuntu</span>
+</pre></div>
+</div>
+<p>В таком случае из реестра Docker Hub будет скачан этот образ ОС ubuntu версии 18.04 и сформирован в виде нового образа. Для указания базового образа мы использовали команду «FROM». Ниже в таблице представлены основные команды Dockerfile с краткими комментариями:</p>
+<p><strong>Основные команды Dockerfile:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Команда</p></th>
+<th class="head"><p>Описание</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>FROM</strong></p></td>
+<td><p>Определяет базовый образ, на котором будет основан создаваемый образ.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>RUN</strong></p></td>
+<td><p>Выполняет команды внутри контейнера во время сборки образа. Используется для установки программ и зависимостей.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>COPY/ADD</strong></p></td>
+<td><p>Копирует файлы и папки из хостовой машины в образ. COPY просто копирует файлы, а ADD также может распаковывать архивы и загружать файлы из URL.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>WORKDIR</strong></p></td>
+<td><p>Устанавливает рабочую директорию внутри контейнера, где будут выполняться команды.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>ENV</strong></p></td>
+<td><p>Устанавливает переменные окружения внутри контейнера.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>EXPOSE</strong></p></td>
+<td><p>Определяет порты, которые контейнер будет слушать при запуске.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>CMD</strong></p></td>
+<td><p>Устанавливает команду, которая будет выполнена при запуске контейнера. Если в Dockerfile есть несколько CMD, будет исполнен только последний.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ENTRYPOINT</strong></p></td>
+<td><p>Определяет команду, которая будет запускаться при запуске контейнера. Может использоваться для создания исполняемых контейнеров.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>VOLUME</strong></p></td>
+<td><p>Создает точку монтирования для работы с данными между хостовой машиной и контейнером.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ARG</strong></p></td>
+<td><p>Определяет переменные, которые могут быть переданы при сборке образа, но не сохраняются в окружении контейнера.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Рассмотрим пример Dockerfile.</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Используем базовый образ Python</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9-slim</span>
+
+<span class="c"># Устанавливаем рабочую директорию</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Копируем зависимости</span>
+<span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>.
+
+<span class="c"># Устанавливаем зависимости</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c"># Копируем файлы приложения</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+
+<span class="c"># Устанавливаем команду запуска приложения</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>В названии файла не стоит указывать какое-либо расширение, название должно содержать только «Dockerfile». В случае проблемы, проверьте, что в настройках директории отсутствует галочка в пункте «скрывать расширения файлов» (например, .doc, .txt, .exe, .pdf).</p>
+</div></blockquote>
+<p>Представленный выше Dockerfile содержит инструкции для создания Docker-образа, который будет содержать, и запускать Python-приложение. Давайте подробнее разберем каждую строку этого Dockerfile и прокомментируем их содержание:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Используем базовый образ Python</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9-slim</span>
+</pre></div>
+</div>
+<p>Здесь мы выбираем базовый образ Python версии 3.9 версии (slim). Выбор версии обусловлен совместимостью с нашим приложением и требованиями к окружению.</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Устанавливаем рабочую директорию</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+</pre></div>
+</div>
+<p>Устанавливаем рабочую директорию для последующих инструкций. В данном случае, мы устанавливаем <code class="docutils literal notranslate"><span class="pre">/app</span></code> как рабочую директорию. Все последующие операции будут выполняться в этой директории.</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Копируем зависимости</span>
+<span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Копируем файл <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> из контекста сборки (текущей директории, где находится Dockerfile) в рабочую директорию <code class="docutils literal notranslate"><span class="pre">/app</span></code> внутри контейнера. Это позволяет установить зависимости перед запуском приложения.</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Устанавливаем зависимости</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Выполняем установку зависимостей, перечисленных в файле <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>. Флаг <code class="docutils literal notranslate"><span class="pre">--no-cache-dir</span></code> используется для установки без кэша, что помогает уменьшить размер образа.</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Копируем файлы приложения</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Копируем все файлы и директории из контекста сборки (включая все файлы Python-приложения) в рабочую директорию <code class="docutils literal notranslate"><span class="pre">/app</span></code> внутри контейнера.</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Устанавливаем команду запуска приложения</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Устанавливаем команду, которая будет выполнена при запуске контейнера. В данном случае, это запуск файла <code class="docutils literal notranslate"><span class="pre">app.py</span></code> с помощью интерпретатора Python.</p>
+<p>В результате, этот Dockerfile позволит создать Docker-образ, который включает в себя Python-приложение, его зависимости и команду для его запуска. Этот образ можно будет запустить как контейнер для работы приложения.</p>
+<p>Dockerfile – это мощный инструмент для определения структуры и настроек Docker образа. Он позволяет автоматизировать процесс создания образов и обеспечивает воспроизводимость настроек на разных средах. С помощью команд в Dockerfile вы можете определить все, что необходимо для успешного развертывания вашего приложения в контейнере.</p>
+<section id="id7">
+<h3>Команды для управления контейнерами<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<p>Таблица с командами для управления Docker контейнерами</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Команда</p></th>
+<th class="head"><p>Описание</p></th>
+<th class="head"><p>Пример</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code></p></td>
+<td><p>Создание и запуск нового контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-it</span> <span class="pre">ubuntu</span> <span class="pre">bash</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code></p></td>
+<td><p>Просмотр списка активных контейнеров.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code></p></td>
+<td><p>Просмотр списка всех контейнеров (активные и остановленные).</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">start</span></code></p></td>
+<td><p>Запуск остановленного контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">start</span> <span class="pre">my_container</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">stop</span></code></p></td>
+<td><p>Остановка запущенного контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">stop</span> <span class="pre">my_container</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">restart</span></code></p></td>
+<td><p>Перезапуск контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">restart</span> <span class="pre">my_container</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pause</span></code></p></td>
+<td><p>Приостановка выполнения контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pause</span> <span class="pre">my_container</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">unpause</span></code></p></td>
+<td><p>Возобновление выполнения приостановленного контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">unpause</span> <span class="pre">my_container</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">exec</span></code></p></td>
+<td><p>Выполнение команды внутри запущенного контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">exec</span> <span class="pre">-it</span> <span class="pre">my_container</span> <span class="pre">bash</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">logs</span></code></p></td>
+<td><p>Просмотр логов контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">logs</span> <span class="pre">my_container</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rm</span></code></p></td>
+<td><p>Удаление контейнера.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rm</span> <span class="pre">my_container</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rmi</span></code></p></td>
+<td><p>Удаление образа.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rmi</span> <span class="pre">my_image</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id8">
+<h3>Пример использования команды <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> для запуска контейнера<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<p>Ниже представлен пример запуска контейнера с шуточным приложением «cowsay», которое выводит фразу, принятую в качестве аргумента:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>docker/whalesay<span class="w"> </span>cowsay<span class="w"> </span><span class="s2">&quot;Hello, Docker!&quot;</span>
+</pre></div>
+</div>
+<p>В данном примере команда запускает контейнер с образом <code class="docutils literal notranslate"><span class="pre">docker/whalesay</span></code> и передает приложению <code class="docutils literal notranslate"><span class="pre">cowsay</span></code> фразу «Hello, Docker!», которую оно выводит с использованием анимированного ASCII-арт. Ссылка на <a class="reference external" href="https://hub.docker.com/r/docker/whalesay/">Docker Hub</a> там же доступен и Dockerfile который можно взять в качестве шаблона для разработки собственной версии приложения.</p>
+</section>
+<section id="id9">
+<h3>Работа с данными<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<p>Рассмотрим процесс работы с данными, в частности, тома Docker. Данные в Docker могут храниться либо временно, либо постоянно. Начнем с временных данных.</p>
+<p>Чтобы передать файл с данными в Docker контейнер для обработки, вы можете воспользоваться механизмом монтирования томов или копирования файлов. Вот два основных способа:</p>
+<ol class="arabic">
+<li><p><strong>Монтирование тома (Volume Mounting):</strong>
+Вы можете создать Docker том (volume), который будет связан с файловой системой вашего хоста, и затем монтировать этот том внутрь контейнера. Этот способ позволяет передавать данные между хостом и контейнером в режиме реального времени.</p>
+<p>Пример команды для запуска контейнера с монтированием тома:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>/путь/к/локальной/директории:/путь/в/контейнере<span class="w"> </span>-it<span class="w"> </span>my_image
+</pre></div>
+</div>
+</li>
+<li><p><strong>Копирование файлов:</strong>
+Вы можете скопировать файлы внутрь контейнера с помощью команды <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">cp</span></code>. При этом файлы будут скопированы внутрь контейнера, и вы сможете работать с ними внутри него.</p>
+<p>Пример команды для копирования файла в контейнер:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>cp<span class="w"> </span>файл.txt<span class="w"> </span>контейнер:/путь/в/контейнере/
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><p>Обратите внимание, что выбор способа зависит от того, какой уровень взаимодействия вам нужен между хостом и контейнером. Если вам нужно, чтобы контейнер мог динамически видеть и изменять данные, то монтирование тома будет более удобным. Если же данные нужно скопировать внутрь контейнера только один раз, то копирование файлов будет подходящим вариантом.</p>
+</div></blockquote>
+</section>
+<section id="id10">
+<h3>Контейнер Docker обладает следующими характеристиками:<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>В нем можно хранить различные ресурсы: скрипты, исходный код, базу данных, наборы тестов, веб-формы, модели данных и т.д. Ресурсы могут располагаться как в контейнере, так
+и за его пределами (через удаленный доступ в сети, либо используя общее место хранения данных — «Volume»). Его можно переносить. Контейнер Docker можно использовать на
+локальном ПК, на ПК, находящемся в рабочей сети, на удаленном облачном сервере (Яндекс.Облако, AWS, Google.Cloud и др).</p></li>
+<li><p>Удобный и гибкий интерфейс обращения к его содержимому. Механизмы, позволяющие контейнеру взаимодействовать с внешним миром. Например, у контейнера есть порты, которые можно открывать для того, чтобы к приложению, работающему в контейнере, можно было бы обращаться из браузера или по протоколу SSH. Работать с контейнером можно и средствами командной строки.</p></li>
+<li><p>Образ контейнера хранится в специальном репозитории (Docker-hub). Если вам нужен некий готовый контейнер, вы можете загрузить из репозитория соответствующий образ и, используя его, этот контейнер создать.</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Особенности контейнеров<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<p>Давайте разберемся, в чем отличие образа и контейнера. Если сказать в двух словах, то Docker контейнер — это запущенный (активный) образ. Образ в свою очередь — это то, что
+представляет собой функциональную часть одной или нескольких программ, скриптов, данных и т.д., то, что будет выполняться при запуске образа в контейнере. Образы достаточно
+просто создаются инструментами Docker. На базовом уровне контейнер представляет собой набор инструкций, который выполняется на некоем процессоре, обрабатывая какие-то
+данные.</p>
+<p><strong>Что такое контейнеры и почему они важны:</strong></p>
+<p>Контейнеры - это легковесные и изолированные среды, содержащие приложения и все необходимые для их работы компоненты, такие как библиотеки и зависимости. Контейнеры позволяют упаковывать приложения вместе с их средой выполнения, обеспечивая портативность и надежность. Это важно, потому что контейнеры упрощают процессы разработки, тестирования и развертывания, а также обеспечивают однообразие окружений между разработчиками, тестировщиками и операционными командами.</p>
+<p><strong>Преимущества и недостатки контейнеризации:</strong></p>
+<p>Преимущества контейнеризации включают:</p>
+<ol class="arabic simple">
+<li><p><strong>Легковесность:</strong> Контейнеры используют общую ОС и ресурсы хоста, что делает их более легкими и экономичными по сравнению с виртуальными машинами.</p></li>
+<li><p><strong>Изоляция:</strong> Каждый контейнер изолирован от других, что обеспечивает безопасность и избегает конфликтов между приложениями.</p></li>
+<li><p><strong>Портативность:</strong> Контейнеры могут работать на разных платформах и окружениях, что делает их переносимыми и совместимыми.</p></li>
+<li><p><strong>Быстрое развертывание:</strong> Контейнеры могут быть запущены практически мгновенно, что ускоряет процесс развертывания приложений.</p></li>
+</ol>
+<p>Недостатки контейнеризации:</p>
+<ol class="arabic simple">
+<li><p><strong>Ограничения ОС:</strong> Контейнеры зависят от хост-ОС, что может ограничить поддерживаемые платформы.</p></li>
+<li><p><strong>Сетевая изоляция:</strong> Иногда может возникнуть сложность в обеспечении изоляции контейнеров в сетевом окружении.</p></li>
+</ol>
+<p><strong>Сравнение с виртуализацией и традиционными методами развертывания:</strong></p>
+<p>Контейнеризация отличается от традиционных методов развертывания и виртуализации:</p>
+<ol class="arabic simple">
+<li><p><strong>Виртуализация:</strong> Виртуальные машины (ВМ) полностью эмулируют физический компьютер, включая ОС и ресурсы. Контейнеры используют общую ОС хоста и обеспечивают легковесную изоляцию, что делает их более эффективными и быстрыми.</p></li>
+<li><p><strong>Традиционные методы развертывания:</strong> Раньше развертывание приложений могло быть трудоемким из-за сложности управления зависимостями и конфигурацией. Контейнеризация решает эту проблему, обеспечивая контролируемое окружение.</p></li>
+</ol>
+</section>
+</section>
+<section id="python-docker">
+<h2>Практическое задание: Развертывание Python кода в Docker контейнере<a class="headerlink" href="#python-docker" title="Link to this heading">¶</a></h2>
+<p><strong>Цель:</strong> Ознакомиться с процессом развертывания приложения на Python в Docker контейнере.</p>
+<p><strong>Задачи:</strong></p>
+<ol class="arabic">
+<li><p><strong>Установка Docker:</strong> Убедитесь, что на вашем компьютере установлен Docker. Если нет, следуйте инструкциям на официальном сайте Docker (https://docs.docker.com/get-docker/).</p></li>
+<li><p><strong>Создание Python приложения:</strong> Создайте простое приложение на Python. Например, это может быть «Hello, World!» приложение.</p></li>
+<li><p><strong>Создание Dockerfile:</strong> В папке с вашим Python кодом создайте файл с именем «Dockerfile». В Dockerfile опишите инструкции для создания образа. Например:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Используем базовый образ Python</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9</span>
+
+<span class="c"># Копируем содержимое текущей папки в папку /app в образе</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/app
+
+<span class="c"># Устанавливаем зависимости</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>/app/requirements.txt
+
+<span class="c"># Указываем рабочую директорию</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Запускаем Python приложение</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Создание requirements.txt:</strong> Если ваше приложение использует сторонние библиотеки, создайте файл «requirements.txt» и укажите их там.</p></li>
+<li><p><strong>Сборка Docker образа:</strong> В терминале перейдите в папку с Dockerfile и выполните команду для сборки Docker образа:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">my</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">app</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Где «my-python-app» - это имя образа, а точка означает текущую директорию.</p>
+</li>
+<li><p><strong>Запуск контейнера:</strong> После успешной сборки образа, запустите контейнер командой:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">my</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">app</span>
+</pre></div>
+</div>
+<p>Вы увидите вывод вашего Python приложения в терминале.</p>
+</li>
+<li><p><strong>Оптимизация Dockerfile:</strong> Попробуйте оптимизировать Dockerfile, чтобы уменьшить размер образа. Например, уберите лишние файлы, используйте более легковесные базовые образы и т.д.</p></li>
+<li><p><strong>Развертывание приложения:</strong> Попробуйте изменить ваш Python код и повторите шаги 5-6 для обновления контейнера с новым кодом.</p></li>
+</ol>
+<blockquote>
+<div><p><strong>Замечание:</strong> Это задание предполагает базовое понимание Docker и Python. Если вы не знакомы с Docker или Python, рекомендуется пройти соответствующие обучающие курсы.</p>
+</div></blockquote>
+<p>В подавляющем большинстве контейнеров на данный момент используются минимальные образы Linux. Одним из таких примеров является проект Alphine. Подобные миниатюрные сборки ОС позволяют организовать удобную среду для мониторинга приложений и управления ими. Помимо прочего, ОС Linux обладает большим набором эффективных и не требовательных к вычислительным ресурсам инструментов для решения широкого спектра задач. Это и является основной причиной ее выбора при разработке отказоустойчивых, гибких и высоконагруженных решений. Программист, конечно, может запустить код на Python в Docker контейнере без использования образа с ОС, но в случае возникновения ошибки в процессе работы программы или сбоя в работе контейнера зафиксировать его и определить причину сбоя будет достаточно сложно, как и корректно перезапустить работу контейнера, избежав потери данных. Подробней познакомимся с тем, как применять ОС Alphine Linux в образах Docker.</p>
+<p><strong>Практическое задание: Развертывание Python кода в Docker контейнере с использованием образа Alpine</strong></p>
+<p><strong>Цель:</strong> Освоить процесс развертывания приложения на Python в Docker контейнере с использованием образа Alpine Linux.</p>
+<p><strong>Задачи:</strong></p>
+<ol class="arabic">
+<li><p><strong>Установка Docker:</strong> Убедитесь, что на вашем компьютере установлен Docker. Если нет, следуйте инструкциям на официальном сайте Docker (https://docs.docker.com/get-docker/).</p></li>
+<li><p><strong>Создание Python приложения:</strong> Напишите простое Python приложение, которое будет выводить «Hello, Docker with Alpine!».</p></li>
+<li><p><strong>Создание Dockerfile:</strong> В папке с вашим Python кодом, создайте файл с именем «Dockerfile». В Dockerfile опишите инструкции для создания Docker образа на основе образа Alpine. Пример Dockerfile:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Используем базовый образ Alpine</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9-alpine</span>
+
+<span class="c"># Копируем содержимое текущей папки в папку /app в образе</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/app
+
+<span class="c"># Устанавливаем зависимости</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>/app/requirements.txt
+
+<span class="c"># Указываем рабочую директорию</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Запускаем Python приложение</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Создание requirements.txt:</strong> Если ваше приложение использует сторонние библиотеки, создайте файл «requirements.txt» и укажите их там.</p></li>
+<li><p><strong>Сборка Docker образа:</strong> В терминале, перейдите в папку с Dockerfile и выполните команду для сборки Docker образа:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">my</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">alpine</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Где «my-python-app-alpine» - это имя образа, а точка означает текущую директорию.</p>
+</li>
+<li><p><strong>Запуск контейнера:</strong> После успешной сборки образа, запустите контейнер командой:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">my</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">alpine</span>
+</pre></div>
+</div>
+<p>Вы увидите вывод «Hello, Docker with Alpine!» в терминале.</p>
+</li>
+<li><p><strong>Изменение кода:</strong> Измените текст вывода вашего Python приложения на «Hello, Docker with Alpine! This is my Alpine containerized app.»</p></li>
+<li><p><strong>Обновление контейнера:</strong> Повторите шаги 5-6 для обновления контейнера с новым кодом.</p></li>
+<li><p><strong>Оптимизация Dockerfile:</strong> Попробуйте оптимизировать Dockerfile, чтобы уменьшить размер образа. Уберите лишние файлы и зависимости, используйте более легковесные базовые образы.</p></li>
+</ol>
+<p><strong>Примечание:</strong> Это задание предполагает базовое знание Docker и Python. Если вы не знакомы с Docker или Python, рекомендуется предварительно изучить соответствующие темы.</p>
+</section>
+<section id="id12">
+<h2>Заключение<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
+<p>Виртуализация и контейнеризация являются ключевыми компонентами для эффективной разработки, доставки и управления программными приложениями в современных условиях. Эти инструменты существенно ускорили и улучшили процессы разработки, а также позволили быстро адаптироваться к изменяющимся требованиям в IT-отрасли.</p>
+<p>Вместе с виртуализацией и контейнеризацией пришла также потребность в эффективном управлении всей инфраструктурой. Именно здесь на сцену вышли инструменты для автоматизации и управления, такие как оркестровщики и системы управления контейнерами. Оркестровщики, такие как Kubernetes, представляют собой мощное средство для автоматизированного развертывания, управления и масштабирования контейнеризированных приложений. Они позволяют организовывать вычислительные кластеры из контейнеров, управлять ими и обеспечивать доступ к сервисам и приложениям.</p>
+<p>Также, появление инструментов для управления конфигурациями, таких как Ansible, позволило автоматизировать процессы установки, настройки и обновления программных компонентов в контейнерах и виртуальных машинах.</p>
+<p>Следует также отметить важность DevOps-подхода в современной разработке. DevOps способствует сближению разработки и операций, позволяя создавать и поддерживать приложения более эффективно и безболезненно. Он базируется на принципах автоматизации, непрерывной интеграции и непрерывного развертывания (CI/CD).</p>
+<p>В итоге, эволюция разработки программного обеспечения привела к созданию более эффективных, гибких и автоматизированных инструментов и методологий. Они позволяют командам разработчиков быстро создавать, тестировать, разворачивать и масштабировать приложения в современных динамичных условиях. Все эти инновации существенно повлияли на способы работы IT-специалистов и дали им новые возможности для творчества, инноваций и быстрой реализации идей.</p>
+</section>
+<section id="id13">
+<h2>Ссылки на дополнительные материалы по Docker<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>A Beginner-Friendly Introduction to Containers, VMs and Docker https://www.freecodecamp.org/news/a-beginner-friendly-introduction-to-containers-vms-and-docker-79a9e3e119b/</p></li>
+<li><p>Книга «Полная виртуализация» http://onreader.mdl.ru/VirtualizationComplete/content/index.html</p></li>
+<li><p>Docker: основы работы https://otus.ru/journal/docker-osnovy-raboty/</p></li>
+<li><p>Docker - устройство и принципы работы https://teletype.in/&#64;it255ru/OuwbmZoHuEu</p></li>
+<li><p>Часть 1: основы https://habr.com/post/438796/</p></li>
+<li><p>Часть 2: термины и концепции https://habr.com/post/439978/</p></li>
+<li><p>Часть 3: файлы Dockerfile https://habr.com/post/439980/</p></li>
+<li><p>Часть 4: уменьшение размеров образов и ускорение их сборки https://habr.com/post/440658/</p></li>
+<li><p>Часть 5: команды https://habr.com/post/440660/</p></li>
+<li><p>Изучаем Docker, часть 6: работа с данными https://habr.com/ru/companies/ruvds/articles/441574/</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Контейнеризация на примере Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Введение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Рассмотрим пример: как Docker может помочь в разработке ПО</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Концепции Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Установка и использование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dockerfile">Файл Dockerfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-docker">Практическое задание: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">Заключение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">Ссылки на дополнительные материалы по Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../managers/quiz.html" title="предыдущая глава">Вопросы</a></li>
+      <li>Next: <a href="exercises.html" title="следующая глава">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/docker_base/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

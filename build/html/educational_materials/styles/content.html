@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Оформление кода &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Задачи" href="exercises.html" />
+    <link rel="prev" title="Среда разработки" href="../ide/content.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Оформление кода<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>Если мы хотим создать полезную библиотеку, мы должны позаботиться об оформлении кода, чтобы его было удобно читать. Для больших проектов с активным сообществом справедливо утверждение, что код больше читают, чем пишут. И если мы хотим участвовать в таком сообществе, нужно не только производить фичи, но и хорошо их оформлять. Хорошо — это значит общепринятым способом, чтобы другой разработчик не тратил время на понимание того, что вы почему-то решили назвать переменную так, как обычно называют класс. Есть интуитивно понятные правила оформления кода, например, с использованием отступов. Но существуют не такие очевидные, например, где мы должны переносить строку, <a class="reference external" href="https://peps.python.org/pep-0008/#should-a-line-break-before-or-after-a-binary-operator">до или после знака оператора</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#wrong</span>
+<span class="n">income</span> <span class="o">=</span> <span class="p">(</span><span class="n">gross_wages</span> <span class="o">+</span>
+          <span class="n">taxable_interest</span> <span class="o">+</span>
+          <span class="p">(</span><span class="n">dividends</span> <span class="o">-</span> <span class="n">qualified_dividends</span><span class="p">)</span> <span class="o">-</span>
+          <span class="n">ira_deduction</span> <span class="o">-</span>
+          <span class="n">student_loan_interest</span><span class="p">)</span>
+
+<span class="c1">#correct    </span>
+<span class="n">income</span> <span class="o">=</span> <span class="p">(</span><span class="n">gross_wages</span>
+          <span class="o">+</span> <span class="n">taxable_interest</span>
+          <span class="o">+</span> <span class="p">(</span><span class="n">dividends</span> <span class="o">-</span> <span class="n">qualified_dividends</span><span class="p">)</span>
+          <span class="o">-</span> <span class="n">ira_deduction</span>
+          <span class="o">-</span> <span class="n">student_loan_interest</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Можно думать о стиле как о минимально необходимом наборе всех возможностей языка программирования по написанию и оформлению кода: даже если мы можем так написать, мы не будем — в угоду читаемости. Соблюдение стиля не всегда приводит к меньшему количеству кода. Мы можем обратиться к дзену Python и увидим, что там нет строчки про количество кода, поэтому лучше получить более читаемый, явный и простой код, чем короткий, но сложный, в котором происходит что-то неявное.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">this</span> 
+
+<span class="n">The</span> <span class="n">Zen</span> <span class="n">of</span> <span class="n">Python</span><span class="p">,</span> <span class="n">by</span> <span class="n">Tim</span> <span class="n">Peters</span>
+
+<span class="n">Beautiful</span> <span class="ow">is</span> <span class="n">better</span> <span class="n">than</span> <span class="n">ugly</span><span class="o">.</span>
+<span class="n">Explicit</span> <span class="ow">is</span> <span class="n">better</span> <span class="n">than</span> <span class="n">implicit</span><span class="o">.</span>
+<span class="n">Simple</span> <span class="ow">is</span> <span class="n">better</span> <span class="n">than</span> <span class="nb">complex</span><span class="o">.</span>
+<span class="n">Complex</span> <span class="ow">is</span> <span class="n">better</span> <span class="n">than</span> <span class="n">complicated</span><span class="o">.</span>
+<span class="n">Flat</span> <span class="ow">is</span> <span class="n">better</span> <span class="n">than</span> <span class="n">nested</span><span class="o">.</span>
+<span class="n">Sparse</span> <span class="ow">is</span> <span class="n">better</span> <span class="n">than</span> <span class="n">dense</span><span class="o">.</span>
+<span class="n">Readability</span> <span class="n">counts</span><span class="o">.</span>
+<span class="n">Special</span> <span class="n">cases</span> <span class="n">aren</span><span class="s1">&#39;t special enough to break the rules.</span>
+<span class="n">Although</span> <span class="n">practicality</span> <span class="n">beats</span> <span class="n">purity</span><span class="o">.</span>
+<span class="n">Errors</span> <span class="n">should</span> <span class="n">never</span> <span class="k">pass</span> <span class="n">silently</span><span class="o">.</span>
+<span class="n">Unless</span> <span class="n">explicitly</span> <span class="n">silenced</span><span class="o">.</span>
+<span class="n">In</span> <span class="n">the</span> <span class="n">face</span> <span class="n">of</span> <span class="n">ambiguity</span><span class="p">,</span> <span class="n">refuse</span> <span class="n">the</span> <span class="n">temptation</span> <span class="n">to</span> <span class="n">guess</span><span class="o">.</span>
+<span class="n">There</span> <span class="n">should</span> <span class="n">be</span> <span class="n">one</span><span class="o">--</span> <span class="ow">and</span> <span class="n">preferably</span> <span class="n">only</span> <span class="n">one</span> <span class="o">--</span><span class="n">obvious</span> <span class="n">way</span> <span class="n">to</span> <span class="n">do</span> <span class="n">it</span><span class="o">.</span>
+<span class="n">Although</span> <span class="n">that</span> <span class="n">way</span> <span class="n">may</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">obvious</span> <span class="n">at</span> <span class="n">first</span> <span class="n">unless</span> <span class="n">you</span><span class="s1">&#39;re Dutch.</span>
+<span class="n">Now</span> <span class="ow">is</span> <span class="n">better</span> <span class="n">than</span> <span class="n">never</span><span class="o">.</span>
+<span class="n">Although</span> <span class="n">never</span> <span class="ow">is</span> <span class="n">often</span> <span class="n">better</span> <span class="n">than</span> <span class="o">*</span><span class="n">right</span><span class="o">*</span> <span class="n">now</span><span class="o">.</span>
+<span class="n">If</span> <span class="n">the</span> <span class="n">implementation</span> <span class="ow">is</span> <span class="n">hard</span> <span class="n">to</span> <span class="n">explain</span><span class="p">,</span> <span class="n">it</span><span class="s1">&#39;s a bad idea.</span>
+<span class="n">If</span> <span class="n">the</span> <span class="n">implementation</span> <span class="ow">is</span> <span class="n">easy</span> <span class="n">to</span> <span class="n">explain</span><span class="p">,</span> <span class="n">it</span> <span class="n">may</span> <span class="n">be</span> <span class="n">a</span> <span class="n">good</span> <span class="n">idea</span><span class="o">.</span>
+<span class="n">Namespaces</span> <span class="n">are</span> <span class="n">one</span> <span class="n">honking</span> <span class="n">great</span> <span class="n">idea</span> <span class="o">--</span> <span class="n">let</span><span class="s1">&#39;s do more of those!</span>
+</pre></div>
+</div>
+<section id="id2">
+<h2>Используйте отступы<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Одно из основных правил хорошего стиля программирования (code style) заключается в том, что разные уровни вложенности стоит выделять при помощи отступов, используя знаки пробела или табуляции. <strong>Работая с кодом в рамках одного файла, стоит использовать что-то одно: или пробелы, или табуляцию</strong>.
+Если вы попробуете использовать и то, и другое, набирая код программы на Python, то интерпретатор выдаст вам сообщение об ошибке. В других языках программирования такая ситуация не вызовет ошибку синтаксиса, однако читать код с отступами приятнее, он легче и быстрее воспринимается разработчиком. Еще больше информации о стиле программирования можно узнать из документа <a class="reference external" href="https://peps.python.org/pep-0008/">pep8</a>. В нем множество рекомендаций по оформлению кода на языке Python.</p>
+<p>Код без отступов:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/2d18222e8b7b273b20b0b4641dbc1d7b/no_indented_code.cpp"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="cp">#define DEFINE_NAME true</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span>
+<span class="p">{</span><span class="w">   </span>
+<span class="c1">//not indented code    </span>
+<span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">DEFINE_NAME</span><span class="p">)</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;Name&quot;</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Hello, &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;!&quot;</span><span class="p">;</span><span class="w">    </span>
+<span class="p">}</span><span class="w"> </span>
+<span class="k">else</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Hello World!&quot;</span><span class="p">;</span><span class="w">    </span>
+<span class="p">}</span>
+<span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">   </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Код с отступами:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/909c13e13d808ae0b8b9aa9573f46892/indented_code.cpp"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="cp">#define DEFINE_NAME true</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">DEFINE_NAME</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;Name&quot;</span><span class="p">;</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Hello, &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;!&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Hello World!&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>В Python также есть ситуации, когда отступы не будут приводить к ошибке, например, при вызове функции, название и аргументы которой не помещаются в максимальную длину строки и должны быть перенесены на следующую строку.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#buity </span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">long_function_name</span><span class="p">(</span><span class="n">var_one</span><span class="p">,</span> <span class="n">var_two</span><span class="p">,</span>
+                         <span class="n">var_three</span><span class="p">,</span> <span class="n">var_four</span><span class="p">)</span>
+
+<span class="c1">#not_so_buity</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">long_function_name</span><span class="p">(</span><span class="n">var_one</span><span class="p">,</span> <span class="n">var_two</span><span class="p">,</span>
+           <span class="n">var_three</span><span class="p">,</span> <span class="n">var_four</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Оба варианта валидны с точки зрения интерпретатора, но первый более читаем. В <a class="reference external" href="https://peps.python.org/pep-0008/#should-a-line-break-before-or-after-a-binary-operator">разных</a> ситуациях отступы используются по-разному. Если чувствуете, что участок кода сложен при оформлении, обратитесь к руководству по стилю.</p>
+</section>
+<section id="id3">
+<h2>Соблюдайте принятую длину строки<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>В разных языках программирования и в разных проектах может быть принята разная максимальная длина строки. Когда я работал над проектом на Java, мы использовали длину строки 120 символов. В Python принято вмещать код на каждой строке в <a class="reference external" href="https://peps.python.org/pep-0008/#maximum-line-length">79 символов</a>, а комментарии в 72 символа. Отчасти это историческое ограничение, связанное с тем, что раньше были маленькие экраны. Но даже с появлением широкоформатных экранов от этого элемента форматирования не стали отказываться, так как человеку проще воспринимать более узкие колонки текста. Во многих изданиях принято оформлять текст в виде нескольких колонок на одной странице, хотя ничто не мешает занять всю ширину страницы. Также такой подход позволяет разделить экран ноутбука на две области и быть уверенными, что код войдет по ширине в обе, и шрифт не будет слишком мелким. Не заставляйте своих коллег скролить горизонтально, это не круто.</p>
+<p>Существуют разные способы разбить длинную строку на несколько коротких. Они будут зависеть от языка программирования и от конкретного участка кода, который нужно перенести на другую строку.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">super_long_condition_variable</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">another_condition_with_yet_longer_name</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">pass</span>
+    <span class="c1"># do stuff here</span>
+</pre></div>
+</div>
+<p>Просто перенести второе условие на новую строку нельзя, будет ошибка:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">super_long_condition_variable</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span> 
+   <span class="n">another_condition_with_yet_longer_name</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">pass</span>
+    <span class="c1"># do stuff here</span>
+
+<span class="o">...</span>
+    <span class="k">if</span> <span class="n">super_long_condition_variable</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span>
+                                                 <span class="o">^</span>
+<span class="ne">SyntaxError</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">syntax</span>
+</pre></div>
+</div>
+<p>Можно окружить условие скобками. Скобки имеют более высокий приоритет, чем перенос, поэтому пример внизу выполнится корректно</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">super_long_condition_variable</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span> 
+    <span class="n">another_condition_with_yet_longer_name</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">pass</span>
+    <span class="c1"># do stuff here</span>
+</pre></div>
+</div>
+<p>Можно использовать явный способ сказать интерпретатору, что строка ниже является продолжением текущей строки:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">super_long_condition_variable</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span> \
+   <span class="n">another_condition_with_yet_longer_name</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">pass</span>
+    <span class="c1"># do stuff here</span>
+</pre></div>
+</div>
+<p>В математических выражениях удобнее использовать скобки:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">income</span> <span class="o">=</span> <span class="p">(</span><span class="n">gross_wages</span>
+          <span class="o">+</span> <span class="n">taxable_interest</span>
+          <span class="o">+</span> <span class="p">(</span><span class="n">dividends</span> <span class="o">-</span> <span class="n">qualified_dividends</span><span class="p">)</span>
+          <span class="o">-</span> <span class="n">ira_deduction</span>
+          <span class="o">-</span> <span class="n">student_loan_interest</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Так же, как и при вызове функции.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">long_function_name</span><span class="p">(</span><span class="n">var_one</span><span class="p">,</span> <span class="n">var_two</span><span class="p">,</span> <span class="n">var_three</span><span class="p">,</span> <span class="n">var_four</span><span class="p">,</span>
+                   <span class="n">var_six</span><span class="p">,</span> <span class="n">var_seven</span><span class="p">,</span> <span class="n">var_eight</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>Используйте фигурные скобки правильно<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>В С++ и в других языках, которые используют фигурные скобки для выделение блоков кода, мы можем не писать фигурные скобки у условного оператора или оператора цикла.</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="c1">//get age from user</span>
+<span class="k">if</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">18</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="n">allow_18plus_content</span><span class="p">();</span>
+<span class="k">else</span><span class="w"> </span>
+<span class="w">    </span><span class="n">disable_18plus_content</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Но лучше всегда их использовать, даже если вы полностью уверены, что в тело условия больше не будет добавлено ни одной строчки. Опять же, использование единого оформления позволит не отвлекаться и читать код быстрее.</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="c1">//get age from user</span>
+<span class="k">if</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">18</span><span class="p">)</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">allow_18plus_content</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="k">else</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">disable_18plus_content</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Есть также альтернативное оформление, которое, на мой взгляд, выглядит более приятно при условии использования отступов. Уточните, какой из этих способов принят в команде, к которой вы подключаетесь. Но скобки должны быть всегда.</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="c1">//get age from user</span>
+<span class="k">if</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">18</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">allow_18plus_content</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">disable_18plus_content</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>Именуйте объекты правильно<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>Среди начинающих программистов и своих студентов я часто встречаю именование переменных либо одним ничего не значащим символом, любо транслитом.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">srednee</span><span class="p">(</span><span class="n">znacheniya</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">znacheniya</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">znacheniya</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Как первое, так и второе — плохо. Именование с использованием транслита не позволит другому разработчику понять, что это за функция и что она делает. Еще одна частая проблема, которая встречается при именовании объектов, — сохранение контекста, который использовался при разработке. Например, мы работаем с датчиком, который предоставляет температуру (<code class="docutils literal notranslate"><span class="pre">temperature</span></code>) и давление (<code class="docutils literal notranslate"><span class="pre">pressure</span></code>). Мы хотим как-то обработать данные, например, найти среднее значение. Мы начинаем разработку и выбираем использовать температуру, чтобы проверять нашу работу. Мы правильно пишем название функции, а аргументом передаем список снятых значений температуры. Вроде бы все нормально.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="n">temperature</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+
+<span class="n">vals</span> <span class="o">=</span> <span class="n">measure_temperature</span><span class="p">()</span>
+<span class="n">average_temperature</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Мы протестировали функцию и довольны ее работой, и теперь готовы применить ее к показаниям давления. И все… работает. Мы счастливы и коммитим свою работу. А разработчик, который будет потом разбираться в нашем коде, долго не сможет понять, почему температура ведет себя как давление.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vals</span> <span class="o">=</span> <span class="n">measure_pressure</span><span class="p">()</span>
+<span class="n">average_pressure</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Используйте несколько слов там, где это нужно. Например, мы могли просто назвать функцию <code class="docutils literal notranslate"><span class="pre">pressure()</span></code>.  И что это значит, «давление»? Измерить, прочитать из файла, забрать из базы данных, что я делаю с давлением? Тот вариант, который использовали мы, <code class="docutils literal notranslate"><span class="pre">measure_pressure()</span></code>, сразу даст понять, что это функция измерения давления, и скорее всего она работает с датчиком, а не получает давление каким-то другим способом. Здесь можно прокомментировать, что непонятно, что эта функция дает ряд значений, а не одно. Мы можем согласиться с этим и добавить эту информацию к названию функции, или сделать это через обязательные аргументы.
+Существуют два основных способа именования переменных и функций: через подчеркивания (<code class="docutils literal notranslate"><span class="pre">measure_pressure</span></code>) и CamelCase (<code class="docutils literal notranslate"><span class="pre">measurePressure</span></code>). На мой взгляд, через подчеркивание удобнее, так как мы используем название классов с заглавными буквами (<code class="docutils literal notranslate"><span class="pre">PressureSensor</span></code>), и при беглом чтении разница в одной заглавной (для классов) или строчной (для переменных и функций) менее заметна, чем при использовании подчеркиваний.
+При выборе имени для переменной используйте существительные, а для функции — глагол.</p>
+</section>
+<section id="id6">
+<h2>Придерживаться определенного подхода<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<p>Этот пункт не относится напрямую к стилю кода и не является строгим требованием. Код состоит из определенных конструкций, и неплохая идея — пользоваться одним подходом для написания одной и той же функциональности. Например, если нам нужно открыть файл, мы можем сделать это несколькими способами:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="c1">#do something</span>
+</pre></div>
+</div>
+<p>или</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="c1">#do something</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Это простой пример, и есть соглашение о том, что конструкция с <code class="docutils literal notranslate"><span class="pre">with</span></code> лучше. Но в других ситуациях, когда нет устоявшегося способа написать участок кода, вам придется приходить к этому внутри команды. То же самое касается и подходов к программированию. Например, Python позволяет использовать основные парадигмы программирования: объектно-ориентированную, процедурную, функциональную и императивную. Мы можем смешивать их в рамках одной программы, и это не будет ошибкой. Есть решения, где использование другого подхода оправдано: все так делают, и решение более красивое и явное, чем при использовании другого подхода. Однако использование другого подхода только ради того, чтобы его использовать, не будет хорошей идеей и ухудшит читаемость кода.</p>
+</section>
+<section id="flat-is-better-than-nested">
+<h2>Избегайте вложенности (Flat is better than nested)<a class="headerlink" href="#flat-is-better-than-nested" title="Link to this heading">¶</a></h2>
+<p>Этот пункт взять из дзена Python, и ему можно легко дать количественную оценку — уровни вложенности можно посчитать. Возьмем код ниже:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/764e4eca86bc65c94e1bfc7114814c6f/nested.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#nested</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span> 
+                <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>И уберем вложенность:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/a072ca8d91508a9f59080954dbc06dcf/flat.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>Задание: попробуйте прогнать код с вложенностью через autopep8 и проверьте, что произойдет. Как думаете, почему так?</p>
+</section>
+<section id="sparse-is-better-than-dense">
+<h2>Не перегружайте код (Sparse is better than dense)<a class="headerlink" href="#sparse-is-better-than-dense" title="Link to this heading">¶</a></h2>
+<p>Хотя мы должны вмещать код в 8 строк, мы можем написать очень насыщенный код. Код ниже заставить разработчика остановиться и потратить какое-то время, чтобы разобраться в нем, если ему нужно что-то поправить или реализовать подобный функционал у себя.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/6689925ad849149bb763dcdbb38994a1/dense.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">capacity</span> <span class="o">=</span> <span class="p">[(</span><span class="n">j</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">256</span><span class="o">**</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%i</span><span class="s2"> bits can store number up to </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bc</span> <span class="k">for</span> <span class="n">bc</span> <span class="ow">in</span> <span class="n">capacity</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">8</span> <span class="n">bits</span> <span class="n">can</span> <span class="n">store</span> <span class="n">number</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">255</span>
+<span class="mi">16</span> <span class="n">bits</span> <span class="n">can</span> <span class="n">store</span> <span class="n">number</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">65535</span>
+<span class="mi">32</span> <span class="n">bits</span> <span class="n">can</span> <span class="n">store</span> <span class="n">number</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">4294967295</span>
+<span class="mi">64</span> <span class="n">bits</span> <span class="n">can</span> <span class="n">store</span> <span class="n">number</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">18446744073709551615</span>
+</pre></div>
+</div>
+<p>Написав больше кода, мы можем уменьшить время, которое разработчик тратит на изучение этого участка.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/56fb107dc4bed509cb128fd822f985f9/sparse.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">capacity</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="n">j</span> <span class="o">*</span> <span class="mi">8</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="mi">256</span><span class="o">**</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">capacity</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">bits</span> <span class="p">,</span> <span class="n">max_val</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">bits</span><span class="p">,</span> <span class="n">max_val</span> <span class="ow">in</span> <span class="n">capacity</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%i</span><span class="s2"> bits can store number up to </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="n">max_val</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>Выводы<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
+<p>Придерживаться стиля нужно для того, чтобы писать код понятно. Хороший стиль помогает быстро сориентироваться в коде и найти тот участок, за которым вы пришли в этот модуль. Часть работы по оформлению кода можно делегировать автоматическим средствам, таким как <code class="docutils literal notranslate"><span class="pre">autopep8</span></code>. Про другую часть придется помнить и писать код с учетом этих знаний. Стиль — это не про то, чтобы писать меньше кода. Иногда (редко) вам будет казаться, что придерживаться стиля контринтуитивно, а получивший код некрасив. Но если так пишет большинство разработчиков — придерживайтесь рекомендаций, со временем вы привыкнете. Вы не сможете начать хорошо оформлять код без практики: пишите, а самое главное — читайте чужой код, чтобы понять, как пишут ваши коллеги.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Оформление кода</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Используйте отступы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Соблюдайте принятую длину строки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Используйте фигурные скобки правильно</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Именуйте объекты правильно</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Придерживаться определенного подхода</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flat-is-better-than-nested">Избегайте вложенности (Flat is better than nested)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sparse-is-better-than-dense">Не перегружайте код (Sparse is better than dense)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Выводы</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../ide/content.html" title="предыдущая глава">Среда разработки</a></li>
+      <li>Next: <a href="exercises.html" title="следующая глава">Задачи</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/styles/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

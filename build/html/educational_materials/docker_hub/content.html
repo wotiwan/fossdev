@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Реестр Docker &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="prev" title="Концепция сети в Docker" href="../docker_network/content.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="docker">
+<h1>Реестр Docker<a class="headerlink" href="#docker" title="Link to this heading">¶</a></h1>
+<p>В предыдущем разделе мы уже познакомились с технологией Docker и узнали, что такое Docker контейнер, Docker образ, как связаны эти сущности и как мы можем их использовать. Теперь пришло время познакомиться с таким понятием, как Docker Registry (реестр Docker).
+<img alt="dockerhub_logo.png" src="../../_images/dockerhub_logo.png" /></p>
+<p>В этом разделе мы познакомимся с сервисом <strong>«Docker Hub»</strong>, узнаем о его возможностях, как использовать его для поиска Docker образов, созданных сторонними разработчиками, опубликовавшими свои проекты в виде образа.
+Рассмотрим все этапы работы с сервисом <strong>«Docker Hub»</strong>. Узнаем как скачать и загрузить образ в <strong>«Docker Hub»</strong>. Создадим там собственный репозиторий, который позволит делиться созданными нами Docker образами.</p>
+<blockquote>
+<div><p>Вам требуется базовое понимание Docker, знакомство с окружением Windows и Linux. В этом руководстве будет использоваться инструмент Docker Desktop для выполнения текущих упражнений, т.е. для создания и передачи образа в Docker Hub.</p>
+</div></blockquote>
+<p>Хотя образы Docker легко создаются, и разработчикам удобно работать с простыми и портативными образами Docker, быстро обнаружилось, что управлять тысячами образов Docker довольно трудно. Решить эту проблему позволяет реестр Docker. Реестр Docker — это стандартный способ хранения и распространения образов Docker. Реестр — это репозиторий с открытым исходным кодом, имеющий разрешительную лицензию Apache.</p>
+<p>Реестр Docker также помогает улучшить управление правами доступа и безопасность образов Docker, хранящихся в его репозитории. Он управляет распространением образов, а также может интегрироваться с рабочими процессами разработки приложений. Разработчики могут настроить собственный реестр Docker или использовать сервис размещения, например, Docker Hub, Oracle Container Registry, Azure Container Registry и т.д.</p>
+<p><img alt="docker_flow.png" src="../../_images/docker_flow.png" />
+-Docker Flow - процесс работы
+Рисунок 1. Docker Flow — процесс работы</p>
+<p>Docker Hub — это размещенный реестр Docker, управляемый Docker. Docker Hub содержит более 100 000 образов контейнеров от поставщиков программного обеспечения, а также проекты с открытым исходным кодом и сообщества. Docker Hub содержит программное обеспечение и приложения из официальных репозиториев, таких как NGINX, Apache, MySQL, Ubuntu, Python, Flask и т.д.</p>
+<p>Он позволяет нам извлекать и добавлять Doсker образы в Docker Hub.
+Его также можно сравнить с GitHub, где мы получаем и отправляем наш исходный код, но в случае Docker Hub мы работаем с образами Docker контейнеров.</p>
+<p>Облачный онлайн-репозиторий «Docker Hub» использует два типа репозиториев:</p>
+<ul class="simple">
+<li><p>общедоступный репозиторий;</p></li>
+<li><p>частный репозиторий.</p></li>
+</ul>
+<p>Общедоступные репозитории доступны всем пользователям сервиса Docker Hub, в то время как частный репозиторий доступен только его владельцу (аналогично репозиториям на GitHub).</p>
+<p>При запуске контейнера Docker по умолчанию автоматически извлекает соответствующий образ из общедоступного Docker Hub, если он недоступен локально. Вы также можете создавать собственные образы и отправлять их в Docker Hub в общедоступный или частный репозиторий.</p>
+<p><img alt="dockerhub_registry_explorer.png" src="../../_images/dockerhub_registry_explorer.png" /></p>
+<p>Рисунок 2. Снимок экрана реестра Docker</p>
+<section id="id1">
+<h2>Создание первого Docker репозитория<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>Первым делом требуется авторизоваться в Docker Hub, используя ваши учетные данные. Если у вас нет учетной записи, вы можете создать ее, нажав кнопку Register (Регистрация) на странице «https://hub.docker.com». После того как вы авторизовались на сервисе, вы можете создать репозиторий, нажав на кнопку «Create repository» (Создать репозиторий).</p>
+<p><img alt="dockerhub_create_repository.png" src="../../_images/dockerhub_create_repository.png" /></p>
+<p>Рисунок 3. Создание Docker Hub репозитория</p>
+<p>Откроется окно, в котором предлагается заполнить краткую информацию о новом репозитории. В качестве примера создадим открытый (публичный) репозиторий с названием «<strong>my_web_service</strong>».</p>
+<blockquote>
+<div><p>Docker Hub предоставляет нам только один частный репозиторий бесплатно. Если нам нужно больше частных репозиториев, мы можем обновить нашу учетную запись до платной.</p>
+</div></blockquote>
+<p><img alt="dockerhub_create_repository_stage_2.png" src="../../_images/dockerhub_create_repository_stage_2.png" /></p>
+<p>Рисунок 4. Параметры нового репозитория Docker Hub</p>
+<p>Как только все будет сделано, нажмите Создать (Create).
+Поздравляем! Вы создали свой первый репозиторий, который будут выглядеть следующим образом.</p>
+<p><img alt="dockerhub_view_new_repository.png" src="../../_images/dockerhub_view_new_repository.png" /></p>
+<p>Рисунок 5. Созданный репозиторий Docker Hub</p>
+<p>Теперь откройте приложение Docker Desktop tool или консоль (terminal) Docker и войдите в Docker Hub с помощью команды <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span></code>.</p>
+</section>
+<section id="id2">
+<h2>Поиск Docker образа<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Для поиска образа на Docker Hub нам доступны 2 способа:</p>
+<ul class="simple">
+<li><p>Поиск на веб-сайте Docker Hub через браузер. Для этого надо перейти в раздел «Explore» в верхнем меню Docker Hub.</p></li>
+<li><p>Через командную строку (терминал). В таком случае, если мы хотим найти образ Flask, мы можем воспользоваться следующей командой: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">search</span> <span class="pre">mysql</span></code>.</p></li>
+</ul>
+<p><img alt="dokerhub_search_image.png" src="../../_images/dokerhub_search_image.PNG" /></p>
+<p>Преимуществом поиска Docker образа в веб-браузере является возможность поиска по ключевым словам и выбора наиболее подходящего образа. Есть возможность ознакомиться с его описанием, документацией и содержимым, а также скопировать команду для загрузки найденного Docker образа на свой компьютер (Docker Pull Command).</p>
+<p><img alt="dockerhub_overview_flask_image_description.png" src="../../_images/dockerhub_overview_flask_image_description.PNG" /></p>
+</section>
+<section id="docker-docker-hub">
+<h2>Загрузка Docker образа из реестра Docker Hub<a class="headerlink" href="#docker-docker-hub" title="Link to this heading">¶</a></h2>
+<p>Чтобы загрузить Docker образ из Docker Hub, нужно использовать команду <strong><code class="docutils literal notranslate"><span class="pre">pull</span></code></strong> следующим образом: <strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">&lt;image_name&gt;</span></code></strong>. Например, если требуется скачать последнюю стабильную версию Docker образа <strong>MySQL</strong>, можно использовать следующую команду:
+<strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">mysql</span></code></strong></p>
+<p>Если образ mysql уже есть на нашем компьютере, то приведенная выше команда автоматически обновит образ до последней версии. Здесь нужно помнить одну вещь: если мы выполним поиск на Docker Hub, нам отобразится список различных образов MySQL. Нам нужно найти подходящий вариант в зависимости от решаемой задачи. Допустим, мы хотим получить образ bitnami/mysql.
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">bitnami/mysql</span></code></p>
+</section>
+<section id="id3">
+<h2>Создание Docker образа<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>Этот процесс требует Dockerfile. Мы можем рассматривать Dockerfile как руководство по эксплуатации, которое говорит Docker, что собирать (подобие requirements.txt в venv для python). Проще говоря, это файл конфигурации, в котором хранится инструкция по сборке.</p>
+</section>
+<section id="id4">
+<h2>Как это работает?<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>Docker читает инструкцию из Dockerfile и автоматически создает образы. Образ Docker является многоуровневой файловой системой и состоит из нескольких слоев, доступных только для чтения, и каждый слой образа Docker представляет инструкции файла Docker. Давайте выполним следующие шаги, чтобы создать образ с помощью Dockerfile.</p>
+</section>
+<section id="dockerfile">
+<h2>Создайте Dockerfile, который определяет конфигурацию нашего приложения<a class="headerlink" href="#dockerfile" title="Link to this heading">¶</a></h2>
+<p>sudo vim Dockerfile
+*Примечание. Имя файла должно быть <strong><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></strong> с большой латинской буквы D.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FROM ubuntu:16.04
+MAINTAINER someuser@somedomain.com
+RUN apt-get update
+RUN apt-get install –y mysql
+CMD echo &quot;My first image created.
+</pre></div>
+</div>
+<p>Давайте посмотрим на некоторые важные ключевые слова, используемые в <strong><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></strong></p>
+<p>Мы можем использовать символы #, чтобы добавить комментарий в <strong><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></strong>
+Ключевое слово <code class="docutils literal notranslate"><span class="pre">FROM</span></code> определяет базовый образ, которое будет использоваться.
+Ключевое слово <code class="docutils literal notranslate"><span class="pre">MAINTAINER</span></code> — это пользователь, который будет поддерживать этот образ.
+Ключевое слово <code class="docutils literal notranslate"><span class="pre">RUN</span></code> используется для запуска инструкции, приведенной для образа. В нашем случае сначала обновите систему, а затем установите MySQL.
+Ключевое слово <code class="docutils literal notranslate"><span class="pre">CMD</span></code> используется для выполнения команды после запуска контейнера.
+Ключевое слово <code class="docutils literal notranslate"><span class="pre">COPY</span></code> можно использовать для копирования файла из нашей хост операционной системы в док-контейнер.
+Ключевое слово <code class="docutils literal notranslate"><span class="pre">EXPOSE</span></code> используется для указания номера порта, на котором контейнер будет выполнять свой процесс.
+Запустите команду ниже, чтобы создать наш образ Docker.
+Синтаксис
+<strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span> <span class="pre">-t</span> <span class="pre">/repo-name</span></code></strong></p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span> <span class="pre">-t</span> <span class="pre">&lt;user_name&gt;/&lt;repo_name&gt;</span> <span class="pre">.</span></code></strong>
+В приведенной выше команде имя изображения и символ точка « . » указывает текущий рабочий каталог. Это означает, что Docker ищет текущий каталог файла Docker. Опция <code class="docutils literal notranslate"><span class="pre">-t</span></code> используется для обозначения образа.</p>
+<p>Вывод будет похож на:</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span></code></p>
+<p>Теперь давайте проверим наш образ, запустив его с помощью команды запуска docker.</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">asadali08527/first-repo</span></code></p>
+<p>Выполнение вышеупомянутой команды попросит ваш <strong><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></strong> образ успешно установить MySQL на ваш компьютер со всеми необходимыми обновлениями, и, наконец, он также отобразит сообщение.</p>
+<p>Заливаем образ на Docker Hub. Как только наш образ был успешно создан и запущен, мы можем отправить его в Docker Hub с помощью команды push.</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">push</span> <span class="pre">asadali08527/first-repo</span></code></p>
+<p>Мы можем проверить теги образа и статус на Docker Hub, который будет выглядеть примерно так.</p>
+<p><img alt="docker_search" src="../../_images/docker_search.png" /></p>
+</section>
+<section id="docker-hub">
+<h2>Образ на Docker Hub<a class="headerlink" href="#docker-hub" title="Link to this heading">¶</a></h2>
+<p>Что такое DOCKER CERTIFIED образы?
+Это официальные образы поставщиков или участников. Образ может быть сертифицирован Docker Hub, только если его содержимое соответствует правилам, стандартам и законам, предусмотренным Docker Hub. Проще говоря, этот образ должен пройти определенные базовые тесты.</p>
+<p>Docker Hub предоставляет инструмент inspectDockerImage, с помощью которого поставщик может самостоятельно сертифицировать образы и плагины (обычно поставщик или участник публикует свои плагины для регистрации томов и сетей).</p>
+<blockquote>
+<div><p>Примечание:
+Чтобы опубликовать наш образ в качестве сертифицированного Docker образа, сначала мы должны самостоятельно сертифицировать и протестировать наш образ и плагин с помощью инструмента inspectDockerImage. После того как мы сертифицировали и успешно протестировали, после отправки Docker Hub подтвердит его. Если наш контент требует несертифицированной среды, он не может быть опубликован как сертифицированный ни при каких обстоятельствах.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Рекомендации</strong></p>
+<ul class="simple">
+<li><p>Ищите конкретную версию Docker образа, используя теги, в основном последние. Это необходимо, чтобы избежать возможных конфликтов и сбоев в случае несовместимости пакетов в вашем проекте и библиотек, модулей в составе Docker образа.</p></li>
+<li><p>Выберите тот, который имеет максимальные загрузки и звезды.</p></li>
+<li><p>Проверьте его обновления (когда он был обновлен последний раз).</p></li>
+<li><p>Если возможно, проверьте его тип: проверенный издатель или официальный (Docker Certified).</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Реестр Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Создание первого Docker репозитория</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Поиск Docker образа</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker-docker-hub">Загрузка Docker образа из реестра Docker Hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Создание Docker образа</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Как это работает?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dockerfile">Создайте Dockerfile, который определяет конфигурацию нашего приложения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker-hub">Образ на Docker Hub</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../docker_network/content.html" title="предыдущая глава">Концепция сети в Docker</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/docker_hub/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

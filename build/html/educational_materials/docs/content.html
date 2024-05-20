@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Документирование &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Задачи" href="exercises.html" />
+    <link rel="prev" title="Вопросы:" href="../path_venv/quiz.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Документирование<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<section id="id2">
+<h2>Мотивация<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Наверное, многие из вас слышали про TDD, когда тесты пишутся до написания кода, и затем пишется сам код, который пройдет все тесты. Такой подход позволяет взглянуть на код с другой стороны и, при правильном отношении, лучше структурировать его. Другой способ лучше писать код — это так называемое «Readme-driven-development», т.е. такой способ разработки, при котором мы пишем сначала документацию к коду, включая readme и документацию функций (docstring в python). Простой пример: <strong>если у вас есть трудности с тем, чтобы описать работу функции, скорее всего, ее нужно разбить на несколько функций и задокументировать каждую по отдельности</strong>. Наличие документации, особенно если она хорошо составлена, поможет не только другим разработчикам, но и вам самим, чтобы восстановить контекст и понять, что же вы имели в виду, когда писали этот код год назад.</p>
+</section>
+<section id="markdown">
+<h2>Markdown<a class="headerlink" href="#markdown" title="Link to this heading">¶</a></h2>
+<p>Когда мы писали свою простую библиотеку, мы делали файл README.md, содержимое которого собиралось в красивый <a class="reference external" href="https://github.com/standlab/mtracker/blob/main/README.md">документ</a> самим GitHub. В этом случае мы использовали язык разметки <code class="docutils literal notranslate"><span class="pre">Markdown</span></code>, который является одним из общепринятых способов оформления документации. Рассмотрим элементы разметки. В данном документе мы использовали <a class="reference external" href="https://dillinger.io/">онлайн-редактор</a>, но подойдет и любой другой.</p>
+<section id="id3">
+<h3>Заголовки<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p>Чтобы сделать текст заголовком, используйте один или несколько знаков решетки. Чем их больше, тем меньше заголовок:</p>
+<p><img alt="titles" src="../../_images/titles.png" /></p>
+<p><a class="reference external" href="https://www.markdownguide.org/basic-syntax/#alternate-syntax">Можно</a> обозначать заголовки через подчеркивания. <strong>Хорошим тоном</strong> считается отделение заголовка от текста выше и ниже, а также отделение знака решетки от текста заголовка:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span><span class="n">какой</span><span class="o">-</span><span class="n">то</span> <span class="n">текст</span> <span class="n">до</span><span class="o">.</span>
+
+<span class="c1"># Заголовок</span>
+
+<span class="n">Начало</span> <span class="n">раздела</span><span class="o">...</span>
+
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Абзацы<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p>Чтобы в тексте начать новый абзац, разделите текст пустой строкой:</p>
+<p><img alt="paragraph" src="../../_images/paragraph.png" /></p>
+<p><strong>Хорошим тоном</strong> считается писать текст без отступов.</p>
+<p>Так делаем:</p>
+<p><img alt="paragraph_good" src="../../_images/paragraph_good.png" /></p>
+<p>А так нет:</p>
+<p><img alt="paragraph_bad" src="../../_images/paragraph_bad.png" /></p>
+<p>Хотя результат будет один и тот же, мы всегда думаем не только о тех, кто читает собранный документ, но и о тех, кто читает исходник. Различные отступы сильно затрудняют чтение.</p>
+</section>
+<section id="id5">
+<h3>Форматирование текста<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p>Текст можно делать жирным или курсивом:</p>
+<p><img alt="bold_italic" src="../../_images/bold_italic.png" /></p>
+<p>Вместо звездочек можно использовать подчеркивания, но звездочки являются более универсальным способом выделения текста.</p>
+<p><em><strong>Задание: как сделать шрифт жирным курсивом.</strong></em></p>
+</section>
+<section id="id6">
+<h3>Списки<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<p>В <code class="docutils literal notranslate"><span class="pre">Markdown</span></code> можно делать нумерованный список или просто перечисление пунктов.</p>
+<p><img alt="numbered_list" src="../../_images/numbered_list.png" /></p>
+<p>Мы можем использовать разные символы для ненумерованных списков (<code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code>), <strong>хорошей практикой</strong> является использование одного из них:</p>
+<p><img alt="list_good" src="../../_images/list_good.png" /></p>
+<p>Не смешивайте несколько разных символов:</p>
+<p><img alt="list_bad" src="../../_images/list_bad.png" /></p>
+</section>
+<section id="id7">
+<h3>Ссылки<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<p>Для того чтобы вставить ссылку, пишем ее название в <code class="docutils literal notranslate"><span class="pre">[]</span></code> и после саму ссылку в <code class="docutils literal notranslate"><span class="pre">()</span></code>, название будет отображено в собранном документе:</p>
+<p><img alt="hlink" src="../../_images/hlink.png" /></p>
+<p>Можно не вставлять ссылки в самом тексте, а вести их список отдельно и использовать id ссылки там, где нужно.</p>
+<p><img alt="hlink" src="../../_images/hlink_via_id.png" /></p>
+</section>
+<section id="id8">
+<h3>Вставка изображений<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<p>Вставка изображений напоминает использование ссылок. Мы пишем текст, который будет показан вместо изображения, если оно не будет подгружено, в <code class="docutils literal notranslate"><span class="pre">[]</span></code>, и указываем путь или ссылку на изображение. Вначале мы ставим восклицательный знак, а в круглых скобках можем указать всплывающую подсказку:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>![opensource_icon](/graphics/opensource.png &quot;This opensource icon&quot;)
+</pre></div>
+</div>
+<p><img alt="opensource_icon" src="../../_images/opensource.png" /></p>
+<p>Если ошибиться в пути, будет показан текст из <code class="docutils literal notranslate"><span class="pre">[]</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>![opensource_icon](https://not_existing_site/graphics/not_exist.png)
+</pre></div>
+</div>
+<p><img alt="opensource_icon" src="https://not_existing_site/graphics/not_exist.png" /></p>
+<p><strong>Задание: проверьте, можно ли вести список картинок отдельно, например, в конце документа, и вставлять их в нужное место, используя id.</strong></p>
+</section>
+<section id="id9">
+<h3>Код<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<p>В случае необходимости процитировать в документации исходный код программы или его части используются специализированные форматированные блоки, в которые помещаются фрагменты исходного кода программы. Это похоже на HTML-теги. Для создания блока кода в языке Markdown необходимо обрамить его символами ``` код программы ```. Многие программы поддерживают форматирование текста Markdown в соответствии со стилем содержимого. Если мы оформим код программы, то в режиме просмотра его синтаксис будет подсвечиваться (как в среде разработке). Для лучшего распознавания стиля языка программирования следует указывать название языка или скрипта для применения подсветки его синтаксиса. Например, для представления фрагмента программы на языке Python лучше оформить его следующим образом:</p>
+<p>```python<br />
+import os</p>
+<p>def foo():<br />
+    path = os.getcwd()<br />
+    print(f» Путь к текущей директории = {}\n\nСписок файлов:\n»)<br />
+    rez = sorted(os.listdir(path)<br />
+    for n, item in enumerate(rez):<br />
+        print(n+1, item)<br />
+```</p>
+<p>После того как вы откроете этот документ, например, в браузере, вы увидите что код преобразился, его стиль изменился и стал больше похож на программный код.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>  
+
+<span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>  
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>  
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Путь к текущей директории = </span><span class="si">{}</span><span class="se">\n\n</span><span class="s2">Список файлов:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>  
+    <span class="n">rez</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>    
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rez</span><span class="p">):</span>  
+        <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p><img alt="code" src="../../_images/code.png" /></p>
+</section>
+<section id="id10">
+<h3>Цитирование<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<p>В текст можно вставлять цитаты:</p>
+<p><img alt="cite" src="../../_images/cite.png" /></p>
+</section>
+</section>
+<section id="restructuredtext">
+<h2>reStructuredText<a class="headerlink" href="#restructuredtext" title="Link to this heading">¶</a></h2>
+<p>Сейчас будет неожиданно. Но дальше нам будет нужен другой язык разметки — <code class="docutils literal notranslate"><span class="pre">reStructedText</span></code>. Для тех, кто потратил время на материал выше, будет <a class="reference external" href="https://docs.open-mpi.org/en/v5.0.x/developers/rst-for-markdown-expats.html">несложно</a> освоить и <code class="docutils literal notranslate"><span class="pre">reStructedText</span></code>. Причины, по которым мы описали <code class="docutils literal notranslate"><span class="pre">Markdown</span></code> и затем предложили переключиться на <code class="docutils literal notranslate"><span class="pre">reStructedText</span></code>, две:</p>
+<ol class="arabic simple">
+<li><p>Курс написан с использованием <code class="docutils literal notranslate"><span class="pre">Markdown</span></code>.</p></li>
+<li><p>Инструмент (Sphinx), который соберет документацию для нашего пакета и сделает из нее красивые <code class="docutils literal notranslate"><span class="pre">html</span></code>-страницы или <code class="docutils literal notranslate"><span class="pre">pdf</span></code>, работает нативно с файлами <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code>. Для работы с <code class="docutils literal notranslate"><span class="pre">Markdown</span></code> требуется подключать дополнительный плагин.</p></li>
+</ol>
+<p>Вы можете изучить отличия чуть позже, сейчас мы возьмем open source <a class="reference external" href="https://github.com/miyakogi/m2r#sphinx-integration">конвертер</a> <code class="docutils literal notranslate"><span class="pre">md</span></code> в <code class="docutils literal notranslate"><span class="pre">rst</span></code> и используем его. Для README это вполне рабочий вариант. Серьезную документацию лучше сразу писать в формате <code class="docutils literal notranslate"><span class="pre">rst</span></code>.</p>
+</section>
+<section id="sphinx">
+<h2>Sphinx<a class="headerlink" href="#sphinx" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Sphinx</span></code> — это достаточно мощный инструмент, который может собрать не только документацию к проекту и сделать из нее веб-страницы, которые мы можем потом разместить на <a class="reference external" href="https://readthedocs.org/">readthedocs</a>, но и текст для мануалов <code class="docutils literal notranslate"><span class="pre">man</span></code>, которые являются стандартными для <code class="docutils literal notranslate"><span class="pre">bash</span></code>.</p>
+<p><strong>Обращайте внимание на то, в каких каталогах мы выполняем те или иные операции в <code class="docutils literal notranslate"><span class="pre">bash</span></code> во вставках кода ниже</strong></p>
+<p>Создадим пустой каталог и перейдем в него, создадим каталог для документации в этой папке и заберем себе <code class="docutils literal notranslate"><span class="pre">README.md</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp$<span class="w"> </span>mkdir<span class="w"> </span>test_the_docs
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>test_the_docs
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span>mkdir<span class="w"> </span>docs
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span>wget<span class="w"> </span>https://raw.githubusercontent.com/standlab/mtracker/main/README.md
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span>ls
+docs<span class="w">  </span>README.md<span class="w"> </span>
+</pre></div>
+</div>
+<p>Теперь установим <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> и конвертер <code class="docutils literal notranslate"><span class="pre">rst</span> <span class="pre">-&gt;</span> <span class="pre">md</span></code>, конвертируем README.md:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>m2r
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span>m2r<span class="w"> </span>README.md
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span>ls<span class="w"> </span>
+docs<span class="w">  </span>README.md<span class="w">  </span>README.rst
+</pre></div>
+</div>
+<p><em>Примечание: если бы у нас сразу был файл в формате <code class="docutils literal notranslate"><span class="pre">rst</span></code>, команды с <code class="docutils literal notranslate"><span class="pre">m2r</span></code> можно было бы пропустить.</em></p>
+<p>Теперь мы готовы инициализировать каталог с документацией.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>docs
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs/docs$<span class="w"> </span>sphinx-quickstart
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs/docs$<span class="w"> </span>ls
+build<span class="w">  </span>make.bat<span class="w">  </span>Makefile<span class="w">  </span><span class="nb">source</span>
+</pre></div>
+</div>
+<p>На этом этапе вам будут заданы вопросы про название проекта, автора, версию и язык документации. На вопрос, разделять ли исходники и собранную документацию, отвечаем «да»:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>Separate<span class="w"> </span><span class="nb">source</span><span class="w"> </span>and<span class="w"> </span>build<span class="w"> </span>directories<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span><span class="w"> </span><span class="o">[</span>n<span class="o">]</span>:<span class="w"> </span>y
+</pre></div>
+</div>
+<p>Теперь зайдем в файл <code class="docutils literal notranslate"><span class="pre">nano</span> <span class="pre">./source/index.rst</span></code> и добавим в конец строки:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Readme<span class="w"> </span><span class="nv">File</span>
+<span class="o">===========</span>
+
+..<span class="w"> </span>include::<span class="w"> </span>../../README.rst
+</pre></div>
+</div>
+<p>Это нужно для того, чтобы содержимое README было доступно в документации. <em>Мы пишем <code class="docutils literal notranslate"><span class="pre">../../</span></code>, так как <code class="docutils literal notranslate"><span class="pre">README.rst</span></code> находится на два уровня выше, чем содержимое каталога <code class="docutils literal notranslate"><span class="pre">source</span></code></em>. Теперь мы готовы собрать документацию:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs/docs$<span class="w"> </span>sphinx-build<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span><span class="nb">source</span><span class="w"> </span>build
+Running<span class="w"> </span>Sphinx<span class="w"> </span>v5.3.0
+loading<span class="w"> </span>translations<span class="w"> </span><span class="o">[</span>ru<span class="o">]</span>...<span class="w"> </span>готово
+loading<span class="w"> </span>pickled<span class="w"> </span>environment...<span class="w"> </span>готово
+building<span class="w"> </span><span class="o">[</span>mo<span class="o">]</span>:<span class="w"> </span>targets<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>po<span class="w"> </span>files<span class="w"> </span>that<span class="w"> </span>are<span class="w"> </span>out<span class="w"> </span>of<span class="w"> </span>date
+building<span class="w"> </span><span class="o">[</span>html<span class="o">]</span>:<span class="w"> </span>targets<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>files<span class="w"> </span>that<span class="w"> </span>are<span class="w"> </span>out<span class="w"> </span>of<span class="w"> </span>date
+updating<span class="w"> </span>environment:<span class="w"> </span><span class="m">0</span><span class="w"> </span>added,<span class="w"> </span><span class="m">1</span><span class="w"> </span>changed,<span class="w"> </span><span class="m">0</span><span class="w"> </span>removed
+reading<span class="w"> </span>sources...<span class="w"> </span><span class="o">[</span><span class="m">100</span>%<span class="o">]</span><span class="w"> </span>index<span class="w">                                                  </span>
+looking<span class="w"> </span><span class="k">for</span><span class="w"> </span>now-outdated<span class="w"> </span>files...<span class="w"> </span>none<span class="w"> </span>found
+pickling<span class="w"> </span>environment...<span class="w"> </span>готово
+checking<span class="w"> </span>consistency...<span class="w"> </span>готово
+preparing<span class="w"> </span>documents...<span class="w"> </span>готово
+writing<span class="w"> </span>output...<span class="w"> </span><span class="o">[</span><span class="m">100</span>%<span class="o">]</span><span class="w"> </span>index<span class="w">                                                   </span>
+generating<span class="w"> </span>indices...<span class="w"> </span>genindex<span class="w"> </span>готово
+writing<span class="w"> </span>additional<span class="w"> </span>pages...<span class="w"> </span>search<span class="w"> </span>готово
+copying<span class="w"> </span>static<span class="w"> </span>files...<span class="w"> </span>готово
+copying<span class="w"> </span>extra<span class="w"> </span>files...<span class="w"> </span>готово
+dumping<span class="w"> </span>search<span class="w"> </span>index<span class="w"> </span><span class="k">in</span><span class="w"> </span>Russian<span class="w"> </span><span class="o">(</span>code:<span class="w"> </span>ru<span class="o">)</span>...<span class="w"> </span>готово
+dumping<span class="w"> </span>object<span class="w"> </span>inventory...<span class="w"> </span>готово
+сборка<span class="w"> </span>завершена<span class="w"> </span>успешно.
+
+
+<span class="o">(</span>mtracker<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp/test_the_docs/docs$<span class="w"> </span>browse<span class="w"> </span>./build/index.html
+</pre></div>
+</div>
+<p>После этого должна открыться страница, на которой, кроме всего прочего, мы можем увидеть README.</p>
+</section>
+<section id="markdown-sphinx">
+<h2>Markdown и Sphinx<a class="headerlink" href="#markdown-sphinx" title="Link to this heading">¶</a></h2>
+<p>Ниже приведены шаги (в ОС Linux), чтобы настроить окружение для сборки документации Markdown с помощью Sphinx. Мы использовали этот подход при сборке данного документа. Создайте виртуальное окружение (опционально):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sphinx_md<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+conda<span class="w"> </span>activate<span class="w"> </span>sphinx_md
+</pre></div>
+</div>
+<p>Установите Sphinx и поддержку Markdown:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sphinx
+pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>myst-parser
+</pre></div>
+</div>
+<p>Укажите, какие файлы должны войти в документацию:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="c">.. toolchain documentation master file, created by</span>
+<span class="c">   sphinx-quickstart on Wed Mar  1 10:24:16 2023.</span>
+<span class="c">   You can adapt this file completely to your liking, but it should at least</span>
+<span class="c">   contain the root `toctree` directive.</span>
+
+<span class="gh">Welcome to toolchain&#39;s documentation!</span>
+<span class="gh">=====================================</span>
+
+<span class="p">..</span> <span class="ow">toctree</span><span class="p">::</span>
+  <span class="nc">:maxdepth:</span> 2
+  <span class="nc">:caption:</span> Contents:
+
+  00_terms/main.md
+  01_open_source/main.md
+  
+<span class="gh">Indices and tables</span>
+<span class="gh">==================</span>
+
+<span class="m">*</span> <span class="na">:ref:</span><span class="nv">`genindex`</span>
+<span class="m">*</span> <span class="na">:ref:</span><span class="nv">`modindex`</span>
+<span class="m">*</span> <span class="na">:ref:</span><span class="nv">`search`</span>
+</pre></div>
+</div>
+<p>Соберите html (находясь в корневой директории проекта):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>html
+</pre></div>
+</div>
+<p>В корневой директории появится папка build, где будет находиться собранная документация.</p>
+<p>Для сборки pdf установите latexmk и поддержку кириллицы:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>latexmk
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>texlive-lang-cyrillic
+make<span class="w"> </span>latexpdf
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h2>Документация из кода<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
+<p>Здесь речь пойдет о том, как писать комментарии к коду так, чтобы из них можно было собрать документацию. В Python мы можем снабдить функции и классы многострочным комментарием, который будет распознаваться системами сборки документации как docstring, и на их основе будет формироваться документация к вашему проекту. В документацию попадут не все комментарии их кода, а только тe, которые оформлены как docstring. Правильно оформленный docstring может помочь другим разработчикам, а спустя время даже вам, разобраться в работе функции.</p>
+<p>Для того чтобы создать комментарий, нужно заключить текст в тройные кавычки. Существует несколько форматов оформления docstring, ниже приведено форматирование в <strong>стиле Google</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Brief description of the function.</span>
+
+<span class="sd">    More detailed explanation of the function&#39;s purpose,</span>
+<span class="sd">    arguments, and expected behavior.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        arg1 (type): Description of the first parameter.</span>
+<span class="sd">        arg2 (type): Description of the second parameter.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        return_type: Description of the value returned by the function.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ExceptionType: Description of the exception raised, if any.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Function implementation here</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+<p>Мы видим, что есть несколько разделов внутри docstring.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* Краткое описание (в одну строку).
+* Более подробное описание.
+* Входные аргументы с указанием типов.
+* Тип и описание выходного значения.
+* Какие ошибки могут быть выброшены из функции?
+</pre></div>
+</div>
+<p>Также можно оформить docstring в других форматах, например, в <strong>стиле Sphinx</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Brief description of the function.</span>
+
+<span class="sd">    :param arg1: Description of the first argument.</span>
+<span class="sd">    :type arg1: type</span>
+<span class="sd">    :param arg2: Description of the second argument.</span>
+<span class="sd">    :type arg2: type</span>
+<span class="sd">    :return: Description of the value returned by the function.</span>
+<span class="sd">    :rtype: return_type</span>
+<span class="sd">    :raises ExceptionType: Description of the exception raised, if any.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Function implementation here</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+<p>Или в <strong>стиле NumpyDoc</strong>, который был вдохновлен документацией к библиотеке <code class="docutils literal notranslate"><span class="pre">numpy</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Brief description of the function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arg1 : type</span>
+<span class="sd">        Description of the first argument.</span>
+<span class="sd">    arg2 : type</span>
+<span class="sd">        Description of the second argument.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    return_type</span>
+<span class="sd">        Description of the value returned by the function.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ExceptionType</span>
+<span class="sd">        Description of the exception raised, if any.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Function implementation here</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h2>Оформление документации<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
+<p>Теперь попробуем попрактиковаться с документацией. Мы хотим создать следующую структуру проекта, назначение файлов станет понятно ниже. Часть файлов будет сгенерирована автоматически, другие мы будем править, оставшиеся нам нужно будет создать самим.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project/
+├── docs/
+│   ├── Makefile
+│   ├── conf.py
+│   ├── index.rst
+│   ├── usage.rst
+│   └── api.rst
+└── src/
+    └── utils_mix.py
+
+</pre></div>
+</div>
+<p>Создадим новый проект, который назовем <code class="docutils literal notranslate"><span class="pre">utils_mix</span></code>. Создадим в нем две папки: <code class="docutils literal notranslate"><span class="pre">src</span></code> для кода и <code class="docutils literal notranslate"><span class="pre">docs</span></code> для документации.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>src
+mkdir<span class="w"> </span>docs
+</pre></div>
+</div>
+<p>Перейдем в папку <code class="docutils literal notranslate"><span class="pre">docs</span></code> и выполним там инициализацию с помощью <code class="docutils literal notranslate"><span class="pre">sphinx</span></code>, который мы ранее установили с помощью <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sphinx</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>docs
+sphinx-quickstart
+</pre></div>
+</div>
+<p>После этого утилита запросит нужную информацию.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>Please<span class="w"> </span>enter<span class="w"> </span>values<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>settings<span class="w"> </span><span class="o">(</span>just<span class="w"> </span>press<span class="w"> </span>Enter<span class="w"> </span>to
+<span class="w">    </span>accept<span class="w"> </span>a<span class="w"> </span>default<span class="w"> </span>value,<span class="w"> </span><span class="k">if</span><span class="w"> </span>one<span class="w"> </span>is<span class="w"> </span>given<span class="w"> </span><span class="k">in</span><span class="w"> </span>brackets<span class="o">)</span>.
+<span class="w">    </span>
+<span class="w">    </span>Selected<span class="w"> </span>root<span class="w"> </span>path:<span class="w"> </span>.
+<span class="w">    </span>
+<span class="w">    </span>You<span class="w"> </span>have<span class="w"> </span>two<span class="w"> </span>options<span class="w"> </span><span class="k">for</span><span class="w"> </span>placing<span class="w"> </span>the<span class="w"> </span>build<span class="w"> </span>directory<span class="w"> </span><span class="k">for</span><span class="w"> </span>Sphinx<span class="w"> </span>output.
+<span class="w">    </span>Either,<span class="w"> </span>you<span class="w"> </span>use<span class="w"> </span>a<span class="w"> </span>directory<span class="w"> </span><span class="s2">&quot;_build&quot;</span><span class="w"> </span>within<span class="w"> </span>the<span class="w"> </span>root<span class="w"> </span>path,<span class="w"> </span>or<span class="w"> </span>you<span class="w"> </span>separate
+<span class="w">    </span><span class="s2">&quot;source&quot;</span><span class="w"> </span>and<span class="w"> </span><span class="s2">&quot;build&quot;</span><span class="w"> </span>directories<span class="w"> </span>within<span class="w"> </span>the<span class="w"> </span>root<span class="w"> </span>path.
+<span class="w">    </span>&gt;<span class="w"> </span>Separate<span class="w"> </span><span class="nb">source</span><span class="w"> </span>and<span class="w"> </span>build<span class="w"> </span>directories<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span><span class="w"> </span><span class="o">[</span>n<span class="o">]</span>:<span class="w"> </span>n
+<span class="w">    </span>
+<span class="w">    </span>The<span class="w"> </span>project<span class="w"> </span>name<span class="w"> </span>will<span class="w"> </span>occur<span class="w"> </span><span class="k">in</span><span class="w"> </span>several<span class="w"> </span>places<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>built<span class="w"> </span>documentation.
+<span class="w">    </span>&gt;<span class="w"> </span>Project<span class="w"> </span>name:<span class="w"> </span>utils_mix
+<span class="w">    </span>&gt;<span class="w"> </span>Author<span class="w"> </span>name<span class="o">(</span>s<span class="o">)</span>:<span class="w"> </span>ArtemVesnin
+<span class="w">    </span>&gt;<span class="w"> </span>Релиз<span class="w"> </span>проекта<span class="w"> </span><span class="o">[]</span>:<span class="w"> </span><span class="m">1</span>.0.
+<span class="w">    </span>&gt;<span class="w"> </span>Язык<span class="w"> </span>проекта<span class="w"> </span><span class="o">[</span>en<span class="o">]</span>:<span class="w"> </span>en
+</pre></div>
+</div>
+<p>И создаст несколько файлов, включая <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> для автоматический сборки.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls
+<span class="w">    </span>_build<span class="w">  </span>conf.py<span class="w">  </span>index.rst<span class="w">  </span>make.bat<span class="w">  </span>Makefile<span class="w">  </span>_static<span class="w">  </span>_templates
+</pre></div>
+</div>
+<p>В текущем состоянии документация будет собираться и доступна, если открыть в браузере <code class="docutils literal notranslate"><span class="pre">_build/html/index.html</span></code>, но мы пока мы не увидим документации по коду.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>html
+
+<span class="w">    </span>Running<span class="w"> </span>Sphinx<span class="w"> </span>v7.0.1
+<span class="w">    </span>making<span class="w"> </span>output<span class="w"> </span>directory...<span class="w"> </span>готово
+<span class="w">    </span>....
+<span class="w">    </span>....
+<span class="w">    </span>dumping<span class="w"> </span>object<span class="w"> </span>inventory...<span class="w"> </span>готово
+<span class="w">    </span>сборка<span class="w"> </span>завершена<span class="w"> </span>успешно.
+</pre></div>
+</div>
+<p>Теперь перейдем в папку <code class="docutils literal notranslate"><span class="pre">src</span></code> и создадим там модуль <code class="docutils literal notranslate"><span class="pre">utils_mix.py</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../src
+touch<span class="w"> </span>utils_mix.py
+</pre></div>
+</div>
+<p>И добавим в этот модуль код с написанными docstring.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_numbers</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add two numbers together.</span>
+
+<span class="sd">    This function takes two numeric arguments, `num1` and `num2`,</span>
+<span class="sd">    and returns their sum.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        num1 (int or float): The first number to be added.</span>
+<span class="sd">        num2 (int or float): The second number to be added.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The sum of `num1` and `num2`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">+</span> <span class="n">num2</span>
+
+<span class="k">def</span> <span class="nf">multiply_numbers</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Multiply two numbers.</span>
+
+<span class="sd">    This function takes two numeric arguments, `num1` and `num2`,</span>
+<span class="sd">    and returns their product.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        num1 (int or float): The first number to be multiplied.</span>
+<span class="sd">        num2 (int or float): The second number to be multiplied.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The product of `num1` and `num2`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">*</span> <span class="n">num2</span>
+
+<span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Greet a person.</span>
+
+<span class="sd">    This function takes a string argument `name` and returns a greeting message.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        name (str): The name of the person to greet.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: A greeting message with the person&#39;s name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">! How are you today?&quot;</span>
+
+</pre></div>
+</div>
+<p>Мы можем структурировать нашу документацию, в нашем случае мы хотим, чтобы docstring попали в раздел API. Создадим файл api.rst и добавим в него следующее содержание.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">API Reference</span>
+<span class="gh">=============</span>
+
+<span class="p">..</span> <span class="ow">automodule</span><span class="p">::</span> utils_mix
+   <span class="nc">:members:</span>
+   <span class="nc">:undoc-members:</span>
+   <span class="nc">:show-inheritance:</span>
+</pre></div>
+</div>
+<p>Таким образом мы говорим, что нужно сгенерировать документацию из модуля <code class="docutils literal notranslate"><span class="pre">utils_mix</span></code> (файл <code class="docutils literal notranslate"><span class="pre">utils_mix.py</span></code>).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* `:members:` чтобы включить функции и классы из модуля
+* `:undoc-members:` для того чтобы включить даже то у чего нет docstring (опционально)
+* `:show-inheritance:` для того чтобы показывать информацию о наследовании классов друг другом.
+</pre></div>
+</div>
+<p>И изменим <code class="docutils literal notranslate"><span class="pre">index.rst</span></code>, чтобы <code class="docutils literal notranslate"><span class="pre">api.rst</span></code> стал включен в общую структуру. Добавим строку api в раздел <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">toctree::</span></code></p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">toctree</span><span class="p">::</span>
+   <span class="nc">:maxdepth:</span> 2
+   <span class="nc">:caption:</span> Contents:
+
+   api
+</pre></div>
+</div>
+<p>Последнее изменение, которое нам нужно сделать, это добавить в <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> несколько строчек кода так, чтобы система сборки находила модули автоматически:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../src&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>И включить поддержку сборки документации из docstring:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sphinx.ext.autodoc&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Запускаем сборку еще раз и получаем</p>
+<p><img alt="api_reference_html" src="../../_images/api_reference_html.png" /></p>
+<p>Мы также можем включать документы, которые написаны нами (а не сгенерированы автоматически), например, примеры по использованию кода. Создадим файл <code class="docutils literal notranslate"><span class="pre">usage.rst</span></code> и добавим в него следующее содержимое.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">Usage Guide</span>
+<span class="gh">===========</span>
+
+<span class="gh">Introduction</span>
+<span class="gh">------------</span>
+
+Welcome to the usage guide for <span class="nv">`utils_mix`</span>. This guide provides examples and explanations on how to use the functions defined in the <span class="nv">`utils_mix`</span> Python module.
+
+<span class="gh">Importing the Module</span>
+<span class="gh">--------------------</span>
+
+To start using <span class="nv">`utils_mix`</span>, you need to import it into your Python script or interactive session:
+
+<span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">python</span>
+
+   <span class="kn">import</span> <span class="nn">utils_mix</span>
+
+<span class="gh">Add and Multiply Numbers</span>
+<span class="gh">------------------------</span>
+
+The <span class="nv">`utils_mix`</span> provides two simple functions for basic arithmetic operations:
+
+<span class="m">-</span> <span class="na">:func:</span><span class="nv">`utils_mix.add_numbers`</span>: Add two numbers together.
+<span class="m">-</span> <span class="na">:func:</span><span class="nv">`utils.multiply_numbers`</span>: Multiply two numbers.
+
+Example usages:
+
+<span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">python</span>
+
+   <span class="c1"># Import the module</span>
+   <span class="kn">from</span> <span class="nn">utils_mix</span> <span class="kn">import</span> <span class="n">add_numbers</span><span class="p">,</span> <span class="n">multiply_numbers</span>
+
+   <span class="c1"># Add two numbers</span>
+   <span class="n">result1</span> <span class="o">=</span> <span class="n">add_numbers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Result of addition:&quot;</span><span class="p">,</span> <span class="n">result1</span><span class="p">)</span>  <span class="c1"># Output: 3</span>
+
+   <span class="c1"># Multiply two numbers</span>
+   <span class="n">result2</span> <span class="o">=</span> <span class="n">multiply_numbers</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Result of multiplication:&quot;</span><span class="p">,</span> <span class="n">result2</span><span class="p">)</span>  <span class="c1"># Output: 30</span>
+
+<span class="gh">Greet a Person</span>
+<span class="gh">--------------</span>
+
+The <span class="nv">`utils_mix`</span> also provides a simple function to greet a person:
+
+<span class="m">-</span> <span class="na">:func:</span><span class="nv">`utils_mix.greet`</span>: Greet a person with a custom message.
+
+Example usage:
+
+<span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">python</span>
+
+   <span class="c1"># Import the module</span>
+   <span class="kn">from</span> <span class="nn">utils_mix</span> <span class="kn">import</span> <span class="n">greet</span>
+
+   <span class="c1"># Greet a person</span>
+   <span class="n">greeting</span> <span class="o">=</span> <span class="n">greet</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>  <span class="c1"># Output: Hello, Alice! How are you today?</span>
+</pre></div>
+</div>
+<p>Включим его в документацию так же, как мы делали с <code class="docutils literal notranslate"><span class="pre">api.rst</span></code>, сделаем сборку <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> и увидим обновленную документацию:</p>
+<p><img alt="docs_html" src="../../_images/docs_html.png" /></p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Документирование</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#markdown">Markdown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restructuredtext">reStructuredText</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sphinx">Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#markdown-sphinx">Markdown и Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">Документация из кода</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">Оформление документации</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../path_venv/quiz.html" title="предыдущая глава">Вопросы:</a></li>
+      <li>Next: <a href="exercises.html" title="следующая глава">Задачи</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/docs/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

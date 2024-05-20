@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Концепция сети в Docker &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Реестр Docker" href="../docker_hub/content.html" />
+    <link rel="prev" title="Вопросы" href="../docker_base/quiz.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="docker">
+<h1>Концепция сети в Docker<a class="headerlink" href="#docker" title="Link to this heading">¶</a></h1>
+<section id="id1">
+<h2>Познакомимся с тем, как объединять несколько контейнеров в сеть Docker<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>Сеть Docker в основном используется для установки связи между контейнерами Docker и внешним миром через хост-машину. Также можно сказать, что это коммуникационный канал, через который все изолированные контейнеры взаимодействуют друг с другом в различных ситуациях для выполнения необходимых действий.</p>
+<p>Перед тем как приступить к основной части материала, закрепим некоторые базовые принципы, термины и определения относительно работы сетей, чтобы избежать противоречий и ошибочного восприятия.</p>
+</section>
+<section id="id2">
+<h2>Сети: вводная часть<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<section id="id3">
+<h3>Что такое сеть?<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p>Локальная сеть (Local Area Network, LAN) — объединение компьютеров, сосредоточенных на небольшой территории. В общем случае локальная сеть представляет собой коммуникационную систему, принадлежащую одной организации: школа, университет, больница, банк и т.д. При построении сети используют следующие компоненты:</p>
+<ol class="arabic simple">
+<li><p>Оконечные узлы: устройства, которые передают и/или принимают какие-либо данные. Это могут быть смартфоны, компьютеры, телевизоры, сервера, различные терминалы приема оплаты. Например: метро, сотовая связь, услуги ЖКХ и и т.д.</p></li>
+<li><p>Промежуточные устройства: это устройства, которые соединяют оконечные узлы между собой. Сюда можно отнести коммутаторы, концентраторы, модемы, маршрутизаторы, точки доступа Wi-Fi, базовые станции мобильных операторов.</p></li>
+<li><p>Сетевые среды: это те среды, в которых происходит непосредственная передача данных. Сюда относятся проводные кабели (например, Ethernet), сетевая карта вашего компьютера. Если это кабель, то передача данных осуществляется при помощи электрических сигналов. У оптоволоконных кабелей, при помощи световых импульсов, и радиоволны в случае использования беспроводной среды (WiFi, Bluetooth, LoRa и др.).</p></li>
+</ol>
+<p>Следующее, что нам надо знать — это <code class="docutils literal notranslate"><span class="pre">порт</span></code> и <code class="docutils literal notranslate"><span class="pre">протокол</span></code>.</p>
+<ol class="arabic simple">
+<li><p>Порт — это цифра. Например, 21, 22, 25, 80, 433, 8080. Это число записывается в заголовках протоколов транспортного уровня (об этом ниже). Порт указывает, для какой программы предназначен тот или иной пакет (информация, передаваемая одним приложением другому). Например, http-сервер работает через порт 80. Когда вы открываете браузер, вы отправляете запрос на веб-сервер через 80 порт, и сервер понимает, что это http-запрос и вам нужен сервер, который передаст вам страницу в формате html (ответ сервера).</p></li>
+<li><p>Протокол. Например, TCP/IP — это адрес узла (компьютера) с указанием порта и передаваемых данных. Чтобы передать информацию по протоколу TCP/IP, нужно указать следующие данные:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Адрес</span> <span class="n">отправителя</span> <span class="p">(</span><span class="n">Source</span> <span class="n">address</span><span class="p">):</span>
+<span class="n">IP</span><span class="p">:</span> <span class="mf">82.146.49.11</span>
+<span class="n">Port</span><span class="p">:</span> <span class="mi">2049</span>
+
+<span class="n">Адрес</span> <span class="n">получателя</span> <span class="p">(</span><span class="n">Destination</span> <span class="n">address</span><span class="p">):</span>
+<span class="n">IP</span><span class="p">:</span> <span class="mf">195.34.32.111</span>
+<span class="n">Port</span><span class="p">:</span> <span class="mi">53</span>
+<span class="n">Данные</span> <span class="n">пакета</span><span class="p">:</span>
+<span class="n">Send</span> <span class="n">test</span> <span class="n">message</span> 
+</pre></div>
+</div>
+<p>Благодаря этим данным информация будет передана на нужный узел. По такому принципу формируется клиент-серверная передача данных.</p>
+<p>Клиент — это модуль, предназначенный для формирования и передачи сообщений-запросов к ресурсам удаленного компьютера от разных приложений с последующим приемом результатов из сети и передачей их соответствующим приложениям.</p>
+<p>Сервер — это модуль, который постоянно ожидает прихода из сети запросов от клиентов и, приняв запрос, пытается его обслужить, как правило, с участием локальной ОС; один сервер может обслуживать запросы сразу нескольких клиентов (поочередно или одновременно).</p>
+<p><img alt="sample_docker_network.png" src="../../_images/sample_docker_network.png" /></p>
+</section>
+<section id="id4">
+<h3>Объяснение работы сетей в контейнерах Docker<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>В зависимости от установленных версий Docker и операционной системы (ОС) на вашем компьютере, в редких случаях работа с сетью может отличаться. Рекомендуем использовать Docker последней стабильной версии, чтобы избежать возможных ошибок. Все команды, перечисленные в текущем документе, протестированы в ОС Linux дистрибутива Ubuntu с правами root (суперпользователь).</p>
+</div></blockquote>
+<p>Для управления сетевыми операциями, такими как создание новой сети, подключение контейнера к сети, отключение контейнера от сети, перечисление доступных сетей, удаление сетей и т. д., мы используем следующую команду: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">network</span></code>.</p>
+<p><img alt="docker_network_command_terminal.png" src="../../_images/docker_network_command_terminal.png" /></p>
+</section>
+<section id="id5">
+<h3>Типы сетевых драйверов Docker<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p>Чтобы получить список всех ваших сетей, запустите <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">network</span> <span class="pre">ls</span></code>.</p>
+<p><img alt="docker_network_ls.png" src="../../_images/docker_network_ls.png" /></p>
+<p>Кратко познакомимся с их описанием.</p>
+<ol class="arabic simple">
+<li><p><strong>Bridge network</strong>: при запуске Docker автоматически создается сеть типа мост по умолчанию. Недавно запущенные контейнеры будут автоматически подключаться к нему. Вы также можете создавать пользовательские настраиваемые мостовые сети. Пользовательские мостовые сети превосходят сетевые мосты по умолчанию.</p></li>
+<li><p><strong>Host network</strong>: удаляет сетевую изоляцию между контейнером и хостом Docker и напрямую использует сеть хоста. Если вы запускаете контейнер, который привязывается к порту 80, и вы используете хост-сеть, приложение контейнера доступно через порт 80 по IP-адресу хоста. Это означает, что вы не сможете запускать несколько веб-контейнеров на одном хосте, на одном и том же порту, так как порт теперь является общим для всех контейнеров в сети хоста.</p></li>
+<li><p><strong>None network</strong>: в сети такого типа контейнеры не подключены ни к одной сети и не имеют доступа к внешней сети или другим контейнерам. Итак, эта сеть используется, когда вы хотите полностью отключить сетевой стек в контейнере.</p></li>
+<li><p><strong>Overlay network</strong>: создает внутреннюю частную сеть, которая охватывает все узлы, участвующие в кластере swarm. Таким образом, оверлейные сети облегчают обмен данными между сервисом <strong>Docker Swarm</strong> и автономным контейнером или между двумя автономными контейнерами на разных демонах Docker.</p></li>
+<li><p><strong>Macvlan network</strong>: некоторые приложения, особенно устаревшие приложения, отслеживающие сетевой трафик, ожидают прямого подключения к физической сети. В такой ситуации вы можете использовать сетевой драйвер <em>Macvlan</em> для назначения MAC-адреса виртуальному сетевому интерфейсу каждого контейнера, что делает его физическим сетевым интерфейсом, напрямую подключенным к физической сети.</p></li>
+</ol>
+</section>
+</section>
+<section id="bridge-host">
+<h2>Познакомимся с сетями <strong>Bridge</strong> и <strong>Host</strong> на практике<a class="headerlink" href="#bridge-host" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Сеть типа <strong>Bridge</strong>
+Будем использовать два контейнера с ОС Alpine для объяснения этого типа сети. Для удобства в качестве имен контейнеров будем использовать короткие названия.</p></li>
+</ol>
+<ul class="simple">
+<li><p>Первый контейнер назовем: <strong>C1</strong>.</p></li>
+<li><p>Второй контейнер назовем: <strong>C2</strong>.</p></li>
+</ul>
+<p>Чтобы запустить наши тестовые Docker контейнеры с образом Alpine, используем следующие команды:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># docker run -it -d --name c1 alpine ash</span>
+<span class="c1"># docker run -it -d --name c2 alpine ash</span>
+</pre></div>
+</div>
+<p>Далее давайте выясним IP-адреса этих запущенных контейнеров. Для этого выполним следующие команды:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># docker exec -it c1 sh –c “ip a”</span>
+<span class="c1"># docker exec -it c2 sh –c “ip a”</span>
+</pre></div>
+</div>
+<p>Результаты выполнения первой и второй команды представлены на рисунках.</p>
+<p><img alt="docker_network_command_list_networks_terminal.png" src="../../_images/docker_network_command_list_networks_terminal.png" /></p>
+<p>Рисунок 1 — Отображение IP-адреса первого контейнера С1</p>
+<p><img alt="docker_network_command_show_ip_address_networks_terminal.png" src="../../_images/docker_network_command_show_ip_address_networks_terminal.png" />
+Рисунок 2 — Отображение IP-адреса первого контейнера С1</p>
+<p>Как видите, IP-адрес контейнера C1 — <strong>172.17.0.2</strong>, а IP-адрес C2 — <strong>172.17.0.3</strong>.
+Теперь продолжим наше знакомство с сетевыми утилитами и попытаемся проверить их связь друг с другом. Для этого будем использовать команду <strong>ping</strong>, чтобы убедиться в том, что они могут обращаться друг к другу. Для начала подключимся к контейнеру <strong>C1</strong> командой <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">attach</span> <span class="pre">c1</span></code> и проверим связь с контейнером <strong>C2</strong>. Для этого выполним команды:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># docker attach c1</span>
+<span class="c1"># Ping –c 2 172.17.0.3</span>
+</pre></div>
+</div>
+<p>Как вы можете видеть на скриншотах, показанных выше, происходит коннекшн между контейнерами в одной сети. Мы также можем проверить сеть типа мост с помощью команды: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">network</span> <span class="pre">inspect</span> <span class="pre">bridge</span></code>. Приведенная команда отобразит всю информацию о сети, такую как тип сети, подсеть, шлюз, имя контейнера и IP-адрес и т.д.</p>
+<section id="bridge">
+<h3>Создание пользовательской Bridge сети<a class="headerlink" href="#bridge" title="Link to this heading">¶</a></h3>
+<p>При запуске Docker автоматически создается сеть bridge по умолчанию. Все вновь запущенные контейнеры будут автоматически подключаться к ней. Однако вы также можете создавать пользовательские мостовые сети. Чтобы создать новый сетевой драйвер, просто запустите: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">network</span> <span class="pre">create</span> <span class="pre">my_net</span></code> или <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">network</span> <span class="pre">create</span> <span class="pre">--driver</span> <span class="pre">bridge</span> <span class="pre">dhruv_net</span></code>.</p>
+<p>Обе команды будут выполнять одинаковую работу. Если вы не укажете имя драйвера, сеть будет создана в сетевом драйвере по умолчанию, т.е. bridge.</p>
+<p>В пользовательских сетях, таких как dhruv_net, контейнеры могут не только связываться по IP-адресу, но также могут преобразовывать имя контейнера в IP-адрес. Эта возможность называется автоматическим обнаружением службы.</p>
+<p>Чтобы убедиться, что контейнеры могут взаимодействовать друг с другом, давайте запустим три alpine контейнера, а именно, A1, A2 и A3 в сети dhruv_net, которую мы создали ранее.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>A1<span class="w"> </span>--network<span class="w"> </span>dhruv_net<span class="w"> </span>alpine<span class="w"> </span>ash
+docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>A2<span class="w"> </span>--network<span class="w"> </span>dhruv_net<span class="w"> </span>alpine<span class="w"> </span>ash
+docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>A3<span class="w"> </span>--network<span class="w"> </span>dhruv_net<span class="w"> </span>alpine<span class="w"> </span>ash
+</pre></div>
+</div>
+<p>Теперь попробуйте подключиться к любому из контейнеров и пропинговать два других, используя имя контейнера.</p>
+<p>Из приведенных выше снимков экрана доказано, что контейнеры могут общаться друг с другом.</p>
+<ol class="arabic simple" start="2">
+<li><p>Хостовая Сеть
+Мы запускаем контейнер, который привязывается к порту 80, используя хост-сеть, приложение контейнера доступно через порт 80 по IP-адресу хоста.</p></li>
+</ol>
+<p>Сеть типа Host нужна только тогда, когда вы запускаете программы с очень специфической сетью.</p>
+<p>Приложения, работающие внутри контейнера Docker, выглядят так, как будто они работают на самом хосте с точки зрения сети.
+Это позволяет контейнеру получить больший доступ к сети, чем он может получить.</p>
+<p>Здесь мы использовали команду <code class="docutils literal notranslate"><span class="pre">netstat</span> <span class="pre">-ntlp</span></code> для отображения порта прослушивания на сервере.</p>
+<p>Мы рассмотрели только основы сетевых концепций Docker. Для более подробной информации предлагаем вам заглянуть в руководство по работе с сетями Docker, которое прилагается ниже.
+https://docs.docker.com/v17.09/engine/userguide/networking/#exposing-and-publishing-ports</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Концепция сети в Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Познакомимся с тем, как объединять несколько контейнеров в сеть Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Сети: вводная часть</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bridge-host">Познакомимся с сетями <strong>Bridge</strong> и <strong>Host</strong> на практике</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../docker_base/quiz.html" title="предыдущая глава">Вопросы</a></li>
+      <li>Next: <a href="../docker_hub/content.html" title="следующая глава">Реестр Docker</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/docker_network/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

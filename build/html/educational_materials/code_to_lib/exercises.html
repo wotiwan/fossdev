@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Задачи &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Вопросы" href="quiz.html" />
+    <link rel="prev" title="Код -&gt; Библиотека" href="content.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Задачи<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<section id="id2">
+<h2>Задача 1<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p>Организуйте код библиотеки <code class="docutils literal notranslate"><span class="pre">useful_utils</span></code>, который содержит модули для математических операций и работы со строками, в виде библиотеки.</p>
+<ul>
+<li><p>Определите модули и их функциональность: в структуре каталогов создайте отдельные файлы модулей для представления различных функций вашей библиотеки: math_operations.py и string_utils.py.</p></li>
+<li><p>Функции в math_operations.py:</p>
+<ul class="simple">
+<li><p>add(a, b): принимает два аргумента a и b и возвращает их сумму.</p></li>
+<li><p>subtract(a, b): принимает два аргумента a и b и возвращает их разницу.</p></li>
+<li><p>multiply(а, b): принимает два аргумента a и b и возвращает их произведение.</p></li>
+<li><p>devide(а, b): принимает два аргумента a и b и возвращает результат деления a на b.</p></li>
+</ul>
+</li>
+<li><p>Функции для string_utils.py:</p>
+<ul class="simple">
+<li><p>concatenate(a, b): принимает две строки a и b и возвращает их конкатенацию.</p></li>
+<li><p>reverse(s): принимает строку s и возвращает ее реверс.</p></li>
+<li><p>substring(s, i, j): принимает строку s и возвращает подстроку.</p></li>
+</ul>
+</li>
+<li><p>Создайте файл <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> и напишите содержимое так, чтобы функции из модулей были доступны, когда кто-то импортирует вашу библиотеку, т.е. чтобы можно было выполнить импорт таким образом.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">useful_utils</span> <span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">divide</span><span class="p">,</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">reverse</span>
+</pre></div>
+</div>
+</li>
+<li><p>Протестируйте свой код: создайте отдельный каталог тестов для написания тестовых случаев для вашей библиотеки. Реализуйте тесты для каждой функции.</p></li>
+<li><p>Напишите <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></p></li>
+<li><p>Добавьте README: Создайте файл README.md с кратким описанием вашей библиотеки, инструкциями по ее установке и использованию и примерами использования каждой функции.</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Ответ</strong></p>
+<p>Структура проекта:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_library</span><span class="o">/</span>
+    <span class="o">|--</span> <span class="n">useful_utils</span><span class="o">/</span>
+    <span class="o">|</span>   <span class="o">|--</span> <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">|</span>   <span class="o">|--</span> <span class="n">math_operations</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">|</span>   <span class="o">|--</span> <span class="n">string_utils</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">|--</span> <span class="n">tests</span><span class="o">/</span>
+    <span class="o">|</span>   <span class="o">|--</span> <span class="n">test_math_operations</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">|</span>   <span class="o">|--</span> <span class="n">test_string_utils</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">|--</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">|--</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+</pre></div>
+</div>
+<p>Содержимое <code class="docutils literal notranslate"><span class="pre">math_operations.py</span></code>:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/d9cf123766019c9b7caeac5ef9405c01/math_operations.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the sum of two numbers.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">subtract</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the difference between two numbers.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the product of two numbers.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the result of dividing two numbers.</span>
+
+<span class="sd">    If b is zero, raise a ValueError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot divide by zero&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>Содержимое <code class="docutils literal notranslate"><span class="pre">string_utils.py</span></code>:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/e5e17a431b7fcfe80540b027a31ac478/string_utils.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate two strings and return the result.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the reverse of the input string.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+<span class="k">def</span> <span class="nf">substring</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the substring of the input string.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Содержимое <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/5febdf33e844487bc2e6259687d98d68/__init__.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># __init__.py</span>
+
+<span class="c1"># Import functions from math_operations.py</span>
+<span class="kn">from</span> <span class="nn">.math_operations</span> <span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">divide</span>
+
+<span class="c1"># Import functions from string_utils.py</span>
+<span class="kn">from</span> <span class="nn">.string_utils</span> <span class="kn">import</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">reverse</span><span class="p">,</span> <span class="n">substring</span>
+</pre></div>
+</div>
+<p>Содержимое <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/e64ed9558c5168b227ecc4c8d88b982c/setup.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;useful-utils&#39;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(),</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Utils to make life easier&#39;</span><span class="p">,</span>
+    <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Your Name&#39;</span><span class="p">,</span>
+    <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;your_name@example.com&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://github.com/your_username/your_repository&#39;</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;pytest&#39;</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Содержимое тестов (может отличаться):</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/0b6931842185f3826cadd32edc53afd7/test_math_operations.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">useful_utils.math_operations</span> <span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">divide</span>
+
+<span class="k">def</span> <span class="nf">test_add</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+    <span class="k">assert</span> <span class="n">add</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span>
+
+<span class="k">def</span> <span class="nf">test_subtract</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">subtract</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">assert</span> <span class="n">subtract</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+
+<span class="k">def</span> <span class="nf">test_multiply</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">multiply</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="mi">12</span>
+    <span class="k">assert</span> <span class="n">multiply</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">test_divide</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+    <span class="k">assert</span> <span class="n">divide</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+    <span class="k">assert</span> <span class="n">divide</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mf">3.5</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../../_downloads/786c8f8389b0ebb3c44d462839d5217d/test_string_utils.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">useful_utils.string_utils</span> <span class="kn">import</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">reverse</span><span class="p">,</span> <span class="n">substring</span>
+
+<span class="k">def</span> <span class="nf">test_concatenate</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">concatenate</span><span class="p">(</span><span class="s1">&#39;Hello&#39;</span><span class="p">,</span> <span class="s1">&#39;World&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;HelloWorld&#39;</span>
+    <span class="k">assert</span> <span class="n">concatenate</span><span class="p">(</span><span class="s1">&#39;Python&#39;</span><span class="p">,</span> <span class="s1">&#39; is awesome&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Python is awesome&#39;</span>
+
+<span class="k">def</span> <span class="nf">test_reverse</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;olleh&#39;</span>
+    <span class="k">assert</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;Python&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;nohtyP&#39;</span>
+
+<span class="k">def</span> <span class="nf">test_substring</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">substring</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;ll&#39;</span>
+    <span class="k">assert</span> <span class="n">substring</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">assert</span> <span class="n">substring</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>Задача 2<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>Добавьте дополнительные данные в setup.py.</p>
+<p>В этой задаче вы улучшите файл setup.py, который писали для предыдущей задачи. Также можно выполнить это задание для любого другого проекта, над которым мы работаем, или придумать новый. Это нужно, если мы будем публиковать библиотеку для других разработчиков: добавив больше данных, мы дадим дополнительную информацию о библиотеке. Дополнительная информация будет включать лицензию вашей библиотеки, подробное описание, классификаторы и ключевые слова.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* Лицензия: выберите подходящую лицензию для своей библиотеки и добавьте ее в файл setup.py. Выбирайте из MIT, BSD, Apache License 2.0 и GPL или используйте свою. Добавьте лицензию непосредственно в функцию setup().
+
+* Подробное описание: создайте файл README.md в корневом каталоге вашего проекта и напишите подробное описание вашей библиотеки. Затем измените файл setup.py, чтобы включить это подробное описание при упаковке библиотеки. Вы можете использовать функции open() и read() для чтения содержимого файла README.md.
+
+* Классификаторы: Классификаторы — это способ категоризировать вашу библиотеку. Вы можете добавить классификаторы, чтобы указать целевую аудиторию, статус разработки, язык программирования и многое другое. Доступные параметры см. в списке классификаторов PyPI.
+
+* Ключевые слова: добавьте список ключевых слов, описывающих основные функции и возможности вашей библиотеки. Это поможет пользователям найти вашу библиотеку в указателях пакетов.
+</pre></div>
+</div>
+<p><strong>Ответ</strong></p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/5dbff0d1f099b77ad1e774230ad8be24/improved_setup.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">long_description</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;useful-utils&#39;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(),</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Utils to make life easier&#39;</span><span class="p">,</span>
+    <span class="n">long_description</span><span class="o">=</span><span class="n">long_description</span><span class="p">,</span>
+    <span class="n">long_description_content_type</span><span class="o">=</span><span class="s1">&#39;text/markdown&#39;</span><span class="p">,</span>  <span class="c1"># Specify the type of long description</span>
+    <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Your Name&#39;</span><span class="p">,</span>
+    <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;your_name@example.com&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://github.com/your_username/your_repository&#39;</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;pytest&#39;</span><span class="p">,</span>  
+    <span class="p">],</span>
+    <span class="n">license</span><span class="o">=</span><span class="s1">&#39;MIT&#39;</span><span class="p">,</span>  <span class="c1"># Add your library&#39;s license here</span>
+    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
+        <span class="c1"># Add classifiers that describe your library</span>
+        <span class="s1">&#39;Development Status :: 4 - Beta&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Intended Audience :: Developers&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;License :: OSI Approved :: MIT License&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Programming Language :: Python :: 3&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Programming Language :: Python :: 3.6&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Programming Language :: Python :: 3.7&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Programming Language :: Python :: 3.8&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Programming Language :: Python :: 3.9&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">keywords</span><span class="o">=</span><span class="s1">&#39;python library example&#39;</span><span class="p">,</span>  <span class="c1"># Add keywords that describe your library</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>Задача 3<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>Напишите makefile, который будет автоматизировать некоторые процедуры, которые мы осуществляем с библиотекой. Определите следующие задачи (target):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* Задача **install** устанавливает зависимости проекта, указанные в файле requirements.txt.
+* Задача **test** запускает тесты с помощью pytest.
+* Задача **clean** удаляет временные файлы, созданные в процессе упаковки.
+</pre></div>
+</div>
+<p><strong>Ответ</strong></p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/cceacd61949a7531b16e239e1f4df498/makefile"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">PACKAGE_NAME</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>my-library
+<span class="nv">PYTHON</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>python3
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">install</span> <span class="n">test</span> <span class="n">clean</span>
+
+<span class="nf">install</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">&quot;Installing dependencies...&quot;</span>
+<span class="w">	</span><span class="k">$(</span>PYTHON<span class="k">)</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="nf">test</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">&quot;Running tests...&quot;</span>
+<span class="w">	</span><span class="k">$(</span>PYTHON<span class="k">)</span><span class="w"> </span>-m<span class="w"> </span>pytest
+
+<span class="nf">clean</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">&quot;Cleaning up...&quot;</span>
+<span class="w">	</span>rm<span class="w"> </span>-rf<span class="w"> </span>dist/<span class="w"> </span>build/<span class="w"> </span>*.egg-info
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>Задача 4<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>Напишите комментарии в виде docstring, которые описывают работу функций и параметры. Помните, что в некоторых случаях порядок параметров неважен, например, при сложении, поэтому можно описать их как первое число и второе число. В других случаях, например, при вычитании, порядок важен, и мы должны описать числа соответствующим образом, даже если интуитивно понятно, что из первого вычитается второе. Написать docstring нужно для функции в модуле math_operations.py:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* add(a, b): принимает два аргумента a и b и возвращает их сумму.
+* subtract(a, b): принимает два аргумента a и b и возвращает их разницу.
+* multiply(а, b): принимает два аргумента a и b и возвращает их произведение.
+* devide(а, b): принимает два аргумента a и b и возвращает результат деления a на b.
+</pre></div>
+</div>
+<p>Добавьте задачу <strong>docs</strong> в makefile  для сборки документации с помощью <a class="reference external" href="https://pdoc.dev/docs/pdoc.html">pdoc</a>. Собранная документация не должна попасть в репозиторий git, поэтому нужно модифицировать задачу <strong>clean</strong>.</p>
+<p><strong>Ответ</strong></p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/1564e2c762ba26c56aa551e787a7f1fa/math_operations_docstring.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the sum of two numbers.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        a (int or float): The first number.</span>
+<span class="sd">        b (int or float): The second number.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int or float: The sum of a and b.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">subtract</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the difference between two numbers.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        a (int or float): The minuend.</span>
+<span class="sd">        b (int or float): The subtrahend.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int or float: The result of subtracting b from a.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the product of two numbers.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        a (int or float): The first factor.</span>
+<span class="sd">        b (int or float): The second factor.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int or float: The product of a and b.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the result of dividing two numbers.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        a (int or float): The dividend.</span>
+<span class="sd">        b (int or float): The divisor.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int or float: The result of dividing a by b.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If b is zero (0).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot divide by zero&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+
+</pre></div>
+</div>
+<p>Содержимое <code class="docutils literal notranslate"><span class="pre">makefile</span></code>:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/64237ba783391a7d5eadba40401f80e7/makefile_docstring"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">PACKAGE_NAME</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>useful-utils
+<span class="nv">PYTHON</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>python3
+<span class="nv">DOCS_DIR</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>docs
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">install</span> <span class="n">test</span> <span class="n">clean</span> <span class="n">package</span> <span class="n">docs</span>
+
+<span class="nf">install</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">&quot;Installing dependencies...&quot;</span>
+<span class="w">	</span><span class="k">$(</span>PYTHON<span class="k">)</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="nf">test</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">&quot;Running tests...&quot;</span>
+<span class="w">	</span><span class="k">$(</span>PYTHON<span class="k">)</span><span class="w"> </span>-m<span class="w"> </span>pytest
+
+<span class="nf">clean</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">&quot;Cleaning up...&quot;</span>
+<span class="w">	</span>rm<span class="w"> </span>-rf<span class="w"> </span>dist/<span class="w"> </span>build/<span class="w"> </span>docs/<span class="w"> </span>*.egg-info
+
+<span class="nf">docs</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">&quot;Generating documentation...&quot;</span>
+<span class="w">	</span>pdoc<span class="w"> </span>--html<span class="w"> </span><span class="k">$(</span>PACKAGE_NAME<span class="k">)</span><span class="w"> </span>--output-dir<span class="w"> </span><span class="k">$(</span>DOCS_DIR<span class="k">)</span><span class="w"> </span>--force
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Задача 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Задача 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Задача 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="content.html" title="предыдущая глава">Код -&gt; Библиотека</a></li>
+      <li>Next: <a href="quiz.html" title="следующая глава">Вопросы</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/code_to_lib/exercises.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

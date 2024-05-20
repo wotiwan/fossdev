@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Задачи &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Вопросы" href="quiz.html" />
+    <link rel="prev" title="Менеджеры и планировщики" href="content.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Задачи<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<section id="id2">
+<h2>Задача 1<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Напишите расписание cron, которое позволит запускать задачу:</p>
+<ul class="simple">
+<li><p>в 8:30 каждый понедельник.</p></li>
+<li><p>в 12:00 каждый понедельник, среду и пятницу.</p></li>
+<li><p>в 15 минут каждого часа в 00:00, 06:00, 12:00 и 18:00.</p></li>
+</ul>
+<p><strong>Ответ</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">30</span> <span class="mi">8</span> <span class="o">*</span> <span class="o">*</span> <span class="mi">1</span>              <span class="n">в</span> <span class="mi">8</span><span class="p">:</span><span class="mi">30</span> <span class="n">каждый</span> <span class="n">понедельник</span><span class="o">.</span>
+<span class="mi">0</span> <span class="mi">12</span> <span class="o">*</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span>          <span class="n">в</span> <span class="mi">12</span><span class="p">:</span><span class="mi">00</span> <span class="n">каждый</span> <span class="n">понедельник</span><span class="p">,</span> <span class="n">среду</span> <span class="n">и</span> <span class="n">пятницу</span><span class="o">.</span>
+<span class="mi">15</span> <span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">18</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span>      <span class="n">в</span> <span class="mi">15</span> <span class="n">минут</span> <span class="n">каждого</span> <span class="n">часа</span> <span class="n">в</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">,</span> <span class="mi">06</span><span class="p">:</span><span class="mi">00</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span><span class="mi">00</span> <span class="n">и</span> <span class="mi">18</span><span class="p">:</span><span class="mf">00.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>каждые 10 минут в течение часа.</p></li>
+<li><p>в начале каждого часа с 9:00 до 17:00 с понедельника по пятницу.</p></li>
+<li><p>в 30 минут каждого часа с 1:00 до 5:00 и с 12:00 до 15:00.</p></li>
+</ul>
+<p><strong>Ответ</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*/</span><span class="mi">10</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span>            <span class="n">каждые</span> <span class="mi">10</span> <span class="n">минут</span> <span class="n">в</span> <span class="n">течение</span> <span class="n">часа</span><span class="o">.</span>
+<span class="mi">0</span> <span class="mi">9</span><span class="o">-</span><span class="mi">17</span> <span class="o">*</span> <span class="o">*</span> <span class="mi">1</span><span class="o">-</span><span class="mi">5</span>          <span class="n">в</span> <span class="n">начале</span> <span class="n">каждого</span> <span class="n">часа</span> <span class="n">с</span> <span class="mi">9</span><span class="p">:</span><span class="mi">00</span> <span class="n">до</span> <span class="mi">17</span><span class="p">:</span><span class="mi">00</span> <span class="n">с</span> <span class="n">понедельника</span> <span class="n">по</span> <span class="n">пятницу</span><span class="o">.</span>
+<span class="mi">30</span> <span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="o">-</span><span class="mi">15</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span>      <span class="n">в</span> <span class="mi">30</span> <span class="n">минут</span> <span class="n">каждого</span> <span class="n">часа</span> <span class="n">с</span> <span class="mi">1</span><span class="p">:</span><span class="mi">00</span> <span class="n">до</span> <span class="mi">5</span><span class="p">:</span><span class="mi">00</span> <span class="n">и</span> <span class="n">с</span> <span class="mi">12</span><span class="p">:</span><span class="mi">00</span> <span class="n">до</span> <span class="mi">15</span><span class="p">:</span><span class="mf">00.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>каждые 2 минуты.</p></li>
+<li><p>каждые 3 минуты с 10:00 до 18:00.</p></li>
+<li><p>каждые 10 минут в полночь (0:00) по понедельникам.</p></li>
+</ul>
+<p><strong>Ответ</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*/</span><span class="mi">2</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span>             <span class="n">каждые</span> <span class="mi">2</span> <span class="n">минуты</span><span class="o">.</span> 
+<span class="o">*/</span><span class="mi">3</span> <span class="mi">10</span><span class="o">-</span><span class="mi">18</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span>         <span class="n">каждые</span> <span class="mi">3</span> <span class="n">минуты</span> <span class="n">с</span> <span class="mi">10</span><span class="p">:</span><span class="mi">00</span> <span class="n">до</span> <span class="mi">18</span><span class="p">:</span><span class="mf">00.</span>
+<span class="o">*/</span><span class="mi">10</span> <span class="mi">0</span> <span class="o">*</span> <span class="o">*</span> <span class="mi">1</span>            <span class="n">каждые</span> <span class="mi">10</span> <span class="n">минут</span> <span class="n">в</span> <span class="n">полночь</span> <span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">00</span><span class="p">)</span> <span class="n">по</span> <span class="n">понедельникам</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>Задача 2<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>Создайте скрипт и соответствующие unit’ы systemctl для следующей задачи: нужно отследить изменения в файле, и если он содержит подстроку «critical error», отправить сообщение пользователю.</p>
+<p><strong>Ответ</strong></p>
+<p>Скрипт для проверки <code class="docutils literal notranslate"><span class="pre">check_script.sh</span></code>.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/9f8b22f8a5a4f4ad4904acd04c044464/check_script.sh"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nv">file</span><span class="o">=</span><span class="s2">&quot;/path/to/watched/file&quot;</span>
+<span class="nv">substring</span><span class="o">=</span><span class="s2">&quot;critical error&quot;</span>
+
+<span class="k">if</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$substring</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Found critical error in </span><span class="nv">$file</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="c1"># Add your notification command here, e.g., sendmail or notify-send</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;No critical error found in </span><span class="nv">$file</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<p>Конфигурация для Unit service <code class="docutils literal notranslate"><span class="pre">check_critical.service</span></code>:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/654de285f3713c15b8910fef763b68b4/check_critical.service"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Check File for Critical Error</span>
+
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/path/to/your/check_script.sh</span>
+</pre></div>
+</div>
+<p>Конфигурация для Unit path <code class="docutils literal notranslate"><span class="pre">check_critical.path</span></code>:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/0d21e11b9db8e7b794e695a27ae48f70/check_critical.path"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Watch My File</span>
+
+<span class="k">[Path]</span>
+<span class="na">PathModified</span><span class="o">=</span><span class="s">/path/to/watched/file</span>
+<span class="na">Unit</span><span class="o">=</span><span class="s">check_critical.service</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</pre></div>
+</div>
+<p>Код для активации сервиса:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>check_script.sh
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>/path/to/check_critical.service
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>/path/to/check_critical.service
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>pass_monitor.path
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Задача 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Задача 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="content.html" title="предыдущая глава">Менеджеры и планировщики</a></li>
+      <li>Next: <a href="quiz.html" title="следующая глава">Вопросы</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/managers/exercises.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

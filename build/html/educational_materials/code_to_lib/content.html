@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Код -&gt; Библиотека &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Задачи" href="exercises.html" />
+    <link rel="prev" title="Вопросы" href="../uml/quiz.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Код -&gt; Библиотека<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<section id="id2">
+<h2>Мотивация<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Каждый, кто пишет код, рано или поздно упирается в необходимость использовать свои наработки в нескольких проектах. Мы можем просто копировать участки кода каждый раз в новый проект, но это несет в себе большие издержки, так как мы теряем единую точку «входа», т.е. возможность внести изменения в одном месте и получить их везде, где мы используем этот код. Поэтому мы хотим сделать из нашего кода библиотеку, которая может быть полезна как нам, так и сторонним разработчикам, которую мы сможем поддерживать, функции которой будут описаны, а также автоматически тестироваться, чтобы уменьшить вероятность ошибок. В этом уроке мы поговорим о том, что должно быть в проекте помимо кода, чтобы его можно было назвать библиотекой, а в следующем — рассмотрим, как упаковать наш код, чтобы его могли устанавливать себе другие разработчики.</p>
+</section>
+<section id="id3">
+<h2>Определяем функциональность библиотеки<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>Например, мы пишем функцию, которая будет сообщать нам, сколько памяти потребляет та или иная функция. Воспользуемся <a class="reference external" href="https://docs.python.org/3/library/tracemalloc.html">документацией</a> к библиотеке <code class="docutils literal notranslate"><span class="pre">tracemalloc</span></code>. Она позволит нам отследить выделенное место. Также можно использовать библиотеку <code class="docutils literal notranslate"><span class="pre">sys</span></code>, которая позволит определить только ту память, которую занимает непосредственно объект с данными.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tracemalloc</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to sys: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+   <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+   <span class="n">before</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+   <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+   <span class="n">after</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+   <span class="n">tracemalloc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to tracemalloc: </span><span class="si">{</span><span class="n">after</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">before</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to sys: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Пример вывода:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">72</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">32</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">104</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">0</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">104</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">0</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">104</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">0</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">104</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">64</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">136</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">0</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">136</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">0</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">136</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">0</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">136</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">128</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">200</span>
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">0</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">200</span>
+</pre></div>
+</div>
+<p>Мы видим, что даже пустой массив занимает какое-то место в памяти (для 64-разрядной системы это 72 байта), и не каждое добавление элементов вызывает выделение памяти. Оговоримся, что в зависимости от того, как заполнять данные, результат будет разным. Ниже приведены примеры кода, которые дадут несколько другой вывод при том же результирующем массиве.</p>
+<p>Альтернативный пример:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tracemalloc</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+   <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+   <span class="n">before</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+   <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span>
+   <span class="n">after</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+   <span class="n">tracemalloc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to tracemalloc: </span><span class="si">{</span><span class="n">after</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">before</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to sys: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Еще альтернативный пример:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tracemalloc</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">before</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+    <span class="n">after</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to tracemalloc: </span><span class="si">{</span><span class="n">after</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">before</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to sys: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Мы не будет обсуждать разницу в выводе, она связана с особенностями реализации списков в Python и способе создания конкретного списка. Для наших задач необязательно знать точные числа, но нужно иметь оценку объема памяти, выделяемой на те или иные операции, для того чтобы разбить полный массив данных на части (<code class="docutils literal notranslate"><span class="pre">chunk</span></code>) и обрабатывать так, чтобы все умещалось в памяти. Практически всегда можно сделать оценку потребляемой памяти вручную, но такой подход требует погружения в детали задачи.</p>
+<p>Давайте попробуем разделить код выше на функциональную часть, которая делает что-то полезное для нас, и ту, которая оценивает память:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/34e39d99e810a3a308b8e8cf4843be5e/split_functionality.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tracemalloc</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">do_something_usefull</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>    
+    <span class="k">return</span> <span class="n">data</span>
+    
+<span class="k">def</span> <span class="nf">execute_and_get_memory_usage</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">before</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">after</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to tracemalloc: </span><span class="si">{</span><span class="n">after</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">before</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to sys: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span> 
+    
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">execute_and_get_memory_usage</span><span class="p">(</span><span class="n">do_something_usefull</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Теперь можно попробовать сделать <code class="docutils literal notranslate"><span class="pre">execute_and_get_memory_usage</span></code> более универсальным, так, чтобы эта функция могла работать с любой функцией, а не только с <code class="docutils literal notranslate"><span class="pre">do_something_usefull</span></code>. Так как мы не знаем, какие аргументы будут у функций, нужен способ, который позволит не ограничиваться определенным количеством аргументов. Для этого в Python используются <code class="docutils literal notranslate"><span class="pre">*args</span></code> и <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/6bc5fe3783f6e887c0aee13f80ab0ce1/split_functionality_args.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tracemalloc</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">do_something_usefull</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>    
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">do_something_else_usefull</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">step</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">data</span>
+    
+<span class="k">def</span> <span class="nf">execute_and_get_memory_usage</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">before</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">after</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to tracemalloc: </span><span class="si">{</span><span class="n">after</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">before</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to sys: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;1D example:&#39;</span><span class="p">)</span>
+<span class="n">execute_and_get_memory_usage</span><span class="p">(</span><span class="n">do_something_usefull</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">2D example:&#39;</span><span class="p">)</span>
+<span class="n">execute_and_get_memory_usage</span><span class="p">(</span><span class="n">do_something_else_usefull</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Пример вывода:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>1D<span class="w"> </span>example:
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">320</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">200</span>
+
+2D<span class="w"> </span>example:
+According<span class="w"> </span>to<span class="w"> </span>tracemalloc:<span class="w"> </span><span class="m">1112</span>
+According<span class="w"> </span>to<span class="w"> </span>sys:<span class="w"> </span><span class="m">136</span>
+</pre></div>
+</div>
+<p>Мы видим, что <code class="docutils literal notranslate"><span class="pre">sys.getsizeof()</span></code> не информативен для вложенных объектов, поэтому оставим только tracemalloc. *Примечание: функции типа <code class="docutils literal notranslate"><span class="pre">execute_and_get_memory_usage</span></code> в Python называются декораторы, мы не будем подробно на этом останавливаться, так как этот курс не про само программирование и изучение языка. Вы можете легко найти материалы для изучения самостоятельно, наподобие <a class="reference external" href="https://www.programiz.com/python-programming/decorator">таких</a> или <a class="reference external" href="https://www.geeksforgeeks.org/decorators-in-python/">таких</a>.</p>
+<p>Мы получили инструмент для оценки памяти, которая требуется для выполнения той или иной функции с определенным набором входных данных. Теперь мы хотим использовать ее в других наших проектах. Возможно даже, она будет интересна другим разработчикам, поэтому нужно оформить все как принято при распространении кода. Здесь мы пока не будем говорить о менеджерах установки, таких как <code class="docutils literal notranslate"><span class="pre">pip</span></code> или <code class="docutils literal notranslate"><span class="pre">apt</span></code> (используется в Ubuntu), поговорим пока о том, что должно быть помимо кода, чтобы кодом можно было воспользоваться.</p>
+<ol class="arabic simple">
+<li><p>Первое, что должно сопровождать код, — это файл <strong>README</strong>.md. Мы будем использовать Markdown для разметки, также часто используется <code class="docutils literal notranslate"><span class="pre">reStructedText</span></code>, тогда вы увидите <code class="docutils literal notranslate"><span class="pre">README.rst</span></code> в списке файлов проекта. Файл README нужен для того, чтобы понять, будет ли полезен данный проект тому, кто его читает. В README могут содержаться короткие примеры того, как использовать API библиотеки, и другая полезная информация, которую разработчик пожелал добавить. <a class="reference external" href="https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/">Пункты</a>, которые обычно включает README:</p></li>
+</ol>
+<ul class="simple">
+<li><p>название проекта;</p></li>
+<li><p>описание;</p></li>
+<li><p>содержание для удобной навигации;</p></li>
+<li><p>инструкции по установке;</p></li>
+<li><p>примеры использования приложения;</p></li>
+<li><p>упоминание участников, которые внесли вклад в проект;</p></li>
+<li><p>информация о лицензии (текст лицензии содержится в отдельном файле);</p></li>
+<li><p>бейджи;</p></li>
+<li><p>способы поучаствовать в проекте.</p></li>
+</ul>
+<p><img alt="badges" src="../../_images/badge.png" /></p>
+<p>Научиться писать хороший README можно только через практику и примеры, которые вы сами считаете хорошими. <a class="reference external" href="https://github.com/matiassingers/awesome-readme">Здесь</a> собран список проектов, которые, по мнению авторов списка, являются хорошими, обратитесь к нему и составьте свое мнение о том, что должен включать это файл.</p>
+<ol class="arabic simple" start="2">
+<li><p>Далее проект должен содержать файл <strong>LICENSE</strong> с текстом лицензии. По лицензиям в курсе есть <a class="reference external" href="https://github.com/kruzhok-team/fossdev/blob/devel/educational_materials/open_license/content.md">отдельный материал</a>, посмотрите его и выберите подходящую.</p></li>
+<li><p>Как мы уже говорили ранее, в README должны быть инструкции по установке. Установка может быть как полностью ручная, так и с той или иной степенью автоматизации. Например, в проектах на Python часто содержится файл <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>, в котором прописан код для установки. Тогда инструкция по установке выглядит как одна строка:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Любой код использует другой код, поэтому в проекте нужно прописать список используемых библиотек, <strong>зависимостей</strong>. Его можно как вести вручную, например, в файле <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, который используется <code class="docutils literal notranslate"><span class="pre">pip</span></code> для установки зависимостей, так и автоматически, если мы используем другой инструмент, например, <code class="docutils literal notranslate"><span class="pre">poetry</span></code>.</p></li>
+<li><p>Каталог, который содержит код проекта. Для разных языков программирования он будет называть по-разному. Для проектов на Python название каталога совпадает с названием проекта. В С++ это будут <code class="docutils literal notranslate"><span class="pre">src</span></code> и <code class="docutils literal notranslate"><span class="pre">include</span></code>.</p></li>
+<li><p>Очень хорошая идея иметь тесты в проекте, это поможет понять пользователю вашей библиотеки, что код выполнился штатно, хотя бы для тестовых данных. Файлы с тестами будут иметь разную структуру для разных языков программирования.</p></li>
+</ol>
+<p>Для Python:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>my_project
+├──<span class="w"> </span>mtracker
+│<span class="w">   </span>├──<span class="w"> </span>utils
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>futils.py
+│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+│<span class="w">   </span>└──<span class="w"> </span>mtracker.py
+└──<span class="w"> </span><span class="nb">test</span>
+<span class="w">    </span>├──<span class="w"> </span>utils
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>test_futils.py
+<span class="w">    </span>├──<span class="w"> </span>__init__.py
+<span class="w">    </span>└──<span class="w"> </span>test_mtracker.py
+</pre></div>
+</div>
+<p><em>Примечание: <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> нужен для того, чтобы Python воспринимал каталог как пакет</em></p>
+</section>
+<section id="id4">
+<h2>Собираем проект<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>Напишем файл для установки <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>, для данного примера воспользуемся библиотекой <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/2ef097347d3fb35cd6711ffcdb8ce2b4/setup.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mtraker&#39;</span><span class="p">,</span>
+   <span class="n">version</span><span class="o">=</span><span class="s1">&#39;1.0&#39;</span><span class="p">,</span>
+   <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Provides a decorator for memory usage tracking. The part of FOSS course.&#39;</span><span class="p">,</span>
+   <span class="n">license</span><span class="o">=</span><span class="s1">&#39;MIT&#39;</span><span class="p">,</span>
+   <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Artem Vesnin&#39;</span><span class="p">,</span>
+   <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;artemvesnin@gmail.com&#39;</span><span class="p">,</span>
+   <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://github.com/standlab/mtracker&#39;</span><span class="p">,</span>
+   <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mtracker&#39;</span><span class="p">],</span>
+   <span class="n">install_requires</span><span class="o">=</span><span class="p">[],</span> <span class="c1"># it is empty since we use standard python library</span>
+   <span class="n">extras_require</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;pytest&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;coverage&#39;</span><span class="p">,</span>
+        <span class="p">],</span>
+   <span class="p">},</span>
+   <span class="n">python_requires</span><span class="o">=</span><span class="s1">&#39;&gt;=3&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Мы устанавливаем пакет <code class="docutils literal notranslate"><span class="pre">mtracker</span></code>, <code class="docutils literal notranslate"><span class="pre">install_requires</span></code> пустое, поскольку мы не используем зависимости не из стандартной библиотеки Python. <code class="docutils literal notranslate"><span class="pre">extras_require</span></code> содержат модули, которые не нужны при работе приложения, но понадобятся, если мы захотим прогнать тесты для проекта. Также указываем версию Python, под которой проект должен запуститься.</p>
+<p>README можно посмотреть на <a class="reference external" href="https://github.com/standlab/mtracker">странице</a> проекта на GitHub.</p>
+<p>От кода, который мы разрабатывали выше, оставим только часть с <code class="docutils literal notranslate"><span class="pre">tracemalloc</span></code></p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/0285c0553ce639d7d9d88d888460b91a/mtracker.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tracemalloc</span>
+
+<span class="k">def</span> <span class="nf">execute_and_get_memory_usage</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">before</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">after</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;According to tracemalloc: </span><span class="si">{</span><span class="n">after</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">before</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+<p>И снабдим наш проект тестом. Здесь мы написали всего один тест, который проверит, не ломает ли наш трекер работу функций, на примере функции, которая возвращает список.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/600c81487dc40c0341d5e506fa51e63b/test_mtracker.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">mtracker.mtracker</span> <span class="kn">import</span> <span class="n">execute_and_get_memory_usage</span>
+
+<span class="k">def</span> <span class="nf">_generate_list</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lst</span>
+
+<span class="k">def</span> <span class="nf">test_no_change</span><span class="p">():</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">lst1</span> <span class="o">=</span> <span class="n">_generate_list</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">lst2</span> <span class="o">=</span> <span class="n">execute_and_get_memory_usage</span><span class="p">(</span><span class="n">_generate_list</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">l1</span><span class="p">,</span> <span class="n">l2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lst1</span><span class="p">,</span> <span class="n">lst2</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">l1</span> <span class="o">==</span> <span class="n">l2</span>
+</pre></div>
+</div>
+<p>Проверим тесты:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>artem@pc:~/foss/mtracker$<span class="w"> </span><span class="nv">pytest</span>
+<span class="w">    </span><span class="o">=============================</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>session<span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="o">==============================</span>
+<span class="w">    </span>platform<span class="w"> </span>linux<span class="w"> </span>--<span class="w"> </span>Python<span class="w"> </span><span class="m">3</span>.7.4,<span class="w"> </span>pytest-5.2.1,<span class="w"> </span>py-1.8.0,<span class="w"> </span>pluggy-0.13.0
+<span class="w">    </span>rootdir:<span class="w"> </span>/home/artem/swdev/gitrepo/edu/toolchain_proj/mtracker
+<span class="w">    </span>plugins:<span class="w"> </span>doctestplus-0.4.0,<span class="w"> </span>arraydiff-0.3,<span class="w"> </span>remotedata-0.3.2,<span class="w"> </span>openfiles-0.4.0
+<span class="w">    </span>collected<span class="w"> </span><span class="m">1</span><span class="w"> </span>item<span class="w">                                                               </span>
+<span class="w">    </span>
+<span class="w">    </span>test/test_mtracker.py<span class="w"> </span>.<span class="w">                                                  </span><span class="o">[</span><span class="m">100</span>%<span class="o">]</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="o">==============================</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.04s<span class="w"> </span><span class="o">===============================</span>
+</pre></div>
+</div>
+<p>Устанавливаем:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>artem@pc:~/foss/mtracker$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
+<span class="w">    </span>Processing<span class="w"> </span>/home/artem/foss/mtracker
+<span class="w">    </span>Building<span class="w"> </span>wheels<span class="w"> </span><span class="k">for</span><span class="w"> </span>collected<span class="w"> </span>packages:<span class="w"> </span>mtracker
+<span class="w">    </span>...
+<span class="w">    </span>Successfully<span class="w"> </span>installed<span class="w"> </span>mtracker-1.0
+</pre></div>
+</div>
+<p>Проверяем:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">mtracker</span> <span class="kn">import</span> <span class="n">mtracker</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtracker</span><span class="o">.</span><span class="n">execute_and_get_memory_usage</span>
+<span class="go">&lt;function execute_and_get_memory_usage at 0x7effef7b1cb0&gt;</span>
+</pre></div>
+</div>
+<p>Проверяем установку как в README:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>artem@pc:~$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/standlab/mtracker.git#egg<span class="o">=</span>mtracker
+<span class="w">    </span>Collecting<span class="w"> </span>mtracker<span class="w"> </span>from<span class="w"> </span>git+https://github.com/standlab/mtracker.git#egg<span class="o">=</span>mtracker
+<span class="w">    </span>...
+<span class="w">    </span>Installing<span class="w"> </span>collected<span class="w"> </span>packages:<span class="w"> </span>mtracker
+<span class="w">    </span>Successfully<span class="w"> </span>installed<span class="w"> </span>mtracker-1.0
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>Выводы<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>Мы снабдили написанную нами функцию необходимыми файлами, чтобы ее можно было выложить в открытый доступ и позволить другим разработчикам устанавливать ее себе и использовать ее API.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Код -&gt; Библиотека</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Определяем функциональность библиотеки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Собираем проект</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Выводы</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../uml/quiz.html" title="предыдущая глава">Вопросы</a></li>
+      <li>Next: <a href="exercises.html" title="следующая глава">Задачи</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/code_to_lib/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

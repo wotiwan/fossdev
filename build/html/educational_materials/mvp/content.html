@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Работа над MVP &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Факультатив. Стандартные графические схемы при разработке ПО" href="../uml/content.html" />
+    <link rel="prev" title="Стадии жизни проекта" href="../stages/content.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="mvp">
+<h1>Работа над MVP<a class="headerlink" href="#mvp" title="Link to this heading">¶</a></h1>
+<section id="id1">
+<h2>Этапы разработки и проверка гипотез<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>Знакомим с идеей MVP и Pet-project. Проект выполняется на языке Python и должен соответствовать всем критериям и рекомендациям, представленным в предыдущих пунктах. Каждое соответствие и наличие выполненного пункта оценивается в +1 балл (если были замечания к реализации — 0,5 балла).</p>
+<section id="id2">
+<h3>Что такое MVP и из каких этапов он состоит?<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<p>MVP (минимально жизнеспособный продукт) — это концепция разработки продукта, которая относится к прототипу или версии продукта с количеством функций, достаточным, чтобы иметь возможность протестировать идею продукта с реальными пользователями.</p>
+</section>
+<section id="id3">
+<h3>Какова цель MVP?<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p>Цель MVP — протестировать и подтвердить идею продукта на небольшой репрезентативной выборке целевого рынка, прежде чем выделять значительные ресурсы на полномасштабную разработку. MVP предназначен для предоставления информации и отзывов о ценностном предложении продукта, его удобстве использования и его потенциале для успеха.</p>
+<p>Запуская MVP, создатели продукта могут глубже понять свой рынок, потребности и болевые точки своих клиентов, а также жизнеспособность концепции своего продукта. Это помогает им принимать обоснованные решения о том, какие функции включить в конечный продукт, как позиционировать его на рынке и как наилучшим образом привлечь и обслужить своих целевых клиентов.</p>
+<p>По сути, MVP — это малорискованный и недорогой способ тестирования идеи продукта, сбора отзывов и доработки продукта перед его запуском в более крупном масштабе. Таким образом, это может помочь предпринимателям и продуктовым командам повысить шансы на успех своего продукта.</p>
+</section>
+<section id="id4">
+<h3>MVP обычно состоит из следующих этапов:<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Идея: этот этап включает в себя создание и оценку идей для продукта.</p></li>
+<li><p>Исследование: этот этап включает в себя исследование целевого рынка, конкуренции и отрасли в целом, чтобы определить наилучшую концепцию продукта.</p></li>
+<li><p>Проектирование: этот этап включает в себя создание базового дизайна для MVP с упором на его основные функции и взаимодействие с пользователем.</p></li>
+<li><p>Разработка: этот этап включает в себя процесс создания MVP, для которого обычно требуется кодирование и тестирование, чтобы убедиться, что он работает должным образом.</p></li>
+<li><p>Релиз: этот этап включает в себя выпуск MVP для выбранной группы пользователей для тестирования и получения отзывов.</p></li>
+<li><p>Рефлексия и тестирование: этот этап включает в себя учет отзывов пользователей в продукте и повторение процесса проектирования и разработки, пока продукт не будет готов к полноценному запуску.</p></li>
+</ol>
+</section>
+</section>
+<section id="id5">
+<h2>Вот пример MVP для новой службы доставки еды:<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>Идея проекта — создать сервис для службы доставки еды людям, которые ведут активный образ жизни, часто передвигаются по городу, и у них нет времени готовить самостоятельно, но они все же хотят есть здоровую и питательную пищу.</p>
+<ul class="simple">
+<li><p>Этап исследования: исследование показывает, что спрос на услуги по доставке здоровой пищи растет, особенно среди сотрудников среднего и крупного бизнеса. Однако большинство существующих услуг либо слишком дороги, либо предлагают ограниченный ассортимент блюд.</p></li>
+<li><p>Проектирование: MVP будет включать в себя простой веб-сайт и мобильное приложение, которые позволят пользователям размещать заказы на полезные готовые блюда. Дизайн будет минималистичным и простым в использовании, ориентированным на обеспечение удобного процесса заказа здоровой пищи и информирование клиента о его статусе готовности.</p></li>
+<li><p>Разработка: MVP будет создан с использованием комбинации готовых инструментов и пользовательского кода. Он будет включать в себя базовую систему заказов, платежный шлюз и функцию отслеживания доставки. MVP будет масштабироваться, чтобы его можно было легко расширять в будущем.</p></li>
+<li><p>Релиз: MVP будет запущен на ограниченной территории, например, в небольшом городе, для избранной группы первых пользователей. Цель — протестировать продукт, собрать отзывы и подтвердить рыночный спрос.</p></li>
+<li><p>Рефлексия и тестирование: на основе полученных отзывов MVP будет дорабатываться и улучшаться. Это может быть добавление дополнительных опций меню, улучшение процесса доставки или улучшение процесса заказа. Цель в том, чтобы постоянно улучшать продукт и делать его более привлекательным для более широкой аудитории, пока он не будет готов к полноценному запуску.</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>Вот пример MVP для нового мобильного приложения:<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<p>Идея состоит в том, чтобы создать мобильное приложение, которое помогает людям управлять своими финансами, отслеживая расходы, доходы и сбережения.</p>
+<ul class="simple">
+<li><p>Исследование: исследование показывает, что существует растущий спрос на инструменты управления личными финансами, особенно среди молодых людей, которые только начинают управлять своими финансами. Однако большинство существующих инструментов либо слишком сложны, либо слишком ограничены.</p></li>
+<li><p>Дизайн: MVP будет включать в себя простое и удобное мобильное приложение, позволяющее пользователям отслеживать свои расходы, доходы и сбережения. Приложение будет простым в использовании, с чистым и интуитивно понятным интерфейсом.</p></li>
+<li><p>Разработка: MVP будет создан с использованием комбинации готовых инструментов и пользовательского кода. Он будет включать в себя такие функции, как отслеживание расходов, отслеживание доходов, составление бюджета и постановка целей сбережений. MVP будет масштабироваться, чтобы его можно было легко расширять в будущем.</p></li>
+<li><p>Запуск: MVP будет запущен для избранной группы первых пользователей. Цель — протестировать продукт, собрать отзывы и подтвердить рыночный спрос.</p></li>
+<li><p>Итерация: на основе полученных отзывов MVP будет дорабатываться и улучшаться. Это может включать добавление новых функций, улучшение пользовательского интерфейса или расширение возможностей финансового отслеживания и анализа.</p></li>
+</ul>
+<p>Цель в том, чтобы постоянно улучшать продукт и делать его более привлекательным для более широкой аудитории, пока он не будет готов к полноценному запуску.</p>
+<section id="id7">
+<h3>Список рекомендаций, чтобы подготовить команду программистов к MVP проекту, посвященному разработке мобильного приложения для школы<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<p>Чтобы подготовить команду программистов к разработке проекта MVP для школьного мобильного приложения, вы можете выполнить следующие шаги:</p>
+<ol class="arabic simple">
+<li><p>Определите объем проекта: четко определите цели, требования и ожидания от MVP и убедитесь, что все в команде понимают, что от них ожидается.</p></li>
+<li><p>Соберите правильную команду: выберите команду опытных, талантливых и целеустремленных программистов, обладающих навыками и опытом, необходимыми для создания MVP. Убедитесь, что команда разнообразна и включает в себя людей с разным опытом и взглядами.</p></li>
+<li><p>Установите четкие ожидания. Четко сообщите команде сроки, бюджет и этапы проекта и убедитесь, что все согласны с ожиданиями проекта.</p></li>
+<li><p>Поощряйте открытое общение: поощряйте открытое и честное общение между членами команды и следите за тем, чтобы каждый знал свои роли и обязанности.</p></li>
+<li><p>Поощряйте командную работу: поощряйте культуру сотрудничества и командной работы и убедитесь, что каждый член команды чувствует, что его ценят и поддерживают.</p></li>
+<li><p>Используйте правильные инструменты: предоставьте команде необходимые инструменты, технологии и ресурсы для создания MVP, такие как программное обеспечение для управления проектами, среды разработки и инструменты тестирования.</p></li>
+<li><p>Предложите обучение и поддержку: предложите обучение и поддержку, чтобы помочь команде развить свои навыки и улучшить свою работу.</p></li>
+<li><p>Отмечайте успехи: отмечайте успехи и вехи на пути к успеху и убедитесь, что команда чувствует, что ее труд ценят.</p></li>
+</ol>
+<p>Так вы можете помочь своей команде программистов более эффективно и успешно разработать проект MVP для школьного мобильного приложения.</p>
+</section>
+</section>
+<section id="id8">
+<h2>Как оценить качество MVP, какие показатели, критерии?<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<p>Для оценки качества MVP можно использовать следующие показатели и критерии:</p>
+<ul class="simple">
+<li><p>отзывы пользователей: собирайте отзывы клиентов, которые использовали MVP, и анализируйте эти отзывы, чтобы определить области для улучшения и внести соответствующие изменения;</p></li>
+<li><p>соответствие рынку: оцените, насколько хорошо MVP соответствует потребностям и предпочтениям целевого рынка, и при необходимости внесите коррективы;</p></li>
+<li><p>вовлеченность пользователей: измерьте, насколько хорошо пользователи взаимодействуют с MVP, и используйте эти данные, чтобы определить области для улучшения;</p></li>
+<li><p>производительность и надежность: оцените производительность и надежность MVP и определите любые технические проблемы или ошибки, которые необходимо устранить;</p></li>
+<li><p>простота использования: оцените, насколько легко использовать MVP, и при необходимости внесите изменения, чтобы улучшить взаимодействие с пользователем;</p></li>
+<li><p>масштабируемость: оцените масштабируемость MVP и определите любые ограничения, которые необходимо устранить;</p></li>
+<li><p>привлечение и удержание пользователей: измеряйте уровень привлечения и удержания пользователей и при необходимости вносите изменения, чтобы улучшить оба показателя;</p></li>
+<li><p>доход и рентабельность: оцените доход и прибыльность MVP и при необходимости внесите изменения, чтобы увеличить оба показателя.</p></li>
+</ul>
+<p>Используя эти индикаторы и критерии, вы сможете эффективно оценить качество вашего MVP и внести улучшения, чтобы убедиться, что он соответствует потребностям вашего целевого рынка и обеспечивает отличный пользовательский опыт.</p>
+<section id="mvp-pet-project">
+<h3>Где используется MVP, в чем отличие от Pet Project?<a class="headerlink" href="#mvp-pet-project" title="Link to this heading">¶</a></h3>
+<p>MVP (минимально жизнеспособный продукт) используется при разработке продукта, это термин, используемый для описания продукта с минимальным набором функций, достаточных для проверки концепции продукта и сбора отзывов клиентов.</p>
+<p>PetProject — это личный проект, над которым человек работает для собственного удовольствия или личной выгоды, без каких-либо конкретных коммерческих или деловых целей.</p>
+<p>Ключевое различие между ними заключается в том, что MVP сосредоточен на тестировании идеи продукта и сборе отзывов от клиентов, в то время как Pet-project ориентирован на личное удовлетворение и развитие навыков разработчика. MVP часто разрабатываются с расчетом на конкретный рынок или целевую аудиторию, а домашние проекты обычно разрабатываются по личным причинам, без учета какого-либо рынка или аудитории.</p>
+<p>Таким образом, MVP используется при разработке продукта как способ проверки концепции продукта и сбора отзывов клиентов, а личный проект — это частный проект без конкретных коммерческих или бизнес-целей.</p>
+</section>
+</section>
+<section id="id9">
+<h2>Задание для проверки<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
+<p>Выше мы познакомились с основными тезисами относительно разработки MVP. Представьте, что вам нужно разработать чат-бота для поиска информации о доступных олимпиадах с возможностью поиска и формирования списка избранных олимпиад. Ниже представлены шаги, которые вам следует выполнить самостоятельно:</p>
+<ol class="arabic simple">
+<li><p>Проведите исследование, какие чат-боты уже есть на рынке. Посмотрите, что они делают и как они работают, для решения каких задач их используют.</p></li>
+<li><p>Разберитесь, для кого будет ваш чат-бот и что он будет делать. Какие задачи он будет выполнять?</p></li>
+<li><p>Нарисуйте прототип того, как будет выглядеть и работать ваш чат-бот. Подумайте, как он будет общаться с клиентами (подписчиками).</p></li>
+<li><p>Выберите примерный список технологий и инструментов, которые могут использоваться для создания чат-бота (библиотеки, база данных, API, сервер на котором будет развернут бот и т.д.).</p></li>
+<li><p>Оцените длительность периода разработки: сколько примерно времени и ресурсов вам понадобится для создания чат-бота. Составьте план работы.</p></li>
+<li><p>Подумайте, какие проблемы могут возникнуть в процессе разработки и как их решить.</p></li>
+<li><p>Если у вас есть команда, определите, кто что будет делать и как вы будете общаться и контролировать процесс разработки. Например, можно использовать сервис Trello или его аналог, в котром можно перенести задачи на карточки и обозначить сроки и исполнителей.</p></li>
+<li><p>Определите, как вы будете проверять, что чат-бот работает правильно. Разработайте несколько тестов, которые будут проверять работу основных сервисов (пинг API сервиса, проверка подключениия к СУБД, статус приложения/сервера).</p></li>
+<li><p>Начните разрабатывать чат-бот, следуя плану, который вы составил ранее. Попробуйте разработать простого бота с парой функций и оцените его работу.</p></li>
+<li><p>Когда чат-бот будет готов, проверьте, что он работает так, как задумано, и что пользователи могут им пользоваться.</p></li>
+</ol>
+<p>Вот и все! Таким образом, вы можете получить первый опыт разработки MVP чат-бота. Удачи!</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Работа над MVP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Этапы разработки и проверка гипотез</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Вот пример MVP для новой службы доставки еды:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Вот пример MVP для нового мобильного приложения:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Как оценить качество MVP, какие показатели, критерии?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">Задание для проверки</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../stages/content.html" title="предыдущая глава">Стадии жизни проекта</a></li>
+      <li>Next: <a href="../uml/content.html" title="следующая глава">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/mvp/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

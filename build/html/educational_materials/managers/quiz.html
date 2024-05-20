@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Вопросы &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Контейнеризация на примере Docker" href="../docker_base/content.html" />
+    <link rel="prev" title="Задачи" href="exercises.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Вопросы<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<ol class="arabic simple">
+<li><p>Какова цель команды <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">start</span></code>?
+а) Чтобы служба (Unit) запускалась автоматически при загрузке.
+б) Для ручного запуска определенной службы.
+в) Перезагрузить конфигурацию работающей служба.
+г) Остановить работающую службу.</p></li>
+<li><p>Какая команда перезапустит работающий модуль, выполнив остановку и запуск?
+а) systemctl stop
+б) systemctl reload
+в) systemctl restart
+г) systemctl enable</p></li>
+<li><p>Что показывает команда systemctl status?
+а) Подробную информацию о конфигурации конкретной службы (Unit).
+б) Список всех загруженных служб и их текущий статус.
+в) Время последнего запуска службы.
+г) Журнал логов службы.</p></li>
+<li><p>Какую команду следует использовать, чтобы включить службу так, чтобы она (служба) автоматически запускалась при загрузке системы?
+а) systemctl start
+б) systemctl enable
+в) systemctl enable –now
+г) systemctl enable –start</p></li>
+<li><p>Какова цель команды <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">list-units</span></code>?
+а) Включить службу.
+б) Отобразить подробную информацию о конкретном блоке.
+в) Перечислить все загруженные службы вместе с их текущим статусом и описанием.
+г) Перезагрузить конфигурацию работающей службы.</p></li>
+<li><p>Какая команда отключит устройство, предотвращая его автоматический запуск при загрузке?
+а) systemctl disable
+б) systemctl stop
+в) systemctl disable –now
+г) systemctl stop –disable</p></li>
+<li><p>Для чего используется <code class="docutils literal notranslate"><span class="pre">crontab</span></code> в системах Linux?
+а) Управление системными демонами и службами.
+б) Автоматизация запуска задач в определенное время или через определенные промежутки времени.
+в) Управление сетевыми настройками системы.
+г) Установка программных пакетов.</p></li>
+<li><p>Как вы редактируете расписание запуска задач <code class="docutils literal notranslate"><span class="pre">crontab</span></code> для текущего пользователя?
+а) crontab -l
+б) crontab -e
+в) crontab -r
+г) crontab -n</p></li>
+<li><p>Какая запись <code class="docutils literal notranslate"><span class="pre">crontab</span></code> назначает выполнение задачи каждое воскресенье в 14:30?
+а) <code class="docutils literal notranslate"><span class="pre">30</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">0</span></code>
+б) <code class="docutils literal notranslate"><span class="pre">30</span> <span class="pre">14</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">7</span></code>
+в) <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">30</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">7</span></code>
+г) <code class="docutils literal notranslate"><span class="pre">14</span> <span class="pre">30</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">0</span></code></p></li>
+<li><p>Что означает символ <code class="docutils literal notranslate"><span class="pre">*</span></code> в записи <code class="docutils literal notranslate"><span class="pre">crontab</span></code>?
+а) Текущий рабочий каталог.
+б) Корневой каталог.
+в) Любое значение для определенного поля.
+г) Предыдущий рабочий каталог.</p></li>
+<li><p>Как бы вы перечислили все существующие записи <code class="docutils literal notranslate"><span class="pre">crontab</span></code> для текущего пользователя?
+а) crontab -l
+б) crontab -e
+в) crontab -r
+г) crontab -n</p></li>
+<li><p>Какую команду следует использовать, чтобы удалить все записи <code class="docutils literal notranslate"><span class="pre">crontab</span></code> для текущего пользователя?
+а) <code class="docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-l</span></code>
+б) <code class="docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-e</span></code>
+в) <code class="docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-r</span></code>
+г) <code class="docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-n</span></code></p></li>
+<li><p>Какая строка расписания <code class="docutils literal notranslate"><span class="pre">cron</span></code> будет запускать скрипт каждые 10 минут?
+а) <code class="docutils literal notranslate"><span class="pre">*/10</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code>
+б) <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code>
+в) <code class="docutils literal notranslate"><span class="pre">0-59/10</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code>
+г) <code class="docutils literal notranslate"><span class="pre">0/10</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+<li><p>Какова максимальная степень детализации временных интервалов, которую можно установить в <code class="docutils literal notranslate"><span class="pre">crontab</span></code>?
+а) 1 минута
+б) 1 секунда
+в) 1 час
+г) 1 день</p></li>
+<li><p>Как указать <code class="docutils literal notranslate"><span class="pre">crontab</span></code> конкретного пользователя (user) для редактирования, если у вас есть необходимые разрешения?
+а) <code class="docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-u</span> <span class="pre">user</span></code>
+б) <code class="docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-l</span> <span class="pre">user</span></code>
+в) <code class="docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-e</span> <span class="pre">user</span></code>
+г) <code class="docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-r</span> <span class="pre">user</span></code></p></li>
+<li><p>Какая запись <code class="docutils literal notranslate"><span class="pre">crontab</span></code> запускает сценарий в 00:15 1 января и 1 июля каждого года?
+а) <code class="docutils literal notranslate"><span class="pre">15</span> <span class="pre">0</span> <span class="pre">1</span> <span class="pre">1,7</span> <span class="pre">*</span></code>
+б) <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">15</span> <span class="pre">1</span> <span class="pre">1,7</span> <span class="pre">*</span></code>
+в) <code class="docutils literal notranslate"><span class="pre">15</span> <span class="pre">0</span> <span class="pre">1</span> <span class="pre">7</span> <span class="pre">*</span></code>
+г) <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">12</span> <span class="pre">1</span> <span class="pre">1,7</span> <span class="pre">*</span></code></p></li>
+</ol>
+<p><strong>Ответы</strong></p>
+<ol class="arabic simple">
+<li><p>б)</p></li>
+<li><p>в)</p></li>
+<li><p>б)</p></li>
+<li><p>б)</p></li>
+<li><p>в)</p></li>
+<li><p>а)</p></li>
+<li><p>б)</p></li>
+<li><p>б)</p></li>
+<li><p>б)</p></li>
+<li><p>в)</p></li>
+<li><p>а)</p></li>
+<li><p>в)</p></li>
+<li><p>а)</p></li>
+<li><p>б)</p></li>
+<li><p>в)</p></li>
+<li><p>а)</p></li>
+</ol>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Задачи</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="exercises.html" title="предыдущая глава">Задачи</a></li>
+      <li>Next: <a href="../docker_base/content.html" title="следующая глава">Контейнеризация на примере Docker</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/managers/quiz.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

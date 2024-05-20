@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Тестирование &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Задачи:" href="exercises.html" />
+    <link rel="prev" title="Вопросы" href="../docs/quiz.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Тестирование<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>Тестирование — это способ убедиться, что код делает то, что мы ожидаем от него. Существует ручное и автоматическое тестирование. При ручном тестировании человек выполняет шаги из инструкции и фиксирует поведение приложения или кода. При автоматическом тесты выполняются специальным инструментом, и собирается статистика пройденных или проваленных тестов.
+Зачем нужно ручное тестирование, когда автоматические тесты выглядят гораздо удобней — один раз написал и пользуйся? Ручные тесты с привлечением человека незаменимы, когда речь идет об апробации интерфейса. И в любых других задачах, когда сложно сформулировать критерии правильной работы. Здесь речь шла о готовом приложении, когда речь идет о коде, автоматическое тестирование незаменимо. Без автоматического тестирования невозможно было обеспечить <a class="reference external" href="https://www.atlassian.com/continuous-delivery/continuous-integration/how-to-get-to-continuous-integration">CI</a> /<a class="reference external" href="https://aws.amazon.com/ru/devops/continuous-delivery/">CD</a> (continuous integration/continuous delivery). CI/CD позволяют иметь оттестированную версию приложения в любой момент времени.</p>
+<section id="id2">
+<h2>Мотивация<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Существует несколько аргументов, что тесты — это не пустая трата времени:</p>
+<ol class="arabic simple">
+<li><p>Первая очевидная функция — это уменьшение вероятности возникновения ошибок в коде. Много мелких ошибок могут привести к серьезной проблеме, и тесты призваны предотвратить появление таких ошибок в коде. Существуют системы, которые будут автоматически проводить тестирование при загрузке кода в репозиторий, и это просто не даст разработчику залить не полностью рабочий код, но это возможно только при наличии автоматизированных тестов.</p></li>
+<li><p>Этот пункт скорее психологический — у разработчика появляется инструмент, который подскажет ему, если он ошибся. Разработчик тратит меньше внимания на возможность возникновения ошибок, ведь у него есть система тестов, и соответственно больше внимания уделяет написанию кода, более смело экспериментирует, ведь тесты подскажут ему, если он сломал другой участок программы. Таким образом, тесты способствуют более быстрой работе и появлению более интересных решений.</p></li>
+<li><p>Тесты можно рассматривать как своего рода документацию: то, как мы можем использовать функционал нашего приложения.</p></li>
+</ol>
+</section>
+<section id="id3">
+<h2>Виды тестов<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>Выделяют несколько видов тестирования.</p>
+<section id="id4">
+<h3>Модульное тестирование<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p>Модульное или unit-тестирование. Как видно из названия, мы тестируем отдельные модули, или «единицы» (участки) кода. Модульные тесты наиболее близки к контексту конкретных функций или других логически обособленных участков кода. Отсюда вытекает одно из основных свойств модульных тестов — изолированность: если мы тестируем функцию <code class="docutils literal notranslate"><span class="pre">foo</span></code>, то там не должно быть участков, связанных с функцией <code class="docutils literal notranslate"><span class="pre">bar</span></code>. Модульные тесты позволяют проверить отдельные части кода, прежде чем тестировать их совместно.</p>
+<p><img alt="testing_types" src="../../_images/testing_types.png" /></p>
+<p>Модульное тестирование:</p>
+<ul class="simple">
+<li><p>может помочь при разработке: понимая, что каждый участок кода нужно будет протестировать отдельно, разработчик с большей вероятностью не будет создавать большие функции со смешанной логикой, а разобьет ту же функциональность на несколько маленьких функций, каждую из которых будет понятно, как протестировать. Это, в конечном счете, положительно влияет на то, как выглядит API библиотеки.</p></li>
+<li><p>заставляет задуматься о входных данных, которые подаются на вход коду, и лучше погрузиться в контекст решаемой задачи.</p></li>
+<li><p>позволяет протестировать часть кода, если в данный момент на другой частью работает другой человек, и она не проходит все тесты.</p></li>
+<li><p>покрытие тестами всех возможных вариантов зависит от разработчика.</p></li>
+<li><p>позволяет реализовывать подход «пиши код и тестируй одновременно». Так как модульные тесты атомарны по природе, мы можем выделять новые ситуации непосредственно во время написания кода и облачать их в тест.</p></li>
+<li><p>позволяет другим разработчикам убедиться, что у них все настроено правильно и можно продолжать разработку. Если тесты не проходят, значит, нужно остановиться и донастроить рабочее окружение.</p></li>
+</ul>
+<p>Преимущества наличия модульных тестов в коде могут быть неочевидны сначала, но проблемы, которые копятся из-за отсутствия или недостаточного количества тестов, постепенно будут копиться, и со временем мы перестанем писать новую функциональность, а будем только разбирать баги.</p>
+<p><img alt="no_test_cycle" src="../../_images/no_test_cycle.png" /></p>
+<section id="id5">
+<h4>Пример<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h4>
+<p>Рассмотрим функции, которые генерируют последовательность N первых чисел целиком и отдельно четные и нечетные.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#content of series.py in my_math package</span>
+<span class="k">def</span> <span class="nf">get_series</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    
+<span class="k">def</span> <span class="nf">get_even_series</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">get_series</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">even_series</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">series</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">even_series</span>
+
+<span class="k">def</span> <span class="nf">get_odd_series</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">get_series</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">odd_series</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">series</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">odd_series</span>
+</pre></div>
+</div>
+<p>Мы видим, что функции <code class="docutils literal notranslate"><span class="pre">get_even_series()</span></code> и <code class="docutils literal notranslate"><span class="pre">get_odd_series()</span></code> используют другую функцию <code class="docutils literal notranslate"><span class="pre">get_series()</span></code>. Это нормально и хорошо, когда есть возможность переиспользовать код в другом месте. Мы выделяем его в отдельный блок. Но все три функции должны быть протестированы без учета внутреннего устройства функции.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#content of test_series.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">my_math.series</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_series</span><span class="p">,</span>
+                            <span class="n">get_even_series</span><span class="p">,</span>
+                            <span class="n">get_odd_series</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TestSeries</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">test_series</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">get_series</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">test_even_series</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">get_even_series</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">test_odd_series</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">get_odd_series</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+
+    <span class="c1"># test include the same code as in the function implementation</span>
+    <span class="k">def</span> <span class="nf">test_even_series_bad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">even_series</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">get_series</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+        <span class="k">assert</span> <span class="n">get_even_series</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">even_series</span>
+    
+    <span class="c1"># test include several functions that can be tested separetely</span>
+    <span class="k">def</span> <span class="nf">test_all_series_bad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="k">assert</span> <span class="n">get_series</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">get_even_series</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">get_odd_series</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+        
+    <span class="c1"># might be a good test</span>
+    <span class="k">def</span> <span class="nf">test_series_full</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">get_even_series</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">get_odd_series</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">series</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">get_series</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="n">series</span>
+</pre></div>
+</div>
+<p>Давайте разберемся, что мы здесь видим. Тесты <code class="docutils literal notranslate"><span class="pre">test_series</span></code>, <code class="docutils literal notranslate"><span class="pre">test_even_series</span></code>, <code class="docutils literal notranslate"><span class="pre">test_odd_series</span></code> тестируют отдельно функциональность трех разных функций, поэтому это нормальные юнит-тесты. Мы можем написать генератор данных вместо использования фиксированных списков <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4]</span></code> и таким образом увеличить покрытие тестами. Мы вернемся к этому чуть позже, сейчас посмотрим на другие тесты. Тест <code class="docutils literal notranslate"><span class="pre">test_even_series_bad</span></code> не является хорошим тестом, так как мы используем ту же логику, что и при реализации функции, и если этот код будет немного сложнее, чем генерация списка чисел, то мы можем унести ошибку в тест, и он будет пройден, хотя функция работает не так, как закладывалось. Например, если нужно было генерировать числа, начиная с нуля, а мы генерируем с 1 <code class="docutils literal notranslate"><span class="pre">range(n)</span> <span class="pre">-&gt;</span> <span class="pre">range(1,</span> <span class="pre">n)</span></code>. Тогда <code class="docutils literal notranslate"><span class="pre">test_series_should_fail_but_passed()</span></code> ниже не вызовет ошибок, так как мы просто скопировали код из функции. Тест <code class="docutils literal notranslate"><span class="pre">test_series</span></code> не пройдет, так как здесь данные сгенерированы независимо, и так мы поймем, что сделали ошибку:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#content of series.py in my_math package</span>
+<span class="k">def</span> <span class="nf">get_series</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>                        <span class="c1"># we made mistake </span>
+
+<span class="c1">#content of test_series.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">my_math.series</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_series</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TestSeries</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">test_series</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">get_series</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">test_series_should_fail_but_passed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">get_series</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>   <span class="c1"># and propagate it here</span>
+</pre></div>
+</div>
+<p>Посмотрим на тест <code class="docutils literal notranslate"><span class="pre">test_series_full</span></code>. Он включает в себя вызов нескольких функций, это может быть хорошей идеей, так как мы проверяем полноту данных. Такой тест не должен подменять собой другие тесты, где мы тестируем отдельные функции, но может дополнять их. Тест не настолько объемный, чтобы считаться <strong>интеграционным тестом</strong>, хотя он и объединяет несколько отдельных участков кода и говорит, как они должны работать совместно.</p>
+</section>
+<section id="id6">
+<h4>Параметризация тестов<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h4>
+<p>В тестах выше мы использовали заранее определенные списки, которые были захардкожены прямо в тесте. Мы можем расширить функциональность тестов, используя <a class="reference external" href="https://docs.pytest.org/en/7.1.x/example/parametrize.html">параметризацию</a> тестов. Добавим в <code class="docutils literal notranslate"><span class="pre">test_series.py</span></code> тесты, которые принимают параметр:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">my_math.series</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_series</span><span class="p">,</span>
+                            <span class="n">get_even_series</span><span class="p">,</span>
+                            <span class="n">get_odd_series</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TestSeries</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">test_series_parametrized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_number</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">max_number</span><span class="p">:</span> 
+            <span class="n">series</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">assert</span> <span class="n">get_series</span><span class="p">(</span><span class="n">max_number</span><span class="p">)</span> <span class="o">==</span> <span class="n">series</span>
+</pre></div>
+</div>
+<p>И если мы попытаемся выполнить тесты, получим ошибку:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">      </span>def<span class="w"> </span>test_series_parametrized<span class="o">(</span>self,<span class="w"> </span>max_number<span class="o">)</span>:
+E<span class="w">       </span>fixture<span class="w"> </span><span class="s1">&#39;max_number&#39;</span><span class="w"> </span>not<span class="w"> </span>found
+</pre></div>
+</div>
+<p>Мы видим новый термин <code class="docutils literal notranslate"><span class="pre">fixture</span></code>. В самом деле, непонятно, откуда pytest должен узнать, что подставить вместо <code class="docutils literal notranslate"><span class="pre">max_number</span></code> при автоматическом тестировании. Если добавить max_number значение по умолчанию, то ошибки не будет, но это не то, что мы хотим сделать. Значения <code class="docutils literal notranslate"><span class="pre">max_number</span></code> должны быть каким-то образом определены, и в pytest для этого используются <code class="docutils literal notranslate"><span class="pre">fixture</span></code>, которые хранят данные, используемые в тестах. Мы определяем <code class="docutils literal notranslate"><span class="pre">fixture</span></code> в файле <code class="docutils literal notranslate"><span class="pre">conftest.py</span></code>, и они будут доступны всем тестами. Эти данные определяются в отдельном файле, так как вызов функции отличается от вызовов тестов, и определение входных данных для тестов можно отнести к конфигурированию тестов <code class="docutils literal notranslate"><span class="pre">conftest</span> <span class="pre">-&gt;</span> <span class="pre">configure</span> <span class="pre">test</span></code>. Добавим в <code class="docutils literal notranslate"><span class="pre">conftest</span></code> следующие строки:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span> 
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">max_number</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>Теперь проходят все тесты. Посмотрим, как можно сделать вызов теста с разными параметрами. Заменим с:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;max_number&quot;</span> <span class="ow">in</span> <span class="n">metafunc</span><span class="o">.</span><span class="n">fixturenames</span><span class="p">:</span>
+        <span class="c1"># end can be retrived from command line parameters</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="mi">10</span>    
+        <span class="n">metafunc</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;max_number&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">end</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Имя параметра, который мы хотим менять, — <code class="docutils literal notranslate"><span class="pre">max_number</span></code>, а <code class="docutils literal notranslate"><span class="pre">range(end)</span></code> задает диапазон значений. Здесь на первый взгляд происходит небольшая магия, но это то, как работает pytest с параметризованными тестами, и такие конструкции мы просто берем из документации. Функция <code class="docutils literal notranslate"><span class="pre">pytest_generate_tests</span></code> вызовется для каждого теста, далее мы посмотрим, что среди параметров-fixture есть тот, который нам нужен, и с помощью  <code class="docutils literal notranslate"><span class="pre">metafunc.parametrize()</span></code> сделаем из одного теста несколько, подставляя вместо одного значения диапазон значений <code class="docutils literal notranslate"><span class="pre">range(end)</span></code>. Значение <code class="docutils literal notranslate"><span class="pre">end</span></code> на текущий момент задано жестко, но может управляться при <a class="reference external" href="https://docs.pytest.org/en/7.1.x/example/simple.html#dynamically-adding-command-line-options">запуске тестов</a>.</p>
+<p><strong>Модульное тестирование позволяет понять, как части кода работают сами по себе</strong></p>
+</section>
+</section>
+</section>
+<section id="id7">
+<h2>Интеграционное тестирование<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
+<p>Чтобы сделать интеграционное тестирование, нужно написать такие тесты, когда различные блоки, модули или компоненты программного приложения тестируются вместе. Интеграционное тестирование нужно для того, чтобы проверить ситуации, которые могут ускользнуть при юнит-тестировании. Основное отличие интеграционного теста от юнит-теста в том, что инициализируются все компоненты системы. Для юнит-теста мы можем определить тестовые данные непосредственно в тесте или через <code class="docutils literal notranslate"><span class="pre">fixture</span></code>. Для интеграционного теста мы положим такие же данные в базу данных и затем возьмем оттуда. Для интеграционного тестирования могут применяться как те же инструменты, что и для модульного тестирования, например, pytest, так и специальные инструменты, которые протестируют приложение с внешней стороны. Например, подадут тестовый запрос так, как бы это делал пользователь, что можно сделать с помощью <a class="reference external" href="https://www.techtarget.com/searchsoftwarequality/tip/Cypress-vs-Selenium-Compare-test-automation-frameworks">Selenium</a>. Подробнее про тестирование можно прочитать <a class="reference external" href="https://www.techtarget.com/searchsoftwarequality/definition/integration-testing">здесь</a> или <a class="reference external" href="https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/testing.html">здесь</a>.</p>
+<p><strong>Интеграционное тестирование позволяет понять, как части кода и целые модули работают в контексте всей системы</strong></p>
+</section>
+<section id="id8">
+<h2>Больше тестов<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<p>Существует также системное тестирование, на этапе которого проверяется не только правильная функциональность частей системы, но и такие аспекты, как:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.guru99.com/load-testing-tutorial.html">работа под нагрузкой</a>.</p></li>
+<li><p><a class="reference external" href="https://www.guru99.com/usability-testing-tutorial.html">удобство использования</a>.</p></li>
+<li><p><a class="reference external" href="https://www.guru99.com/regression-testing.html">обеспечение совместимости</a> с предыдущими версиями кода. Это не совсем то же самое, что прохождение юнит-тестов, здесь мы тестируем, что новая версия программы работает с данными так же, как старые. Даже с учетом того, что юнит-тесты не принято менять в процессе добавления новой функциональности.</p></li>
+<li><p><a class="reference external" href="https://www.guru99.com/recovery-testing.html">восстановление</a> работы системы при авариях.</p></li>
+<li><p><a class="reference external" href="https://www.winwire.com/blog/data-migration-testing/">миграционное</a> тестирование, при котором мы тестируем «переезд» на другие инструменты.</p></li>
+</ul>
+<p>В этой главе мы не будем подробно останавливаться на этих тестах, так как это делается не только силами разработчиков, для целей данного курса мы подробно остановились на модульном тестировании.</p>
+</section>
+<section id="id9">
+<h2>Разработка через тестирование<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
+<p>TDD — test-driven development, разработка через тестирование. Выше мы сначала писали функциональность и затем придумывали тесты. В подходе TDD мы сначала пишем тесты и затем делаем так, чтобы разработанная нами функциональность проходила все тесты. Для разработки через тестирование требуется создать автоматизированные модульные тесты, как мы делали выше с помощью <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, которые определяют требования к коду непосредственно перед написанием самого кода. Тест содержит проверки условий, которые могут либо выполняться, либо нет. Такие условия начинаются с ключевого слова <code class="docutils literal notranslate"><span class="pre">assert</span></code> в примерах выше. Когда они выполняются, говорят, что тест пройден. Прохождение теста подтверждает поведение, которые программист предполагает правильным.</p>
+<p>Цикл разработки через тестирование (на основе книги Кента Бека «Разработка через тестирование: на примере»):</p>
+<ul class="simple">
+<li><p><strong>Добавление теста</strong>. Добавление каждой новой функциональности начинается с написания теста. Только что написанный тест не будет проходить проверку, потому что код, который он тестирует, еще не написан (да, именно так). Если этот тест прошел проверку до написания кода, то данная функциональность уже реализована, либо же тест работает неправильно. Для написания теста разработчик должен четко понимать требования к новой функциональности — это и отличает TDD-подход от остальных, разработчик фокусируется на требованиях до написания кода.</p></li>
+<li><p><strong>Запускаем все тесты, убеждаемся, что они не прошли</strong>. На этом этапе мы проверяем сами тесты. Если написанный тест проходит всегда — значит, он бесполезен. Это увеличивает уверенность, хотя не гарантирует, что тест действительно тестирует то, что нам нужно.</p></li>
+<li><p><strong>Пишем код</strong>. На этом этапе пишем код так, чтобы он проходил тесты. Этот код не обязан быть идеальным. Код может быть некрасивым, это мы поправим на следующих этапах.  Главное, чтобы код был предназначен для прохождения этого теста. Не следует добавлять лишнюю функциональность, для которой не написан тест.</p></li>
+<li><p><strong>Запускаем тесты, убеждаемся, что они проходят</strong>. Если тесты прошли — программист может быть уверен, что код удовлетворяет всем требованиям, определенным на этапе добавления теста, но не более. Если нет — переписываем код и повторно прогоняем тесты до тех пор, пока тесты не будут выполнены.</p></li>
+<li><p><strong>Рефакторинг</strong>. Теперь настало время привести код в порядок. Это процесс изменения внутренней структуры программы, не затрагивающий ее внешнее поведение и имеющий целью облегчить понимание ее работы, устранить дублирование кода, облегчить внесение изменений, в общем, улучшить поддерживаемость кода.</p></li>
+<li><p><strong>Повторить цикл</strong>. Повторяем описанный цикл и реализуем все новую и новую функциональность. Если вы используете сторонние библиотеки, не следует делать небольшие изменения, которые тестируют только функциональность библиотеки, а не ваш код, который использует ее. Исключением может быть случай, когда у вас есть подозрения, что сторонняя библиотека содержит ошибки.</p></li>
+</ul>
+<p>Разработка через тестирование позволяет сделать код чище и яснее, потому что мы пишем только те фрагменты, которые необходимы для прохождения тестирования. Также разработка тестов до написания программы позволяет писать код, который более пригоден для тестирования, что не скажешь о создании тестов после написания кода, когда бывает тяжело отделить одну функциональность от другой. TDD способствует тому, что тестами будет покрыта вся функциональность.</p>
+<section id="id10">
+<h3>Пример<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<p>Для демонстрации разработки тестирования мы будем писать класс «дробь» (<code class="docutils literal notranslate"><span class="pre">Fraction</span></code>). Назовем наш пакет fraction. В каталоге <code class="docutils literal notranslate"><span class="pre">fraction</span></code> создаем модуль <code class="docutils literal notranslate"><span class="pre">fraction.py</span></code>. В этом файле мы будем реализовывать функциональность нашего класса. Далее в корневой директории проекта создаем каталог <code class="docutils literal notranslate"><span class="pre">tests</span></code> и в нем файл <code class="docutils literal notranslate"><span class="pre">test_fraction.py</span></code>. Не забудьте добавить <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> в каталоги <code class="docutils literal notranslate"><span class="pre">tests</span></code> и <code class="docutils literal notranslate"><span class="pre">fraction</span></code>, чтобы они воспринимались как пакеты.  Пропишем в начале файла <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pytest</span></code>. Мы будем использовать библиотеку <code class="docutils literal notranslate"><span class="pre">pytest</span></code> для написания и выполнения тестов. Если на вашем рабочем окружении не установлен <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, установите его:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pytest.<span class="w"> </span>
+</pre></div>
+</div>
+<p>Структура файлов должна выглядеть так:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>my_project
+├── fraction
+│   ├── __init__.py
+│   └── fraction.py
+└── tests
+    ├── __init__.py
+    └── test_fraction.py
+</pre></div>
+</div>
+<p>В файле <code class="docutils literal notranslate"><span class="pre">test_fraction.py</span></code> мы будем писать тесты. Создадим класс <code class="docutils literal notranslate"><span class="pre">TestFraction</span></code>, в котором будем все писать. Для начала напишем код, который будет проверять корректность создания дроби. Для этого надо подумать, что наш класс будет принимать на вход. Пусть это будет числитель, <code class="docutils literal notranslate"><span class="pre">numerator</span></code>, и знаменатель, <code class="docutils literal notranslate"><span class="pre">denominator</span></code>. Все функции, которые что-либо тестируют в pytest, должны начинаться со слова <em>test</em>. Создадим функцию <code class="docutils literal notranslate"><span class="pre">test_fraction_creation()</span></code>, которая будет тестировать создание экземпляров Fraction. Давайте возьмем такие пары числитель-знаменатель: (5, 2), (6, 8), (-5, 2), (2, -5), (0, 1), (1, 0), (1, 1). Во время подготовки данных помним про опасность дробей, которые в знаменателе содержат ноль. В результате у нас должен получиться такой код:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">fraction.fraction</span> <span class="kn">import</span> <span class="n">Fraction</span>
+
+<span class="k">class</span> <span class="nc">TestFraction</span><span class="p">:</span>
+   <span class="k">def</span> <span class="nf">test_fraction_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="n">Fraction</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+       <span class="n">Fraction</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+       <span class="n">Fraction</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+       <span class="n">Fraction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+       <span class="n">Fraction</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+       <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+       <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Теперь можем запустить тесты:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>my_project
+pytest
+</pre></div>
+</div>
+<p>Мы запустили тесты! В отчете нам пишут, что:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ImportError:<span class="w"> </span>cannot<span class="w"> </span>import<span class="w"> </span>name<span class="w"> </span><span class="s1">&#39;Fraction&#39;</span><span class="w"> </span>from<span class="w"> </span><span class="s1">&#39;fraction&#39;</span>.
+</pre></div>
+</div>
+<p>Наша программа не может найти класс Fraction. Для этого в файле fraction/<strong>init</strong>.py пропишем следующее:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.fraction</span> <span class="kn">import</span> <span class="n">Fraction</span>
+</pre></div>
+</div>
+<p>А в fraction/fraction.py создадим заготовку кода:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Fraction</span><span class="p">:</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">):</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">numerator</span> <span class="o">=</span> <span class="n">numerator</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">denominator</span> <span class="o">=</span> <span class="n">denominator</span>
+
+</pre></div>
+</div>
+<p>Запускаем тесты — теперь у нас все работает:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">==============================</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>session<span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="o">===============================</span>
+platform<span class="w"> </span>linux<span class="w"> </span>--<span class="w"> </span>Python<span class="w"> </span><span class="m">3</span>.7.4,<span class="w"> </span>pytest-5.2.1,<span class="w"> </span>py-1.8.0,<span class="w"> </span>pluggy-0.13.0
+rootdir:<span class="w"> </span>/home/artem/swdev/gitrepo/edu/toolchain/23_testing/code/fraction
+plugins:<span class="w"> </span>doctestplus-0.4.0,<span class="w"> </span>arraydiff-0.3,<span class="w"> </span>remotedata-0.3.2,<span class="w"> </span>openfiles-0.4.0
+collected<span class="w"> </span><span class="m">1</span><span class="w"> </span>item<span class="w">                                                                 </span>
+
+tests/test_fraction.py<span class="w"> </span>.<span class="w">                                                   </span><span class="o">[</span><span class="m">100</span>%<span class="o">]</span>
+
+<span class="o">===============================</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.02s<span class="w"> </span><span class="o">================================</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Тестирование</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Виды тестов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Интеграционное тестирование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Больше тестов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">Разработка через тестирование</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../docs/quiz.html" title="предыдущая глава">Вопросы</a></li>
+      <li>Next: <a href="exercises.html" title="следующая глава">Задачи:</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/testing/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

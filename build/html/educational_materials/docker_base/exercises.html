@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Практическое задание 1: Развертывание Python кода в Docker контейнере &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Вопросы" href="quiz.html" />
+    <link rel="prev" title="Контейнеризация на примере Docker" href="content.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="python-docker">
+<h1>Практическое задание 1: Развертывание Python кода в Docker контейнере<a class="headerlink" href="#python-docker" title="Link to this heading">¶</a></h1>
+<p>Цель: Ознакомиться с процессом развертывания приложения на Python в Docker контейнере.</p>
+<p>Задачи:</p>
+<p>Установка Docker: Убедитесь, что на вашем компьютере установлен Docker. Если нет, следуйте инструкциям на официальном сайте Docker (https://docs.docker.com/get-docker/).</p>
+<p>Создание Python приложения: Создайте простое приложение на Python. Например, это может быть «Hello, World!» приложение.</p>
+<p>Создание Dockerfile: В папке с вашим Python кодом создайте файл с именем «Dockerfile». В Dockerfile опишите инструкции для создания образа. Например:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Используем базовый образ Python</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9</span>
+
+<span class="c"># Копируем содержимое текущей папки в папку /app в образе</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/app
+
+<span class="c"># Устанавливаем зависимости</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>/app/requirements.txt
+
+<span class="c"># Указываем рабочую директорию</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Запускаем Python приложение</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Создание requirements.txt: Если ваше приложение использует сторонние библиотеки, создайте файл «requirements.txt» и укажите их там.</p>
+<p>Сборка Docker образа: В терминале перейдите в папку с Dockerfile и выполните команду для сборки Docker образа:</p>
+<p>docker build -t my-python-app .
+Где «my-python-app» - это имя образа, а точка означает текущую директорию.</p>
+<p>Запуск контейнера: После успешной сборки образа, запустите контейнер командой:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>my-python-app
+</pre></div>
+</div>
+<p>Вы увидите вывод вашего Python приложения в терминале.</p>
+<p>Оптимизация Dockerfile: Попробуйте оптимизировать Dockerfile, чтобы уменьшить размер образа. Например, уберите лишние файлы, используйте более легковесные базовые образы и т.д.</p>
+<p>Развертывание приложения: Попробуйте изменить ваш Python код и повторите шаги 5-6 для обновления контейнера с новым кодом.</p>
+<p>Замечание: Это задание предполагает базовое понимание Docker и Python. Если вы не знакомы с Docker или Python, рекомендуется пройти соответствующие обучающие курсы.</p>
+<p>В подавляющем большинстве контейнеров на данный момент используются минимальные образы Linux. Одним из таких примеров является проект Alphine. Подобные миниатюрные сборки ОС позволяют организовать удобную среду для мониторинга приложений и управления ими. Помимо прочего, ОС Linux обладает большим набором эффективных и не требовательных к вычислительным ресурсам инструментов для решения широкого спектра задач. Это и является основной причиной ее выбора при разработке отказоустойчивых, гибких и высоконагруженных решений. Программист, конечно, может запустить код на Python в Docker контейнере без использования образа с ОС, но в случае возникновения ошибки в процессе работы программы или сбоя в работе контейнера зафиксировать его и определить причину сбоя будет достаточно сложно, как и корректно перезапустить работу контейнера, избежав потери данных. Подробней познакомимся с тем, как применять ОС Alphine Linux в образах Docker.</p>
+<section id="python-docker-alpine">
+<h2>Практическое задание 2: Развертывание Python кода в Docker контейнере с использованием образа Alpine<a class="headerlink" href="#python-docker-alpine" title="Link to this heading">¶</a></h2>
+<p>Цель: Освоить процесс развертывания приложения на Python в Docker контейнере с использованием образа Alpine Linux.</p>
+<p>Задачи:</p>
+<p>Установка Docker: Убедитесь, что на вашем компьютере установлен Docker. Если нет, следуйте инструкциям на официальном сайте Docker (https://docs.docker.com/get-docker/).</p>
+<p>Создание Python приложения: Напишите простое Python приложение, которое будет выводить «Hello, Docker with Alpine!».</p>
+<p>Создание Dockerfile: В папке с вашим Python кодом, создайте файл с именем «Dockerfile». В Dockerfile опишите инструкции для создания Docker образа на основе образа Alpine. Пример Dockerfile:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Используем базовый образ Alpine</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9-alpine</span>
+
+<span class="c"># Копируем содержимое текущей папки в папку /app в образе</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/app
+
+<span class="c"># Устанавливаем зависимости</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>/app/requirements.txt
+
+<span class="c"># Указываем рабочую директорию</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Запускаем Python приложение</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Создание requirements.txt: Если ваше приложение использует сторонние библиотеки, создайте файл «requirements.txt» и укажите их там.</p>
+<p>Сборка Docker образа: В терминале, перейдите в папку с Dockerfile и выполните команду для сборки Docker образа:</p>
+<p>docker build -t my-python-app-alpine .
+Где «my-python-app-alpine» - это имя образа, а точка означает текущую директорию.</p>
+<p>Запуск контейнера: После успешной сборки образа, запустите контейнер командой:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>my-python-app-alpine
+</pre></div>
+</div>
+<p>Вы увидите вывод <code class="docutils literal notranslate"><span class="pre">Hello,</span> <span class="pre">Docker</span> <span class="pre">with</span> <span class="pre">Alpine!</span></code> в терминале.</p>
+<p>Изменение кода: Измените текст вывода вашего Python приложения на «Hello, Docker with Alpine! This is my Alpine containerized app.»</p>
+<p>Обновление контейнера: Повторите шаги 5-6 для обновления контейнера с новым кодом.</p>
+<p>Оптимизация Dockerfile: Попробуйте оптимизировать Dockerfile, чтобы уменьшить размер образа. Уберите лишние файлы и зависимости, используйте более легковесные базовые образы.</p>
+<p>Примечание: Это задание предполагает базовое знание Docker и Python. Если вы не знакомы с Docker или Python, рекомендуется предварительно изучить соответствующие темы.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Практическое задание 1: Развертывание Python кода в Docker контейнере</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python-docker-alpine">Практическое задание 2: Развертывание Python кода в Docker контейнере с использованием образа Alpine</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="content.html" title="предыдущая глава">Контейнеризация на примере Docker</a></li>
+      <li>Next: <a href="quiz.html" title="следующая глава">Вопросы</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/docker_base/exercises.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

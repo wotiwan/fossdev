@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Терминология &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Работа в командной строке" href="../bash/content.html" />
+    <link rel="prev" title="Раздел 1. Введение, подходы к программированию" href="../../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Терминология<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>В данном курсе мы будем использовать терминологию, связанную с разработкой программного обеспечения, поэтому полезно собрать все термины в одном месте. Ниже мы будем приводить русский и английский варианты терминов, так как последние будут полезны при поиске информации. Мы не претендуем на полноту списка терминов, используемых для разработки приложений, но постарались собрать те из них, которые важны в рамках данного курса, и по возможности снабдить их примерами.</p>
+<section id="application">
+<h2>Приложение (англ. Application)<a class="headerlink" href="#application" title="Link to this heading">¶</a></h2>
+<p>По-английски это Application, или app. Последнее часто используется при написании приложений. Например, при написании <strong>бэкэнда</strong> используется именно это имя для того, чтобы обозначить главное приложение.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/10685675d03585f3d1664e107260e356/app.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">root</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello World&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="module-package-library-framework">
+<h2>Модуль/Пакет/Библиотека/Фреймворк (англ. Module/Package/Library/Framework)<a class="headerlink" href="#module-package-library-framework" title="Link to this heading">¶</a></h2>
+<p>Эти термины связаны с организацией кода и с тем, как он функционирует. Если мы хотим, чтобы наш проект можно было читать и, как следствие, он был интересен другим разработчикам, которые могли бы его развивать, мы должны позаботиться о структуре проекта. Все начинается с <strong>модуля</strong>, модуль — это файл с кодом, который объединен общим смыслом. Например, если у нас есть код для генерации данных и их визуализации, будет неплохой идеей разделить его на два файла-модуля. <em>Примечание: если модулей генерации данных и визуализации несколько, мы уже будем объединять их в пакеты, о которых речь пойдет ниже.</em> Python-модули имеют расширение <code class="docutils literal notranslate"><span class="pre">.py</span></code>.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/880ee67e1e8f4a6a417707f26c879a2e/module_generate.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;From module genearating data&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">generate_arithmetic_series</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    
+<span class="k">def</span> <span class="nf">generate_geometric</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">([</span><span class="n">b</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../../_downloads/f892ac6b397ad4894a35097fa0c698c2/module_plot.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;From module plotting data&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">plot_lines</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+<span class="k">def</span> <span class="nf">plot_dots</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>Модули привносят множество преимуществ в наш код:<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Улучшенный процесс разработки. Модули Python помогают вам сосредоточиться на одной небольшой части задачи, не держа в голове весь контекст проекта. Кроме того, модули обычно пишутся таким образом, чтобы свести к минимуму зависимость друга от друга. Почти всегда, когда возникает желание использовать код одного модуля в другом и наоборот, можно выделить взаимный код в третий модуль и использовать его в двух первых. Также мы уменьшаем количество конфликтов при слиянии кода (<code class="docutils literal notranslate"><span class="pre">merge</span> <span class="pre">conflict</span></code>).</p></li>
+<li><p>Уменьшение количества кода. Функциональность, которую мы определяем в одном модуле, можем использоваться в разных частях приложения, сводя к минимуму дублирование кода.</p></li>
+<li><p>Отдельные пространства имен. С модулями Python вы можете определить отдельные пространства имен, чтобы избежать конфликтов между идентификаторами в разных частях вашего приложения.</p></li>
+</ul>
+<p>Термин <strong>пакет</strong> является достаточно перегруженным, и его значение может меняться в зависимости от контекста. Так как в курсе мы в основном работаем с Python, будем придерживаться терминологии, принятой в нем. <strong>Пакет</strong> — это следующий уровень в организации кода после модулей. Если модули содержали функции и классы, то пакет уже содержит сами модули. Для того, чтобы каталог был воспринят как пакет, он должен содержать файл <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>. <a class="reference external" href="https://www.includehelp.com/python/packages.aspx">Пример</a> пакета:</p>
+<p><img alt="package_structure" src="../../_images/package_structure.png" /></p>
+<p><strong>Пакеты</strong> могу содержать внутри себя каталоги, которые, в свою очередь, тоже являются пакетами.</p>
+<p><strong>Библиотека</strong>  — это общий термин для кода, который можно переиспользовать. Мы все пишем код и собираем его в модули и пакеты, но это не значит, что наш код можно считать библиотекой. Для этого он должен обладать некоторой долей универсальности, определенным оформлением и другими элементами, например, покрытием тестами. Т.е. библиотека обязательно является пакетом, но не каждый пакет можно считать библиотекой. Например, на сайте <a class="reference external" href="https://numpy.org/">numpy</a> указано, что это пакет:</p>
+<blockquote>
+<div><p>NumPy is the fundamental Python package for scientific computing</p>
+</div></blockquote>
+<p>При этом на сайте другого популярного проекта <a class="reference external" href="https://matplotlib.org/">matplotlib</a> говорится, что это библиотека:</p>
+<blockquote>
+<div><p>Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python</p>
+</div></blockquote>
+<p>Поэтому есть мнение, что библиотека — это <em>пакет с пакетами</em>, т.е. что-то, что обладает более разносторонней функциональностью, чем пакет.</p>
+<p>Итак, мы подобрались к самым сложным объектам — <strong>фреймворкам</strong>. Наиболее подходящий перевод с английского — <em>основа</em> или <em>каркас</em>, т.е. что-то, на чем мы строим или на что навешиваем свой функционал. Идея фреймворков появилась, когда программисты поняли, что часто используют библиотеки почти одинаковым способом. Например, нам нужно принять данные от пользователя, валидировать их и сохранить в базе данных. Можно «поднять» все необходимые компоненты и написать все это вручную, а можно взять готовый <strong>фреймворк</strong>, где уже будет реализованы базовый поток данных и архитектура приложения, и нам нужно будет только написать код, который относится к нашей задаче. Поэтому распространенное определение, что фреймворк — это набор библиотек, не совсем верно. Можно думать о <a class="reference external" href="https://www.interviewbit.com/blog/framework-vs-library/">различии</a> <strong>библиотеки</strong> и <strong>фреймворка</strong> так: если мы не напишем ни одной строчки кода, <strong>фреймворк</strong> все равно будет работать и поддерживать базовый поток. Поэтому тот код, который напишет программист, используя фреймворк, будет выполняться и контролироваться этим фреймворком. Еще один способ думать о фреймворках — это насколько полным является его функционал для решения задачи, т.е. мы можем ли решить бизнес-задачу, не выходя за пределы какого-то инструмента. Мы часто слышим про фреймворки в <a class="reference external" href="https://fastapi.tiangolo.com/">контексте web-приложений</a>, но этим <a class="reference external" href="https://www.qt.io/product/framework">не ограничивается</a> их применение.</p>
+</section>
+<section id="programming-paradigm">
+<h2>Парадигма программирования (англ. programming paradigm)<a class="headerlink" href="#programming-paradigm" title="Link to this heading">¶</a></h2>
+<p>Способ, как мы смотрим на то, что происходит при разработке. Например, с точки зрения водителя улица, через которую он едет <em>транзитом</em>, это ширина проезжей части дороги, количество светофоров и прочее. Но улица, на которой расположен пункт назначения, уже рассматривается водителем с точки зрения удобства парковки, хотя на транзитной улице тоже есть парковочные места. Т.е. на одну и туже сущность <em>улица</em> мы можем смотреть под разными углами, в зависимости от того, что сейчас для нас важно. <em>Парадигма программирования</em> — это способ описать задачу, например, данные и действия над ними.
+Рассмотрим на примере процедурной и объектно-ориентированной парадигм. <strong>Процедурное</strong> программирование описывает список действий (процедур), которые мы предпринимаем для достижения цели. <strong>Объектно-ориентированное</strong> программирование строится вокруг объектов и их свойств, здесь мы применяем такие термины как Класс, Экземпляр (Объект), Поле (Аттрибут), Метод. <strong>Объектно-ориентированное</strong> программирование — наиболее часто используемый подход, хотя существуют задачи (<a class="reference external" href="https://www.techtarget.com/searchapparchitecture/definition/reactive-programming">1</a>, <a class="reference external" href="https://docs.confluent.io/platform/current/tutorials/examples/microservices-orders/docs/index.html">2</a>), где решение лучше описывается в других парадигмах. Подробнее об ООП на примере Python читайте в <a class="reference external" href="https://towardsdatascience.com/python-procedural-or-object-oriented-programming-42c66a008676">статье</a>. На практике мы можем смешивать парадигмы, если это не вредит поддерживаемости кода. Ниже приведен пример решения одной и той же задачи с использованием разных парадигм:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/c53571a1f162b318516a007050c93d04/procedural.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># PROCEDURAL</span>
+<span class="k">def</span> <span class="nf">average_age</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="n">average</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
+        <span class="n">average</span> <span class="o">=</span> <span class="n">average</span> <span class="o">+</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">average</span> <span class="o">/</span> <span class="n">count</span>
+
+<span class="n">people</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;Ivan&quot;</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Mary&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Alex&quot;</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Sara&quot;</span><span class="p">,</span> <span class="mi">29</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average age:&quot;</span><span class="p">,</span> <span class="n">average_age</span><span class="p">(</span><span class="n">people</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../../_downloads/d77d49106093132fe11c5b940d5959f4/oop.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># OOP</span>
+<span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+<span class="k">class</span> <span class="nc">Workers</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workers</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">worker</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_average_age</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">age_sum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">:</span>
+            <span class="n">age_sum</span> <span class="o">=</span> <span class="n">age_sum</span> <span class="o">+</span> <span class="n">worker</span><span class="o">.</span><span class="n">age</span>
+        <span class="k">return</span> <span class="n">age_sum</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">)</span>
+
+<span class="n">workers</span> <span class="o">=</span> <span class="n">Workers</span><span class="p">()</span>
+<span class="n">workers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Ivan&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">24</span><span class="p">))</span>
+<span class="n">workers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Mary&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">workers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Alex&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">21</span><span class="p">))</span>
+<span class="n">workers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Sara&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">29</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average age:&quot;</span><span class="p">,</span> <span class="n">workers</span><span class="o">.</span><span class="n">get_average_age</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Что такое? Почему в ООП больше кода, когда это такая классная парадигма? Все верно, кода больше, но он лучше структурирован, и нужно думать не о количестве кода, а о том, насколько его легко читать и насколько его легко поддерживать. Например, средний возраст — это характеристика группы людей, поэтому мы пишем метод в <code class="docutils literal notranslate"><span class="pre">Workers</span></code>, а если мы хотим написать метод, который увеличит возраст сотрудника в день его рождения, мы идем в класс <code class="docutils literal notranslate"><span class="pre">Person</span></code>. Также в <strong>процедурном</strong> программировании часто возникают конструкции типа <code class="docutils literal notranslate"><span class="pre">item[1]</span></code>, и мы должны помнить, что возраст — это индекс 1 (а не 0, индексы нумеруются от нуля). В <strong>объектно-ориентированном</strong> мы не работаем с большой таблицей данных, а структурируем информацию в том виде, с которым принято работать в той или иной сфере. Подумайте, как бы вы решили следующие задачи:</p>
+<ul class="simple">
+<li><p>храним не возраст, а дату рождения, и нужно по-прежнему знать возраст;</p></li>
+<li><p>хотим уволить :( человека.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>Статическое и динамическое типизирование<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>В Python мы можем объявить переменную без указания типа, интерпретатор сам определит тип переменной. Это называется <strong>динамическая типизация</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">magic_number</span> <span class="o">=</span> <span class="mf">42.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>С другой стороны, когда в описании переменной необходимо указывать тип, мы имеем дело со статической типизацией. Она применяется как в C++, так и во многих других языках.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">magic_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">42.</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Hello &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">magic_number</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Теперь посмотрим не со стороны языка программирования, а со стороны разработчика. При объявлении переменной ее тип может быть понятен из значения, которое в ней хранится. Но при использовании функции мы не можем понять, что именно мы должны передать без использования документации. Поэтому мы можем использовать аннотацию типов и в таких языках как Python:</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/dccb5dddd9a77683164662cf98da592d/type_annotation.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib_nohint</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">a</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">fib_hint</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">a</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+
+</pre></div>
+</div>
+<p>Функцию, где указаны типы аргументов и тип возвращаемого значения, проще использовать. Кроме удобства при чтении кода, можно добавить также и <a class="reference external" href="https://docs.pydantic.dev/usage/validators/">валидацию</a> значений переменных, используя библиотеку <a class="reference external" href="https://docs.pydantic.dev/">pydantic</a>. Проводить проверку своего кода на наличие аннотирования можно, используя такие инструменты как <a class="reference external" href="https://mypy-lang.org/">mypy</a>.</p>
+</section>
+<section id="id4">
+<h2>Тестирование<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>Оно должно быть. Рассмотрим здесь несколько важных терминов: <strong>Покрытие тестами</strong> (англ. Test Coverage) — доля кода, которая покрыта тестами, т.е. та часть кода, которую мы действительно выполняем с использованием тестовых данных. Ниже приведен пример на C++: код скомпилируется, но при этом его нельзя выполнить без ошибки. Если бы функция <code class="docutils literal notranslate"><span class="pre">foo</span></code> была покрыта тестами, мы бы увидели ошибку сразу.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/c9b867473e77851295cfbeb18dd2bc50/testing.cpp"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Hello World!&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mf">42.</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Разработка через тестирование</strong> (англ. Test-driven development) — подход, при котором мы сначала пишем тесты, и только потом разрабатываем саму функциональность. На практике это не всегда достижимо и не всегда удобно, поэтому в написании тестов после разработки функциональности нет ничего плохого.</p>
+<p><strong>Юнит-тестирование</strong> (англ. Unit Testing) — разбиение программы на мелкие блоки, каждый из которых может быть протестирован отдельно. Пример ниже содержит простой класс, который умеет только добавлять 10 и умножать на 10. Мы можем подумать над тестами заранее (<strong>Разработка через тестирование</strong>) или написать тесты потом, в любом случае, нам нужно добиться прохождения тестов. На практике вы будете использовать библиотеки типа <code class="docutils literal notranslate"><span class="pre">unittest</span></code>, пример ниже специально написан без использования сторонних библиотек, чтобы показать концепцию тестирования и не отвлекаться на изучение конкретных инструментов. Позже в курсе тестированию будут посвящены отдельные занятия.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/584aa9e1663e40d2245e0762fbc0d11b/unit_testing.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Calculator</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="nf">add_10</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">10</span>
+    
+    <span class="k">def</span> <span class="nf">multiply_by_10</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="mi">10</span>
+        
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># testing code</span>
+    <span class="k">assert</span> <span class="n">Calculator</span><span class="o">.</span><span class="n">add_10</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="mi">22</span>          <span class="c1">#test 1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pass test 1&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">Calculator</span><span class="o">.</span><span class="n">multiply_by_10</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="mi">120</span> <span class="c1">#test 2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pass test 2&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>                                        <span class="c1">#test 3</span>
+        <span class="n">Calculator</span><span class="o">.</span><span class="n">add_10</span><span class="p">(</span><span class="s2">&quot;asda&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fail test 3&quot;</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pass test 3&quot;</span><span class="p">)</span>
+    
+    <span class="k">try</span><span class="p">:</span>                                        <span class="c1">#test 4</span>
+        <span class="n">Calculator</span><span class="o">.</span><span class="n">multiply_by_10</span><span class="p">(</span><span class="s2">&quot;asda&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fail test 4&quot;</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pass test 4&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Подумайте, почему четвертый тест не прошел и как сделать так, чтобы он отработал. Оцените, насколько удобно иметь тесты.</em></p>
+</section>
+<section id="logging">
+<h2>Логирование (англ. Logging)<a class="headerlink" href="#logging" title="Link to this heading">¶</a></h2>
+<p>Ведение журнала событий, в котором записывается информация, облегчающая отслеживание событий, которые нельзя отнести к нормальной работе кода или системы в целом.</p>
+</section>
+<section id="markup-language">
+<h2>Язык разметки (англ. Markup Language)<a class="headerlink" href="#markup-language" title="Link to this heading">¶</a></h2>
+<p><strong>Язык разметки</strong> позволяет снабдить текст специальными символами, которые регулируют его отображение. Например, этот документ написан с помощью языка разметки <em>Markdown</em>, а GitHub или Gitlab собрал из него красивый документ, который вы сейчас и читаете. Популярность <em>Markdown</em> породила <a class="reference external" href="https://habr.com/ru/post/672266/">множество</a> инструментов написания текста в нем и компиляции итогового документа. Данный раздел выглядит вот так (редактор ReText):</p>
+<p><img alt="markdown_source" src="../../_images/markdown_source.png" /></p>
+</section>
+<section id="version-control-system">
+<h2>Система контроля версий (англ. Version Control System)<a class="headerlink" href="#version-control-system" title="Link to this heading">¶</a></h2>
+<p><strong>Система контроля версий</strong> позволяет облегчить работу над приложением, даже при работе в одиночку. При работе в команде она практически незаменима. В курсе мы будем использовать <strong>git</strong>, которому посвящено несколько занятий. На основе git построены такие системы как GitLab и GitHub, которые предоставляют удаленный репозиторий git и привносят дополнительную функциональность, такую как отслеживание багов через *<strong>Задачи/Проблемы</strong> (англ. Issues), визуализацию и многое другое.</p>
+</section>
+<section id="bug">
+<h2>Ошибка (англ. bug)<a class="headerlink" href="#bug" title="Link to this heading">¶</a></h2>
+<p>Ошибка или непонятное поведение программы, в общем, все, что нельзя отнести к нормальному поведению программы. Часто используется прямая транскрипция с английского — <strong>баг</strong>. Баг может приводить к сбоям при использовании определенного места в программе, и это хороший сценарий, поскольку сразу понятно, где ошибка. <em>В примере ниже в print_value() идет обращение к переменной, которую ранее нигде не инициализировали, это можно исправить, написав <code class="docutils literal notranslate"><span class="pre">self.value</span></code> вместо <code class="docutils literal notranslate"><span class="pre">value</span></code></em></p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/cfb08820cc98c00167177e20ac1dac84/bug_fail_fast.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ClassWithBugFailFast</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">print_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">ClassWithBugFailFast</span><span class="p">()</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">print_value</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Часто бывает, что ошибки не происходит, но поведение программы неочевидно.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/425d292e498e4fa5c393c9c3aab174f1/bug_no_fail.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ClassWithBugNoFail</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">print_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">ClassWithBugNoFail</span><span class="p">()</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">print_value</span><span class="p">(</span><span class="mi">456</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="issues">
+<h2>Задачи/Проблемы (англ. Issues)<a class="headerlink" href="#issues" title="Link to this heading">¶</a></h2>
+<p>Одна из целей, которые преследуют Issues, — документирование багов и отслеживание их решения. Однако они используется гораздо <a class="reference external" href="https://docs.gitlab.com/ee/user/project/issues/">шире</a> и, как многие другие инструменты, призваны повысить эффективность разработки приложений.</p>
+</section>
+<section id="fail-fast">
+<h2>Fail-fast<a class="headerlink" href="#fail-fast" title="Link to this heading">¶</a></h2>
+<p>В примере выше мы посмотрели, что неправильно написанный код, который сразу приводит к ошибке, лучше, чем код, который приводит не к ошибке, а к непонятным результатам. Понятно, что мы не планируем писать баги, но поведение, при котором мы вызываем ошибку (кидаем исключение) при непонятной ситуации, получило название <strong>fail-fast</strong>. Подход <strong>fail-fast</strong> является предпочтительным при написании кода, так как позволяет определить место, где произошла ошибка. Другим подходом при обработке непредвиденной ситуации является подход <strong>forgive</strong>, при котором мы пытаемся уменьшить негативные последствия и стараемся не кидать ошибки. Подробнее про два подхода можно почитать в <a class="reference external" href="https://habr.com/ru/post/218325/">статье</a></p>
+</section>
+<section id="exceptions">
+<h2>Исключение (англ. Exceptions)<a class="headerlink" href="#exceptions" title="Link to this heading">¶</a></h2>
+<p>Исключительная ситуация требует исключительных мер. При работе приложения мы стараемся предусмотреть возможные варианты его использования, например, варианты входных данных, которые приходят в приложение от пользователя. Данные от пользователя могут быть недопустимыми, и мы можем попробовать исправить это. Например, конвертировать строку, содержащую число, в целое число, используя <code class="docutils literal notranslate"><span class="pre">int()</span></code>, а если не получится, то <code class="docutils literal notranslate"><span class="pre">float()</span></code>. <em>Для данного примера считаем, что это приемлемый вариант</em>.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/af183cb38ca8e0bae213cfd6690c56ff/exceptions.py"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Validator</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="nf">get_int_number</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Could convert to int, try via float:&#39;</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span>
+        
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Validator</span><span class="o">.</span><span class="n">get_int_number</span><span class="p">(</span><span class="s1">&#39;10.&#39;</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="s1">&#39;aaa&#39;</span>
+        <span class="n">Validator</span><span class="o">.</span><span class="n">get_int_number</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">user_input</span><span class="si">}</span><span class="s1"> is not a number, please enter proper data&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknow error ask developers </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Если не получается конвертировать в число в принципе, как в случае со строкой <code class="docutils literal notranslate"><span class="pre">'aaa'</span></code>, мы можем попросить пользователя повторить ввод. Если же происходит что-то, что мы не можем идентифицировать, то тоже должны «поймать» это на верхнем уровне (в примере выше это <code class="docutils literal notranslate"><span class="pre">except</span> <span class="pre">Exception</span> <span class="pre">as</span> <span class="pre">e</span></code>) и зафиксировать: можно, например, записать сообщение об ошибке в лог.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Терминология</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#application">Приложение (англ. Application)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-package-library-framework">Модуль/Пакет/Библиотека/Фреймворк (англ. Module/Package/Library/Framework)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Модули привносят множество преимуществ в наш код:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programming-paradigm">Парадигма программирования (англ. programming paradigm)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Статическое и динамическое типизирование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Тестирование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logging">Логирование (англ. Logging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#markup-language">Язык разметки (англ. Markup Language)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-control-system">Система контроля версий (англ. Version Control System)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bug">Ошибка (англ. bug)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#issues">Задачи/Проблемы (англ. Issues)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fail-fast">Fail-fast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exceptions">Исключение (англ. Exceptions)</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../../index.html" title="предыдущая глава">Раздел 1. Введение, подходы к программированию</a></li>
+      <li>Next: <a href="../bash/content.html" title="следующая глава">Работа в командной строке</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/terms/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Работа в командной строке &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Задачи" href="exercises.html" />
+    <link rel="prev" title="Терминология" href="../terms/content.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Работа в командной строке<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>Команды bash являются неотъемлемой частью разработки. Командная строка, не только bash, но и другие, дает бОльшие возможности по сравнению с любым графическим интерфейсом. Любой интерфейс полагается на эти команды и вызывает их с соответствующими параметрами.</p>
+<section id="id2">
+<h2>Мотивация<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Относитесь к <code class="docutils literal notranslate"><span class="pre">bash</span></code> как универсальному скриптовому языку, который покажет одинаковое поведение на разных системах Линукс. С помощью bash и различных утилит мы можем получать доступ к «железу» машины, на которой работаем, и настраивать автоматические сценарии. Это можно осуществить и с использованием языков программирования, но сделать это будет сложнее, и реализация будет зависеть от конкретного языка программирования. Но если мы напишем <code class="docutils literal notranslate"><span class="pre">bash</span></code>, то «дернуть» его из любого языка программирования не составит труда, так как большинство из них поддерживает системные вызовы. Если же вызов системных функций невозможен или неудобен, обмен информацией всегда доступен через файлы, куда можно записать информацию из <code class="docutils literal notranslate"><span class="pre">bash</span></code>-скрипта, а прочитать из <code class="docutils literal notranslate"><span class="pre">python</span></code>.</p></li>
+<li><p>При работе на своей компьютере вы можете не оценить все достоинства командной строки, однако она точно понадобится, чтобы настроить работу вашего приложения на удаленном сервере, физическом или виртуальном, к которому вы будете подключаться по ssh и на котором может быть в принципе не установлен оконный интерфейс.</p></li>
+</ol>
+<p>Ниже будут описаны команды, которые помогут ходить по файловой системе, создавать, копировать и перемещать файлы, изменять разрешения для файлов, передавать владельца у файла, просматривать запущенные процессы и открытые порты.
+Предположим, у нас есть пользователь с именем <strong>artem</strong>, на машине, которая называется <strong>pc</strong>. Тогда при запуске командной строки мы увидим предложение ввода команды:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:/$<span class="w"> </span>
+</pre></div>
+</div>
+<p>Мы видим, что здесь указаны имя пользователя и имя компьютера через символ <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>. Далее после двоеточия (<code class="docutils literal notranslate"><span class="pre">:</span></code>) указан текущий путь, сейчас мы находимся в корневой директории, далее символ <code class="docutils literal notranslate"><span class="pre">$</span></code> для отделения команды. Начнем изучение командной строки с команды, которая позволяет ходить по файловой системе.</p>
+<p><strong>Hint: при нажатии на стрелку вверх в командную строку будет подставлена предыдущая команда. Стрелку можно нажимать несколько раз</strong></p>
+<p><strong>Hint: Дополнительные информацию и опции по каждой команде можно увидеть вызвав</strong> <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">command</span></code> <strong>или</strong> <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">--help</span></code>, <code class="docutils literal notranslate"><span class="pre">man</span></code> <strong>сокращенно от manual</strong></p>
+<p>Мы надеемся, что это было достаточно убедительно, чтобы не пройти мимо темы <code class="docutils literal notranslate"><span class="pre">bash</span></code>.</p>
+</section>
+<section id="cd-change-directory">
+<h2>cd - change directory<a class="headerlink" href="#cd-change-directory" title="Link to this heading">¶</a></h2>
+<p>Команда для смены директории. При вызове происходит переход в директорию, которая указана после команды <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">/path/to/destination</span></code>. Предположим, у нас есть пользователь с именем artem. Следующие команды можно выполнить, чтобы перейти сначала в директорию <code class="docutils literal notranslate"><span class="pre">home</span></code>, а затем в домашнюю директорию пользователя <code class="docutils literal notranslate"><span class="pre">/home/artem</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:/$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/home
+artem@pc:/home$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>./artem
+artem@pc:~$
+</pre></div>
+</div>
+<p>Заметьте, что во втором случае мы использовали <code class="docutils literal notranslate"><span class="pre">./</span></code> для перехода по относительному пути. Также видно, что меняется текущий путь, в котором мы находимся: в первой строке это была корневая директория (<code class="docutils literal notranslate"><span class="pre">/</span></code>), во второй — директория, в которой содержатся все домашние директории всех пользователей данной системы (<code class="docutils literal notranslate"><span class="pre">/home</span></code>). В третьей строке вместо пути мы видим символ <code class="docutils literal notranslate"><span class="pre">~</span></code>, который является сокращением для домашней папки конкретного пользователя. Две команды выше эквиваленты одной команде с указанием абсолютного пути:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:/$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/home/artem
+</pre></div>
+</div>
+<p>Команда <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">/artem</span></code> вызовет ошибку, так как будет происходить поиск в корневой директории, а в ней <strong>НЕ</strong> содержится директории <code class="docutils literal notranslate"><span class="pre">artem</span></code>.
+При использовании <code class="docutils literal notranslate"><span class="pre">cd</span></code> можно использовать сокращения, которые позволяют переходить по определенным путям, не прописывая полный путь (в примерах ниже <code class="docutils literal notranslate"><span class="pre">#</span></code> означает начало комментария):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nb">cd</span><span class="w"> </span>~<span class="w">        </span><span class="c1"># переход в домашнюю папку</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>../<span class="w">      </span><span class="c1"># переход на один уровень выше</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>../../<span class="w">   </span><span class="c1"># переход на два уровня выше, чтобы уйти еще выше, можно добавлять ../</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>-<span class="w">        </span><span class="c1"># возврат в предыдущую директорию</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>.<span class="w">        </span><span class="c1"># текущий каталог</span>
+</pre></div>
+</div>
+<p>На рисунке ниже представлено использование описанных команд.</p>
+<p><img alt="cd path" src="../../_images/cd_path.png" /></p>
+<p>При использовании команды <code class="docutils literal notranslate"><span class="pre">cd</span></code> необязательно помнить полное наименование директории. Можно начать писать путь и затем нажать на TAB для автодополнения.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:/$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/usr/loc<span class="w">     </span><span class="c1"># нажимаем TAB</span>
+artem@pc:/$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/usr/local/
+</pre></div>
+</div>
+<p>Если написанного пользователем будет недостаточно для того, чтобы однозначно определить путь, командная строка выдаст все возможные варианты:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>user#pc:<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/usr/l<span class="w">     </span><span class="c1"># нажимаем TAB</span>
+lib/<span class="w">    </span>libexec/<span class="w">    </span>local/
+user#pc:<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/usr/l
+</pre></div>
+</div>
+<p><img alt="cd tab" src="../../_images/cd_tab.png" /></p>
+<p>Вопросы для проверки:</p>
+<p><em>Что можно указать после команды cd?</em></p>
+<ul class="simple">
+<li><p>Абсолютный путь (верно)</p></li>
+<li><p>Относительный путь (верно)</p></li>
+<li><p>Адрес веб-сайта (НЕверно)</p></li>
+<li><p>Один из специальных наборов символов, например, <code class="docutils literal notranslate"><span class="pre">../</span></code> (верно)</p></li>
+</ul>
+</section>
+<section id="ls-list">
+<h2>ls - list<a class="headerlink" href="#ls-list" title="Link to this heading">¶</a></h2>
+<p>Для просмотра содержимого директории можно использовать <strong>ls</strong>. При вызове без параметров будет показано содержимое <em>текущей директории</em>. Также можно указать путь <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">/path/to/dir</span></code>, в этом случае будет показано содержимое <em>указанной директории</em>.</p>
+<p><img alt="ls" src="../../_images/ls.png" /></p>
+<p>Мы видим, что разные имена подкрашены по-разному, на картинке выше три вида разметки. В вашей командой строке цвета могут отличаться. На картинке синий обозначает директорию, черный — обычный файл и зеленый — исполняемый файл. Но как понять это без цветовой индикации? Для этого вызовите <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span></code>:</p>
+<p><img alt="ls list" src="../../_images/ls_list.png" /></p>
+<p>Теперь мы видим больше информации по каждому файлу и директории в <code class="docutils literal notranslate"><span class="pre">project</span></code>. Среди этой информации: разрешение, владелец, группа, размер, дата последнего изменения, имя файла. Как видите, директория имеет букву <code class="docutils literal notranslate"><span class="pre">d</span></code> в разрешениях, а исполняемый файл, в отличие от неисполняемого, имеет атрибут <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<p>Для просмотра скрытых файлов нужно указать параметр <code class="docutils literal notranslate"><span class="pre">a</span></code>. К скрытым файлам относятся директории, которые создаются при инициализации репозитория git.</p>
+<p><img alt="ls all" src="../../_images/ls_all.png" /></p>
+<p>Вопросы для проверки:</p>
+<p><em>Можно ли указывать ls без параметров?</em></p>
+<ul class="simple">
+<li><p>Да (верно)</p></li>
+<li><p>Нет (НЕверно)</p></li>
+</ul>
+</section>
+<section id="clear">
+<h2>clear<a class="headerlink" href="#clear" title="Link to this heading">¶</a></h2>
+<p>Командой <strong>clear</strong> можно очистить терминал от вывода. При этом история команд останется, и их по-прежнему можно доставать, нажимая на стрелку вверх.</p>
+<p><img alt="clear all" src="../../_images/clear_all.png" /></p>
+<p>При использовании clear мы увидим пустой терминал:</p>
+<p><img alt="clear done" src="../../_images/clear_done.png" /></p>
+<blockquote>
+<div><p>PS: для скриншотов данного материала <code class="docutils literal notranslate"><span class="pre">clear</span></code> использовалось ооочень много раз :)</p>
+</div></blockquote>
+</section>
+<section id="mkdir-make-directory">
+<h2>mkdir - make directory<a class="headerlink" href="#mkdir-make-directory" title="Link to this heading">¶</a></h2>
+<p>Для создания директорий мы используем команду <strong>mkdir</strong>. Так же, как в случае с <strong>cd</strong> и <strong>ls</strong>, мы можем использовать относительный путь. Если директория уже существует, будет выдано сообщение об ошибке.</p>
+<p><img alt="mkdir" src="../../_images/mkdir.png" /></p>
+</section>
+<section id="touch">
+<h2>touch<a class="headerlink" href="#touch" title="Link to this heading">¶</a></h2>
+<p>Представьте ситуацию: нужно узнать время, когда последний раз запускалось то или иное приложение, которое запускается в фоне. Существует множество способов это сделать: запись в базе данных, анализ логов и так далее. Самой простой способ для bash-скрипта — изменение времени последнего изменения какого-либо файла. Это можно сделать, записав что-то в файл. Если такой вариант не подходит, воспользуйтесь командой <code class="docutils literal notranslate"><span class="pre">touch</span></code>, которая как раз предназначена для изменения времени обращения к файлу на текущее, при этом открытие файла не происходит.</p>
+<p><img alt="touch timestamp" src="../../_images/touch_timestamp.png" /></p>
+<p>Если файл не существует, он будет создан пустым, если не указан аргумент <code class="docutils literal notranslate"><span class="pre">-с</span></code>.</p>
+<p><img alt="touch no create" src="../../_images/touch_no_create.png" /></p>
+</section>
+<section id="cat-concatenate">
+<h2>cat - concatenate<a class="headerlink" href="#cat-concatenate" title="Link to this heading">¶</a></h2>
+<p>Читает содержимое файлов и выводит его. Добавим в project директорию <code class="docutils literal notranslate"><span class="pre">data</span></code> и два файла <code class="docutils literal notranslate"><span class="pre">items_part1.txt</span></code> и <code class="docutils literal notranslate"><span class="pre">items_part2.txt</span></code>.</p>
+<p><img alt="cat" src="../../_images/cat_files.png" /></p>
+<p>Можно использовать <code class="docutils literal notranslate"><span class="pre">cat</span></code> для склеивания содержимого нескольких файлов: укажите несколько файлов после cat, затем <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> и имя файла, в который нужно слить данные. Символы <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> означают перенаправление потока, т.е. мы делаем вывод не в стандартный поток, а, например, в файл.</p>
+<p><img alt="cat_wiring" src="../../_images/cat_wiring.png" /></p>
+<p>С помощью cat можно пронумеровать строки в файлах сквозной нумерацией.</p>
+<p><img alt="cat_numbering" src="../../_images/cat_numbering.png" /></p>
+<p><strong>Hint: посмотрите также команды <code class="docutils literal notranslate"><span class="pre">head</span></code> и <code class="docutils literal notranslate"><span class="pre">tail</span></code>, они выводят начало и конец файлов. <code class="docutils literal notranslate"><span class="pre">tail</span></code> будет удобен для просмотра журнала логов.</strong></p>
+<p><strong>Hint: <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> и <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> перенаправляют поток и создают файл, если его нет. Отличие состоит в том, что <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> добавляет новое содержимое в конец файла, а <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> перезаписывает файл, удаляя предыдущее содержимое этого файла.</strong></p>
+</section>
+<section id="echo">
+<h2>echo<a class="headerlink" href="#echo" title="Link to this heading">¶</a></h2>
+<p>Обычно используется в скриптах для вывода информации (как <code class="docutils literal notranslate"><span class="pre">print</span></code> в <code class="docutils literal notranslate"><span class="pre">python</span></code>). Также с помощью <strong>echo</strong> можно записать строку в файл, если файла не было, он будет создан.</p>
+<p><img alt="echo" src="../../_images/echo.png" /></p>
+</section>
+<section id="export">
+<h2>export<a class="headerlink" href="#export" title="Link to this heading">¶</a></h2>
+<p>Используется для установки переменных среды. Команда <code class="docutils literal notranslate"><span class="pre">export</span></code> отмечает переменную окружения для экспорта с любым новым дочерним процессом, и это позволяет дочернему процессу наследовать все отмеченные переменные. Они нам понадобятся для того, чтобы использовать ту информацию, которую мы не хотим прописывать в коде приложения, например, параметры доступа. Хардкодить такие значения неудобно, так как можно случайно закоммитить их, и придется все менять. Например, так сделано в проекте по созданию <a class="reference external" href="https://github.com/gcatanese/SampleTelegramQuiz">чат-бота</a>, посмотрите секцию <strong>Setup</strong> в README. Ниже приведен пример использования <code class="docutils literal notranslate"><span class="pre">export</span></code>.</p>
+<p><img alt="export" src="../../_images/export.png" /></p>
+<p>Подробнее с вариантами использования <code class="docutils literal notranslate"><span class="pre">export</span></code> можно ознакомиться <a class="reference external" href="https://www.digitalocean.com/community/tutorials/export-command-linux">здесь</a>.</p>
+</section>
+<section id="id3">
+<h2>$<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>Есть несколько конструкций, в которые входит <code class="docutils literal notranslate"><span class="pre">$</span></code>. Это может путать, но если относиться к этим конструкциям, как к обособленными элементам <code class="docutils literal notranslate"><span class="pre">bash</span></code>, так их легче воспринимать.</p>
+<p>Символ <code class="docutils literal notranslate"><span class="pre">$</span></code> ставится перед переменной для того, чтобы получить ее значение. По умолчанию любое имя считается строкой.</p>
+<p><img alt="variable_value" src="../../_images/variable_value.png" /></p>
+<p>При этом использование <code class="docutils literal notranslate"><span class="pre">$</span></code> внутри двойных кавычек и без них может вызвать разное поведение, если в значении переменной содержатся специальные символы. Если <code class="docutils literal notranslate"><span class="pre">$</span></code> используется в двойных кавычках, то значение переменной будет выдено как есть. Если <code class="docutils literal notranslate"><span class="pre">$</span></code> используется без кавычек, то <code class="docutils literal notranslate"><span class="pre">bash</span></code> проведет интерпретацию специальных символов, например, как ниже с <code class="docutils literal notranslate"><span class="pre">*</span></code>, которую мы использовали для поиска файлов по шаблону.</p>
+<p>Другое использование <code class="docutils literal notranslate"><span class="pre">$</span></code> — запись вывода команды в переменную. В этом случае <code class="docutils literal notranslate"><span class="pre">$</span></code> используется совместно со скобками.</p>
+<p><img alt="command_output_save" src="../../_images/command_output_save.png" /></p>
+<p>В <code class="docutils literal notranslate"><span class="pre">bash</span></code> нельзя просто так взять и выполнить математическую операцию. Для этого используется <code class="docutils literal notranslate"><span class="pre">$</span></code> совместно с двойными скобками.</p>
+<p><img alt="math_operations" src="../../_images/math_operations.png" /></p>
+<p>Также <code class="docutils literal notranslate"><span class="pre">$</span></code> используется для получения значений аргументов, переданных в скрипт. Можно считать, что сама оболочка присваивает номера переменным вместо того, чтобы именовать их. Это похоже на то, как мы используем <code class="docutils literal notranslate"><span class="pre">sys.argv[N]</span></code> в <code class="docutils literal notranslate"><span class="pre">python</span></code>, когда хотим получить то, что передано при вызове нашей программы.</p>
+<p><img alt="arguments_numbering" src="../../_images/arguments_numbering.png" /></p>
+<p>Первая команда на скриншоте выше используется для того, чтобы создать код скрипта. Вы также можете взять код из двойных кавычек <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">&quot;First</span> <span class="pre">is</span> <span class="pre">$1</span> <span class="pre">and</span> <span class="pre">second</span> <span class="pre">is</span> <span class="pre">$2&quot;</span></code> и сохранить его в файл <code class="docutils literal notranslate"><span class="pre">script.bash</span></code>, используя любой текстовый редактор. Описание <code class="docutils literal notranslate"><span class="pre">chmod</span></code> смотрите ниже.</p>
+<p>Есть еще один вариант использования <code class="docutils literal notranslate"><span class="pre">$</span></code>, но на этот раз с фигурными скобками. Это назвается parameter expansion и позволяет произвести операции над значениями переменной и передать результат дальше. Ниже пример со строкой <code class="docutils literal notranslate"><span class="pre">name=ArtemVesnin</span></code> и срезами, а также со списком <code class="docutils literal notranslate"><span class="pre">name=(Artem</span> <span class="pre">Vesnin)</span></code> и обращением к элементам списка.</p>
+<p><img alt="parameter_expansion" src="../../_images/parameter_expansion.png" /></p>
+<p>Также существует специальная переменная <code class="docutils literal notranslate"><span class="pre">$?</span></code>, куда записывается статус выполнения последней команды.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>non_existent_file.txt
+<span class="k">if</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error: File not found or other issue occurred.&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<p><img alt="command_output_status" src="../../_images/command_output_status.png" /></p>
+<p>Здесь мы использовали <code class="docutils literal notranslate"><span class="pre">test</span></code> для проведения операций сравнения. <code class="docutils literal notranslate"><span class="pre">-eq</span></code> сокращенно от equal.</p>
+</section>
+<section id="rm-remove">
+<h2>rm — remove<a class="headerlink" href="#rm-remove" title="Link to this heading">¶</a></h2>
+<p>Для удаления файлов используется команда <strong>rm</strong>. Удалить можно один файл, указав путь до него, или несколько, указав ту часть пути, которая может меняться через <code class="docutils literal notranslate"><span class="pre">*</span></code>, т.е. задав шаблон, в который должны вписаться пути.</p>
+<p><img alt="rm" src="../../_images/rm.png" /></p>
+<p>Удаление каталогов требует дополнительных опций, так как удаляются не отдельные файлы, а все содержимое каталога, поэтому нужно делать это рекурсивно, заходя во все вложенные каталоги.</p>
+<p><img alt="rm dir content" src="../../_images/rm_dir_content.png" /></p>
+</section>
+<section id="rmdir-remove-directory">
+<h2>rmdir — remove directory<a class="headerlink" href="#rmdir-remove-directory" title="Link to this heading">¶</a></h2>
+<p>Удаление пустых директорий или группы вложенных пустых директорий.</p>
+<p><img alt="rmdir" src="../../_images/rmdir.png" /></p>
+<p>Обратите внимание на сообщение об ошибке (вообще всегда смотрите на результат ваших действий, чтобы понимать, выполнилась ли команда). Часть работы была сделана: удалены директории <code class="docutils literal notranslate"><span class="pre">./a/b</span></code> и <code class="docutils literal notranslate"><span class="pre">./a</span></code>. А самый верхний уровень этого пути (<code class="docutils literal notranslate"><span class="pre">.</span></code>) — это, как мы помним, текущая директория, т.е. <code class="docutils literal notranslate"><span class="pre">~/project/data</span></code>, и rmdir сам не дает пользователю удалить директорию, в которой он находится. Правильным будет <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">-p</span> <span class="pre">a/b</span></code>, хотя в большинстве случаев ./a/b и a/b равнозначны.</p>
+<p><img alt="rmdir_level" src="../../_images/rmdir_level.png" /></p>
+</section>
+<section id="cp-copy">
+<h2>cp — copy<a class="headerlink" href="#cp-copy" title="Link to this heading">¶</a></h2>
+<p>Копирует один или несколько файлов из одного места в другое. Так же, как и в случае с <code class="docutils literal notranslate"><span class="pre">rm</span></code>, можно указывать шаблон, которому должны соответствовать пути.</p>
+<p><img alt="copy" src="../../_images/cp.png" /></p>
+</section>
+<section id="mv-move">
+<h2>mv — move<a class="headerlink" href="#mv-move" title="Link to this heading">¶</a></h2>
+<p>Перемещает один или несколько файлов из одного места в другое. Так же, как и в случае с <code class="docutils literal notranslate"><span class="pre">rm</span></code>, можно указывать шаблон, которому должны соответствовать пути.</p>
+<p><img alt="move" src="../../_images/move.png" /></p>
+<p><code class="docutils literal notranslate"><span class="pre">mv</span></code> можно использовать для переименования файлов.</p>
+<p><img alt="rename" src="../../_images/rename.png" /></p>
+</section>
+<section id="chmod-change-mode">
+<h2>chmod — change mode<a class="headerlink" href="#chmod-change-mode" title="Link to this heading">¶</a></h2>
+<p>Изменяет разрешения файлов и директорий. Помните, на рисунке, который уже был выше, <code class="docutils literal notranslate"><span class="pre">script.bash</span></code> подсвечивался зеленым? Это означало, что у него есть разрешение на исполнение. Давайте удалим его. Создадим скрипт заново и запишем туда строку <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span></code> с помощью <code class="docutils literal notranslate"><span class="pre">echo</span></code>, попробуем выполнить, получим ошибку, потом попробуем дать разрешение на исполнение и выполним еще раз.</p>
+<p><img alt="change mode" src="../../_images/chmod.png" /></p>
+<p>Разрешения делятся на три категории:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">r</span></code></strong> <em>(read)</em> — чтение;</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">w</span></code></strong> <em>(write)</em> — запись;</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">x</span></code></strong> <em>(execute)</em> — исполнение.</p></li>
+</ul>
+<p>А также на три уровня:</p>
+<ol class="arabic simple">
+<li><p>Владелец файла или директории.</p></li>
+<li><p>Группа пользователей, к которой принадлежит владелец.</p></li>
+<li><p>Все остальные.</p></li>
+</ol>
+<p>К примеру, права доступа <code class="docutils literal notranslate"><span class="pre">[drwxrwxrwx]</span></code> дают полный доступ на чтение, редактирование и запуск абсолютно всем пользователям. Рассмотрим этот случай подробнее. Ключи доступа из примера можно поделить на 4 секции: 1 — <code class="docutils literal notranslate"><span class="pre">[d]</span></code>, 2 — <code class="docutils literal notranslate"><span class="pre">[rwx]</span></code>, 3 — <code class="docutils literal notranslate"><span class="pre">[rwx]</span></code>, 4 — <code class="docutils literal notranslate"><span class="pre">[rwx]</span></code>.</p>
+<p>1 секция может быть либо «d» — директория, либо «-» — файл.
+2 секция показывает права доступа владельца файла или директории (r — чтение, w — запись, x — выполнение).
+3 секция показывает права доступа группы, в которой находится владелец, rwx — аналогично.
+4 секция показывает права доступа всех остальных пользователей системы.</p>
+<p>Например, <code class="docutils literal notranslate"><span class="pre">-rwxr-xr--</span></code> означает, что владелец может читать, писать и исполнять файл, пользователи из группы — только читать и исполнять, все остальные — только читать. Можно вообще не давать разрешений, например, <code class="docutils literal notranslate"><span class="pre">-rwxr-x---</span></code> запретит доступ к файлу всем пользователям, кроме его владельца (того, кто создал этот файл) и участникам группы, к которой он относится.</p>
+<blockquote>
+<div><p>Все группы, созданные в системе, находятся в файле /etc/group. Посмотрев содержимое этого файла, вы увидите список групп linux, которые уже есть в вашей системе. Этот список может быть большим и малоинформативным для рядового пользователя. Чтобы вывести список всех групп, членом которых является текущий пользователь, можно использовать команду <code class="docutils literal notranslate"><span class="pre">groups</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="sudo-superuser-do">
+<h2>sudo — superuser do<a class="headerlink" href="#sudo-superuser-do" title="Link to this heading">¶</a></h2>
+<p>В большинстве случае для выполнения команд описанных, выше достаточно обычных прав, которые имеются у пользователя. Но в ряде случаев, при использовании системных утилит или смене владельца у файла (см. <code class="docutils literal notranslate"><span class="pre">chown</span></code> ниже), необходимо использовать права суперпользователя. Первый способ — авторизоваться, используя аккаунт суперпользователя в системе. Но такой сценарий не является предпочтительным, так может привести к случайному выполнению команды, которая может нанести вред системе. Более широкое применение получил способ, при котором для выполнения команды с правами суперпользователя перед командой добавляется <strong><code class="docutils literal notranslate"><span class="pre">sudo</span></code></strong>. Ниже представлен пример передачи владения скрипта пользователю root, после этого мы сможем выполнять скрипт только от имени нового владельца, т.е. <code class="docutils literal notranslate"><span class="pre">root</span></code> (для текущих разрешений скрипта <code class="docutils literal notranslate"><span class="pre">-rwxrwxr--</span></code>).</p>
+<p><img alt="sudo" src="../../_images/sudo.png" /></p>
+</section>
+<section id="chown-change-owner">
+<h2>chown — change owner<a class="headerlink" href="#chown-change-owner" title="Link to this heading">¶</a></h2>
+<p>Изменяет владельца файла или директории. При этом, если вы хотите сделать это рекурсивно, для всех файлов внутри директории, нужно указать специальный флаг <code class="docutils literal notranslate"><span class="pre">-R</span></code> для рекурсивной работы. При использовании мы указываем имя пользователя и группу через двоеточие <code class="docutils literal notranslate"><span class="pre">username:group</span></code>. Каждый пользователь может состоять в одной или нескольких группах. Можно менять владельца и не менять группу. В примере ниже мы вернули владение группе <code class="docutils literal notranslate"><span class="pre">artem</span></code>, и теперь можем запускать файл от обычного пользователя (для текущих разрешений скрипта <code class="docutils literal notranslate"><span class="pre">-rwxrwxr--</span></code>).</p>
+<p><img alt="sudo chown" src="../../_images/chown.png" /></p>
+</section>
+<section id="history">
+<h2>history<a class="headerlink" href="#history" title="Link to this heading">¶</a></h2>
+<p>Выводит историю выполненных команд.</p>
+<p><img alt="history" src="../../_images/history.png" /></p>
+</section>
+<section id="grep-global-regular-expression-print">
+<h2>grep — global regular expression print<a class="headerlink" href="#grep-global-regular-expression-print" title="Link to this heading">¶</a></h2>
+<p>Производит поиск в тексте строки, содержащей определенную подстроку. При этом текст можно получить прямо из стандартного вывода или из файла. Бывает полезным, чтобы вспомнить, как выполнялась та или иная команда в <code class="docutils literal notranslate"><span class="pre">bash</span></code>.</p>
+<p><img alt="grep history" src="../../_images/grep_history.png" /></p>
+<p>Также можно облегчить себе поиск документации по <code class="docutils literal notranslate"><span class="pre">man</span></code>, если примерно помнить термин.</p>
+<p><img alt="grep man" src="../../_images/grep_man.png" /></p>
+<p>Или найти что-нибудь в документе, который вы читаете:</p>
+<p><img alt="grep file" src="../../_images/grep_file.png" /></p>
+<p><strong>Hint: <code class="docutils literal notranslate"><span class="pre">|</span></code> перенаправляет выходной поток от одной команды к входу другой. Можно использовать, чтобы миновать запись в файл на диске.</strong></p>
+</section>
+<section id="top-table-of-process">
+<h2>top — table of process<a class="headerlink" href="#top-table-of-process" title="Link to this heading">¶</a></h2>
+<p>Выводит активные процессы, а также информацию по загрузке процессора и памяти. Информация будет обновляться в терминале. Чтобы выйти из этого режима, нажмите <code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code>.</p>
+<p><img alt="top" src="../../_images/top.png" /></p>
+<p><strong>Hint: <code class="docutils literal notranslate"><span class="pre">htop</span></code> дополняет функциональность <code class="docutils literal notranslate"><span class="pre">top</span></code>. Поставьте <code class="docutils literal notranslate"><span class="pre">htop</span></code> через менеджер пакетов, который используется в вашем дистрибутиве (<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">htop</span></code> в Ubuntu).</strong></p>
+</section>
+<section id="id4">
+<h2>Практические примеры<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>Ниже мы рассмотрим несколько примеров использования <code class="docutils literal notranslate"><span class="pre">bash</span></code> и еще раз повторим написанное в мотивации к этому уроку: рассматривайте <code class="docutils literal notranslate"><span class="pre">bash</span></code> как дополнительный инструмент, который может облегчить решение некоторых задач. Ради тренировки можно написать, например, калькулятор, но его легко сделать на вашем любимом языке программирования гораздо быстрее, поэтому ниже мы рассмотрим примеры, которые используют доступ к системным утилитам и позволяют нам получить информацию о подключенных устройствах и их состоянии.</p>
+<section id="usb">
+<h3>Мониторинг подключения usb-устройств<a class="headerlink" href="#usb" title="Link to this heading">¶</a></h3>
+<p>Ниже приведены примеры скрипта, отслеживающего подключение и отключение usb-устройства (<a class="reference download internal" download="" href="../../_downloads/2f6aedb97fb7bf166ef6c05a59f9fcb0/usb_device_monitor.sh"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Define the log file path</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;./usb-monitor.log&quot;</span>
+
+<span class="c1"># Get the initial list of connected USB devices</span>
+<span class="nv">initial_devices</span><span class="o">=</span><span class="k">$(</span>lsusb<span class="k">)</span>
+
+<span class="c1"># Function to log the events</span>
+log_event<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">event_time</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span>+<span class="s1">&#39;%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">event_type</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">device_id</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$event_time</span><span class="s2"> | </span><span class="nv">$event_type</span><span class="s2"> | </span><span class="nv">$device_id</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># Function to check for new devices</span>
+check_devices<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">current_devices</span><span class="o">=</span><span class="k">$(</span>lsusb<span class="k">)</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$initial_devices</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;./idev.txt&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$current_devices</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;./cdev.txt&quot;</span>
+<span class="w">        </span><span class="nv">new_devices</span><span class="o">=</span><span class="k">$(</span>comm<span class="w"> </span>-13<span class="w"> </span><span class="s2">&quot;./idev.txt&quot;</span><span class="w"> </span><span class="s2">&quot;./cdev.txt&quot;</span><span class="k">)</span>
+<span class="w">        </span><span class="nv">removed_devices</span><span class="o">=</span><span class="k">$(</span>comm<span class="w"> </span>-13<span class="w"> </span><span class="s2">&quot;./cdev.txt&quot;</span><span class="w"> </span><span class="s2">&quot;./idev.txt&quot;</span><span class="k">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$new_devices</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="k">then</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span>device<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$new_devices</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">                </span>log_event<span class="w"> </span><span class="s2">&quot;connected&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">done</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$removed_devices</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="k">then</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span>device<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$removed_devices</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">                </span>log_event<span class="w"> </span><span class="s2">&quot;disconnected&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$device</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">done</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">        </span><span class="nv">initial_devices</span><span class="o">=</span><span class="nv">$current_devices</span>
+<span class="w">        </span>sleep<span class="w"> </span><span class="m">1</span><span class="w">  </span><span class="c1"># Adjust the update interval as needed</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+<span class="c1"># Start monitoring, just call check_devices()</span>
+check_devices
+</pre></div>
+</div>
+<p>Мы видим ряд конструкций, которые доступны в обычном языке программирования, например, условные операторы, циклы, функции. Реализация их в <code class="docutils literal notranslate"><span class="pre">bash</span></code> имеет свои особенности, но понять их синтаксис несложно, если вы знаете хотя бы один язык программирования. Вызов функции также имеет особенности, например, мы передаем аргументы не в скобках, а после вызова функции. Особенности использования <code class="docutils literal notranslate"><span class="pre">$</span></code> мы рассмотрели выше.</p>
+<p>В скрипте мы используем новую команду <code class="docutils literal notranslate"><span class="pre">comm</span></code>, которая сравнивает два файла и выводит результат в три колонки, вторая из которых — строки, уникальные для второго файла (что находится в других колонках, можно посмотреть в документации <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">comm</span></code>). Аргументы <code class="docutils literal notranslate"><span class="pre">-13</span></code> удаляют колонки 1 и 3, оставляя только вторую. Поэтому мы меняем файлы местами, чтобы определить <code class="docutils literal notranslate"><span class="pre">new_devices</span></code> и <code class="docutils literal notranslate"><span class="pre">removed_devices</span></code>. Функция <code class="docutils literal notranslate"><span class="pre">log_event()</span></code> записывает информацию о новых или отключенных устройствах в файл. Обратите внимание на вызов <code class="docutils literal notranslate"><span class="pre">check_devices</span></code> в конце скрипта.</p>
+<p>Мы проверяем устройства каждую секунду <code class="docutils literal notranslate"><span class="pre">sleep</span> <span class="pre">1</span></code>, поэтому при быстром подключении и отключении можем потерять информацию о событии. Далее мы рассмотрим пример того, как этого избежать.</p>
+<p>Также мы использовали команду <code class="docutils literal notranslate"><span class="pre">test</span></code>, которая производит сравнение аргументов с использовании логических операторов. Вы можете встреть <code class="docutils literal notranslate"><span class="pre">[&quot;$new_devices&quot;</span> <span class="pre">!=</span> <span class="pre">&quot;&quot;]</span></code> вместо <code class="docutils literal notranslate"><span class="pre">test</span> <span class="pre">&quot;$new_devices&quot;</span> <span class="pre">!=</span> <span class="pre">&quot;&quot;</span></code>, это одно и то же.</p>
+</section>
+<section id="dmesg">
+<h3>Мониторинг подключения устройств с помощью dmesg<a class="headerlink" href="#dmesg" title="Link to this heading">¶</a></h3>
+<p>Выше мы рассмотрели скрипт для мониторинга usb-устройств с помощью <code class="docutils literal notranslate"><span class="pre">lsusb</span></code>. В Линукс есть команда для мониторинга всех сообщений, которые появляются в системе. Мы можем настроить шаблоны, которые позволят нам отфильтровать нужные нам сообщения. Ниже приведен пример, которые позволит отловить все сообщения, где встречается подстрока «usb». При этом, в отличие от скрипта с <code class="docutils literal notranslate"><span class="pre">lsusb</span></code>, мы лучше защищены от потери события, так как dmesg выводит сообщения из буфера, который хранит не только последнее сообщение, но и историю сообщений (<a class="reference download internal" download="" href="../../_downloads/e97e00e315768a38b15970a45af08da9/dmesg_usb_device_monitor.sh"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">prev_records</span><span class="o">=</span><span class="k">$(</span>dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-20<span class="k">)</span>
+<span class="w"> </span>
+monitor_devices_records<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">curr_records</span><span class="o">=</span><span class="k">$(</span>dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-20<span class="k">)</span>
+<span class="w">        </span><span class="nv">new_records</span><span class="o">=</span><span class="k">$(</span>comm<span class="w"> </span>-13<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$prev_records</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span>&lt;<span class="o">(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$curr_records</span><span class="s2">&quot;</span><span class="o">))</span>
+<span class="w">        </span><span class="nv">usb_records</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$new_records</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>usb<span class="k">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$usb_records</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$usb_records</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">        </span><span class="nv">prev_records</span><span class="o">=</span><span class="nv">$curr_records</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+<span class="c1"># Start monitoring</span>
+monitor_devices_records
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>Мониторинг оставшегося места на диске<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p>Скрипт, приведенный ниже мониторит доступное на диске место и предупреждает, когда процент занятого места превышен. Конструкцию <code class="docutils literal notranslate"><span class="pre">${}</span></code> мы описывали выше. Из нового мы видим конструкцию <code class="docutils literal notranslate"><span class="pre">($df_record)</span></code>, которая позволяет создать список из значения переменной <code class="docutils literal notranslate"><span class="pre">df_record</span></code>, например, «one two three» → («one», «two», «three») (<a class="reference download internal" download="" href="../../_downloads/b818ed2cf993e13bff159a5544d9f756/disk_usage_monitor.sh"><span class="xref download myst">код</span></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">monitor_device</span><span class="o">=</span><span class="nv">$1</span><span class="w">  </span><span class="c1">#device to monitor eg. /dev/sdc1</span>
+<span class="nv">alert_level</span><span class="o">=</span><span class="nv">$2</span><span class="w">     </span><span class="c1">#available percentage to alert eg. 1</span>
+<span class="w"> </span>
+monitor_space_usage<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">df_record</span><span class="o">=</span><span class="k">$(</span>df<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$monitor_device</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">        </span><span class="nv">df_record_array</span><span class="o">=(</span><span class="nv">$df_record</span><span class="o">)</span>
+<span class="w">        </span><span class="nv">avail</span><span class="o">=</span><span class="si">${</span><span class="nv">df_record_array</span><span class="p">[3]</span><span class="si">}</span>
+<span class="w">        </span><span class="nv">total</span><span class="o">=</span><span class="si">${</span><span class="nv">df_record_array</span><span class="p">[1]</span><span class="si">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nv">$avail</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nv">$total</span><span class="k">))</span><span class="w"> </span>-le<span class="w"> </span><span class="nv">$alert_level</span>
+<span class="w">        </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Alert disk is almost full&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">        </span>sleep<span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+monitor_space_usage
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Работа в командной строке</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Мотивация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cd-change-directory">cd - change directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ls-list">ls - list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clear">clear</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mkdir-make-directory">mkdir - make directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#touch">touch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cat-concatenate">cat - concatenate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#echo">echo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export">export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">$</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rm-remove">rm — remove</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rmdir-remove-directory">rmdir — remove directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cp-copy">cp — copy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mv-move">mv — move</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chmod-change-mode">chmod — change mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sudo-superuser-do">sudo — superuser do</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chown-change-owner">chown — change owner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#history">history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grep-global-regular-expression-print">grep — global regular expression print</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#top-table-of-process">top — table of process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Практические примеры</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/content.html">Менеджеры пакетов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../terms/content.html" title="предыдущая глава">Терминология</a></li>
+      <li>Next: <a href="exercises.html" title="следующая глава">Задачи</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/bash/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

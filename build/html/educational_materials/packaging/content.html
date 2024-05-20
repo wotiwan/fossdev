@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Менеджеры пакетов &#8212; документация toolchain 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=9ca2116e"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="next" title="Задачи" href="exercises.html" />
+    <link rel="prev" title="Вопросы" href="../logging/quiz.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Менеджеры пакетов<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>Мы уже умеем размещать свой код на платформах типа GitHub, для того чтобы контролировать версию кода и иметь возможность взять код себе на машину локально, отправить свои правки, получать красивую визуализацию коммитов, а также получать обратную связь от других разработчиков в виде <code class="docutils literal notranslate"><span class="pre">issue</span></code>, <code class="docutils literal notranslate"><span class="pre">fork</span></code>, <code class="docutils literal notranslate"><span class="pre">merge</span> <span class="pre">request</span></code> и так далее. Попробуем теперь воспользоваться кодом не как программисты-разработчики, а как программисты-пользователи. Да, каждый раз когда мы пишем:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lib_name</span>
+<span class="n">lib_name</span><span class="o">.</span><span class="n">do_something</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Мы являемся пользователем функции <code class="docutils literal notranslate"><span class="pre">do_something()</span></code> из библиотеки <code class="docutils literal notranslate"><span class="pre">lib_name</span></code>. Как же нам получить do_something() там, где мы пишем код, и воспользоваться ей? Рассмотрим сначала простые, но неправильные способы, и потом рассмотрим, как сделать это правильно.</p>
+<section id="ctrl-c-ctrl-v">
+<h2>Ctrl-C/Ctrl-V<a class="headerlink" href="#ctrl-c-ctrl-v" title="Link to this heading">¶</a></h2>
+<p>Первый наивный способ — это просто скопировать функцию себе и вызвать там, где нужно (не делайте так).</p>
+<p>Почему это плохо:</p>
+<ul class="simple">
+<li><p>теряется поддержка. Если разработчики найдут проблему в коде и устранят его, мы не получим эти изменения, если не находимся в режиме мониторинга версий этого пакета;</p></li>
+<li><p>тянем кучу другого кода. Скорее всего, у вас даже не получится так просто скопировать отдельную функцию, так как она использует другой код из этого пакета;</p></li>
+<li><p>теряется контроль зависимостей. Если для работы функций необходима другая библиотека определенной версии, это никак не отображается в коде, <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">matplotlib</span></code> подключит ту библиотеку, которая установлена в окружении. Установка <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">matplotlib</span></code> также ничего не даст — будет установлена последняя версия библиотеки <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. Правильная версия библиотеки должна располагаться в правильно структурированном репозитории, и чтобы ее найти, нужно совершить дополнительное действие;</p></li>
+<li><p>нет возможность запустить тесты. Как правило, в библиотеках содержатся тесты, которые можно запустить и проверить, все ли корректно работает именно на этой машине. Просто копируя функцию, мы не подтягиваем автоматически тесты.</p></li>
+</ul>
+</section>
+<section id="sys">
+<h2>Клонируем и указываем путь через sys<a class="headerlink" href="#sys" title="Link to this heading">¶</a></h2>
+<p>Мы можем сделать клон репозитория:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>url
+</pre></div>
+</div>
+<p>и установить все необходимые библиотеки, используемые в проекте, в том случае, если таковые имеются. Для этого в репозитории помимо кода можно найти файл <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, который предназначен для перечисления названий пакетов (библиотек) с указанием их версий. Таким образом, вы сможете использовать точные версии всех библиотек, которыми пользовался разработчик. После того, как вы клонировали репозиторий, в котором присутствует файл <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, вам следует установить перечисленные в нем библиотеки. Это можно выполнить, используя менеджер пакетов <code class="docutils literal notranslate"><span class="pre">pip</span></code>, командой:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Если нам повезет, там будут указаны версии библиотек, для которых разработчик тестировал работоспособность этого пакета. Также мы можем прогнать тесты и убедиться, что все работает как надо. После этого мы можем указать путь до библиотеки прямо в коде (актуально для Python 3.5+):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">importlib.util</span> <span class="kn">import</span> <span class="p">(</span><span class="n">spec_from_file_location</span><span class="p">,</span> <span class="n">module_from_spec</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">spec</span> <span class="o">=</span> <span class="n">spec_from_file_location</span><span class="p">(</span><span class="s2">&quot;module.name&quot;</span><span class="p">,</span> <span class="s2">&quot;/path/to/my_package/my_module.py&quot;</span><span class="p">)</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;module.name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">foo</span>
+<span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+<span class="n">foo</span><span class="o">.</span><span class="n">MyClass</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>или так:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;/path/to/my_package&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">my_module</span>
+<span class="n">my_module</span><span class="o">.</span><span class="n">MyClass</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Уже лучше, но по-прежнему мы должны помнить, что нужно проверять новые версии, процесс установки полностью ручной, а то, что мы написали в коде, выглядит как костыль. Мы также можем добавить путь к пакету в <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>, используя <code class="docutils literal notranslate"><span class="pre">bash</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s1">&#39;/path/to/my_package&#39;</span>
+</pre></div>
+</div>
+<p>Проверить, что переменная установилась, можно, вызвав команду <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">$PYTHONPATH</span></code>. После этого можно запустить интерпретатор Python и проверить, что все работает, и что путь уже добавлен в <code class="docutils literal notranslate"><span class="pre">sys.path</span></code></p>
+</section>
+<section id="pip-git">
+<h2>Ставим через pip, используя git репозиторий<a class="headerlink" href="#pip-git" title="Link to this heading">¶</a></h2>
+<p>Мы добрались до более распространенных способов управления зависимостями. Здесь мы уже используем pip и публично доступный репозиторий на GitHub для установки. Примечание: мы его использовали в предыдущем пункте, но чтобы поставить зависимости устанавливаемой библиотеки, а не саму библиотеку.</p>
+<p>Прежде чем мы перейдем к тому способу, которым мы привыкли пользоваться:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>lib_name
+</pre></div>
+</div>
+<p>Проговорим еще раз, что существует такой способ. Если вы пропустили предыдущий урок, вернитесь и посмотрите, что должно содержаться в проекте для того, чтобы другие разработчики могли им воспользоваться. Не для всех языков программирования есть аналог <code class="docutils literal notranslate"><span class="pre">pip</span></code>, а понимание того, что в репозитории может содержаться вся необходимая информация для того, чтобы установить/собрать библиотеку, поможет легче найти решение проблемы установки для других языков.</p>
+<section id="pip">
+<h3>Немного про pip<a class="headerlink" href="#pip" title="Link to this heading">¶</a></h3>
+<p>Для инфраструктуры <code class="docutils literal notranslate"><span class="pre">python</span></code> менеджер пакетов <code class="docutils literal notranslate"><span class="pre">pip</span></code> является стандартом де факто, хотя появился с текущим именем не так <a class="reference external" href="https://ianbicking.org/blog/2008/10/pyinstall-is-dead-long-live-pip.html">давно</a>. Концепция менеджеров пакетов удобна для программиста, поэтому некоторые языки программирования и фреймворки реализуют ее для управления зависимостями:</p>
+<ul class="simple">
+<li><p>JavaScript: npm</p></li>
+<li><p>Ruby: gem</p></li>
+<li><p>.NET: NuGet</p></li>
+</ul>
+<p>Для С++ существует проекты, которые направлены на решение этой проблемы:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/vector-of-bool/dds">bpt</a></p></li>
+<li><p><a class="reference external" href="http://www.cpm.rocks/">cpm</a></p></li>
+<li><p><a class="reference external" href="https://conan.io/">conan</a></p></li>
+<li><p><a class="reference external" href="https://github.com/poacpm/poac">poac</a></p></li>
+<li><p><a class="reference external" href="http://sourcey.com/pacm/">pacm</a></p></li>
+<li><p><a class="reference external" href="https://spack.io">spack</a></p></li>
+<li><p><a class="reference external" href="http://buckaroo.pm">buckaroo</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ruslo/hunter">hunter</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Microsoft/vcpkg">vcpkg</a></p></li>
+</ul>
+<p>В Python также существуют альтернативы <code class="docutils literal notranslate"><span class="pre">pip</span></code>, об одной из них мы поговорим ниже.</p>
+<p>Что же делает менеджер пакетов? Первый очевидный ответ: он кладет (а перед этим еще и скачивает их сам из сети) файлы библиотеки в правильное место: там, где его сможет найти язык программирования, чтобы импортировать.</p>
+<p>Второе свойство менеджера пакетов: он хранит историю версий библиотеки так, чтобы мы могли установить нужную нам. <em>Примечание: не путайте версию библиотеки и версию в плане ссылки на конкретный коммит в git; не каждый коммит ведет к обновлению версии библиотеки в менеджере проектов</em>. Кроме того, менеджер проектов знает, какие зависимости нужны именно этой версии библиотеки, таким образом, у нас есть дерево зависимостей.</p>
+<p>Третье: менеджер проектов дает возможность прогнать тесты при установке так, чтобы мы были уверены, что сделали все возможное, чтобы получить работающую библиотеку. При этом никто не гарантирует, что тесты полностью покрывают все возможные ситуации, но часть из них — точно, и всегда неплохая идея проверить хотя бы их.</p>
+</section>
+</section>
+<section id="id2">
+<h2>Делаем сборку библиотеки для публикации. <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Когда нам нужна функциональность какой-либо библиотеки в Python, скорее всего, мы ставим ее через pip:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>lib_name
+</pre></div>
+</div>
+<p>Когда мы это делаем, <code class="docutils literal notranslate"><span class="pre">pip</span></code> просматривает публичный репозиторий пакетов Python Package Index (PyPI). Мы также можем <a class="reference external" href="https://packaging.python.org/en/latest/guides/hosting-your-own-index/">хостить</a> зеркало PyPI, если нам это для чего-то нужно. Если <code class="docutils literal notranslate"><span class="pre">lib_name</span></code> находится в PyPI, будет выполнена попытка установки. В PyPI расположен сам пакет, но в чем же отличие от установки через связку pip+git? Библиотека может распространяться в виде исходных текстовых файлов <strong>Source Distribution (sdist)</strong>  или собранных файлов <strong>Built Distribution (bdist)</strong>. Мы будем использовать <code class="docutils literal notranslate"><span class="pre">sdist</span></code> и <code class="docutils literal notranslate"><span class="pre">bdist</span></code> далее по тексту.</p>
+<p>Процесс создания <code class="docutils literal notranslate"><span class="pre">sdist</span></code> проще, чем <code class="docutils literal notranslate"><span class="pre">bdist</span></code>, и на самом деле, мы уже это проделывали. Для этого вида нужно, чтобы весь исходный код, а также другие необходимые файлы были собраны в одном месте. Среди файлов должен быть <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>, в котором содержатся инструкции для <code class="docutils literal notranslate"><span class="pre">setuputils</span></code>, как правильно собрать пакет. Мы можем создать дистрибутив <code class="docutils literal notranslate"><span class="pre">sdist</span></code>, запустив:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>sdist<span class="w"> </span>
+</pre></div>
+</div>
+<p><em>Напоминание: ранее мы использовали <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> для установки</em>. По умолчанию дистрибутив будет сгенерирован в виде tar-архива (). Другие варианты сжатия можно указать при сборке.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>sdist<span class="w"> </span>--formats<span class="o">=</span>zip,gztar,bztar,ztar,tar<span class="w"> </span>
+</pre></div>
+</div>
+<p>После установки <code class="docutils literal notranslate"><span class="pre">sdist</span></code> файл setup.py запускается на хосте, обеспечивая правильную установку этого пакета. Таким образом, мы при <code class="docutils literal notranslate"><span class="pre">sdist</span></code> получаем исходные тексты программ, которые собираются на нашей системе.</p>
+<p>Второй тип, <code class="docutils literal notranslate"><span class="pre">bdist</span></code>, немного сложнее для разработчика, так как он собирает пакет до того, как опубликовать его. Это убирает необходимость собирать пакет на стороне пользователя, так как он уже получит собранные библиотеки (<code class="docutils literal notranslate"><span class="pre">.pyc</span></code>, <code class="docutils literal notranslate"><span class="pre">.so</span></code>, <code class="docutils literal notranslate"><span class="pre">.dll</span></code>) и может использовать их сразу. На данный момент существуют два основных формата распространения для <strong>bdist</strong> — <a class="reference external" href="https://packaging.python.org/en/latest/discussions/wheel-vs-egg/">eggs и wheels</a>, более современным считается <strong>wheels</strong>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>bdist_wheel<span class="w"> </span>
+</pre></div>
+</div>
+<section id="bdist-wheels">
+<h3>Преимущества bdist (wheels):<a class="headerlink" href="#bdist-wheels" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>меньший объем пакета и более быстрая установка пакетов Python или пакетов с расширениями на языке C;</p></li>
+<li><p>при сборке из исходных файлов (<code class="docutils literal notranslate"><span class="pre">sdist</span></code>) требуется выполнение произвольного кода для сборки (то, что записано в <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>), что может быть не всегда приемлемо с точки зрения безопасности;</p></li>
+<li><p>по умолчанию <code class="docutils literal notranslate"><span class="pre">pip</span></code> пытается поставить <code class="docutils literal notranslate"><span class="pre">bdist</span></code>.</p></li>
+</ul>
+<p>Помня о том, что <code class="docutils literal notranslate"><span class="pre">bdist</span></code> является предпочтительным для распространения своего пакета, публикуйте также <strong>sdist</strong>, так как такое распространение позволяет собирать проект под системы, для которых не предоставлен <strong>bdist</strong>.</p>
+</section>
+<section id="id3">
+<h3>Настраиваем окружение<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p>Возьмем проект <a class="reference external" href="https://github.com/standlab/mtracker">mtracker</a> с предыдущего занятия. Переключимся на ветку <code class="docutils literal notranslate"><span class="pre">pypi_ready</span></code>, чтобы не ломать основной код (и, конечно, еще раз потренируемся с <code class="docutils literal notranslate"><span class="pre">git</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/standlab/mtracker.git
+
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>pypi_ready
+</pre></div>
+</div>
+<p>Добавим несколько нововведений. Ранее мы не использовали никаких дополнительных библиотек, <code class="docutils literal notranslate"><span class="pre">install_requires=[]</span></code>. Сейчас мы хотим добавить библиотеку <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> в зависимости к проекту. Мы будем использовать виртуальное окружение с помощью <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> (о виртуальных окружениях есть отдельный урок). <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> <a class="reference external" href="https://pythonhow.com/what/what-is-the-difference-between-venv-pyvenv-pyenv-virtualenv-virtualenvwrapper-pipenv/">комбинирует</a> функциональность виртуального окружения, которое можно получить с помощью <code class="docutils literal notranslate"><span class="pre">venv</span></code> или <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> c менеджером пакетов <code class="docutils literal notranslate"><span class="pre">pip</span></code>. <em>Настраивать виртуальное окружение всегда полезно, так как это изолирует все специфичные зависимости. У нас на практике был случай, когда установка библиотеки напрочь сломала среду разработки Spyder (стандартная среда поставки Anaconda)</em>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>pipenv
+</pre></div>
+</div>
+<p>Переходим в папку проекта <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">./mtracker</span></code>, если не сделали это ранее, и создаем окружение.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv<span class="w"> </span>install
+</pre></div>
+</div>
+<p>или</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pipenv<span class="w"> </span>install
+</pre></div>
+</div>
+<p>После этого появятся два новых файла (проверьте через <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>): <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code> и <code class="docutils literal notranslate"><span class="pre">Pipfile.lock</span></code>. Содержимое <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code> без дополнительных зависимостей выглядит так:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:~$<span class="w"> </span>cat<span class="w"> </span>Pipfile
+<span class="w">    </span><span class="o">[[</span>source<span class="o">]]</span>
+<span class="w">    </span><span class="nv">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://pypi.org/simple&quot;</span>
+<span class="w">    </span><span class="nv">verify_ssl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pypi&quot;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="o">[</span>packages<span class="o">]</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="o">[</span>dev-packages<span class="o">]</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="o">[</span>requires<span class="o">]</span>
+<span class="w">    </span><span class="nv">python_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;3.10&quot;</span>
+</pre></div>
+</div>
+<p>Пустой <code class="docutils literal notranslate"><span class="pre">Pipfile.lock</span></code> содержит примерно ту же информацию. Теперь активируем виртуальное окружение и выполним установку <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv<span class="w"> </span>shell
+pipenv<span class="w"> </span>install<span class="w"> </span>matplotlib
+</pre></div>
+</div>
+<p>И еще раз взглянем на <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:~$<span class="w"> </span>cat<span class="w"> </span>Pipfile
+<span class="w">    </span><span class="o">[[</span>source<span class="o">]]</span>
+<span class="w">    </span><span class="nv">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://pypi.org/simple&quot;</span>
+<span class="w">    </span><span class="nv">verify_ssl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pypi&quot;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="o">[</span>packages<span class="o">]</span>
+<span class="w">    </span><span class="nv">matplotlib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="o">[</span>dev-packages<span class="o">]</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="o">[</span>requires<span class="o">]</span>
+<span class="w">    </span><span class="nv">python_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;3.10&quot;</span>
+</pre></div>
+</div>
+<p>Содержимое <code class="docutils literal notranslate"><span class="pre">Pipfile.lock</span></code> теперь выглядит громоздко, но мы также видим, что там теперь есть информация <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, после выполнения <code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">Pipfile.lock</span></code>. И содержится вся необходимая информация по зависимостям и их версиям.</p>
+<p>Теперь мы можем прописать <code class="docutils literal notranslate"><span class="pre">install_requires</span></code> вручную или загрузить из файла:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+
+<span class="n">here</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">here</span><span class="p">,</span> <span class="s1">&#39;README.rst&#39;</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">long_description</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">read_dependencies</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">here</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">piplock</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">piplock</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dependency</span> <span class="k">for</span> <span class="n">dependency</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Также мы можем выполнить перед сборкой другие операции, которые могут проверить аннотацию типов, форматирование кода, валидность кода, собрать документацию и выполнить тесты. Аннотация типов необязательна для Python, но улучшает читаемость кода. Рассмотрим некоторые из операций, остальные будем изучать на отдельных уроках. Начнем с форматирования кода. В Python общепринятым является оформление согласно <a class="reference external" href="https://peps.python.org/pep-0008/">PEP8</a>.</p>
+<p><em>Примечание: предложение по улучшению языка Python <a class="reference external" href="https://peps.python.org/pep-0000/">PEP</a> (Python Enhancement Proposals) можно считать руководством по хорошим практикам и подходом к решению определенных задач, до которых дошло сообщество Python-разработчиков. <strong>PEP</strong> пронумерованы, и <strong>PEP8</strong> описывает стиль кода на языке Python</em>.</p>
+<section id="pep8">
+<h4>Немного о форматировании по PEP8<a class="headerlink" href="#pep8" title="Link to this heading">¶</a></h4>
+<p>Здесь мы не будем подробно останавливаться на всех рекомендациях из PEP8, но посмотрим на <code class="docutils literal notranslate"><span class="pre">autopep8</span></code>. Этот инструмент поможет нам скорректировать форматирование, например, уберет лишние пробелы или правильно расположит код.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp$<span class="w"> </span>cat<span class="w"> </span>sample.py<span class="w"> </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">foo</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;blah&#39;</span>:<span class="w"> </span>do_blah_thing<span class="o">()</span>
+<span class="w">    </span>do_one<span class="o">()</span><span class="p">;</span><span class="w"> </span>do_two<span class="o">()</span><span class="p">;</span><span class="w"> </span>do_three<span class="o">()</span>
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp$<span class="w"> </span>autopep8<span class="w"> </span>./sample.py<span class="w"> </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">foo</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;blah&#39;</span>:
+<span class="w">        </span>do_blah_thing<span class="o">()</span>
+<span class="w">    </span>do_one<span class="o">()</span>
+<span class="w">    </span>do_two<span class="o">()</span>
+<span class="w">    </span>do_three<span class="o">()</span>
+<span class="w">    </span>
+</pre></div>
+</div>
+<p>Не все, что написано в PEP8, может быть поправлено автоматически, например, <code class="docutils literal notranslate"><span class="pre">autopep8</span></code> не поправит неинформативные комментарии.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># line with not usefull comment </span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>                 <span class="c1"># Increment x</span>
+
+<span class="c1"># line with usefull comment </span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>                 <span class="c1"># Compensate for border</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp$<span class="w"> </span>cat<span class="w"> </span>sample.py<span class="w"> </span>
+<span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>x<span class="w"> </span>+<span class="w"> </span><span class="m">1</span><span class="w">         </span><span class="c1"># Increment x</span>
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp$<span class="w"> </span>autopep8<span class="w"> </span>./sample.py<span class="w"> </span>
+<span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>x<span class="w"> </span>+<span class="w"> </span><span class="m">1</span><span class="w">         </span><span class="c1"># Increment x</span>
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>artem@pc:~/tmp$<span class="w"> </span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h4>Возвращаемся в проект<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h4>
+<p>Установим <code class="docutils literal notranslate"><span class="pre">autopep8</span></code>, но так как это пакет для сборки, а не зависимость самого кода, сделаем это с флагом <code class="docutils literal notranslate"><span class="pre">-d</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv<span class="w"> </span>install<span class="w"> </span>-d<span class="w"> </span>autopep8
+</pre></div>
+</div>
+<p>Посмотрим файл Pipfile и увидим, что в секции <code class="docutils literal notranslate"><span class="pre">[dev-packages]</span></code> появилась новая строка:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>dev-packages<span class="o">]</span>
+<span class="nv">autopep8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
+</pre></div>
+</div>
+<p>Также поставим <code class="docutils literal notranslate"><span class="pre">pytest</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv<span class="w"> </span>install<span class="w"> </span>-d<span class="w"> </span>pytest
+</pre></div>
+</div>
+<p>Остальные аспекты пока оставим для дальнейших занятий.</p>
+<p>Теперь мы готовы написать Make-файл для сборки своего пакета. Мы использовали <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">shell</span></code>, чтобы активировать окружение и работать в нем, в makefile мы пропишем явно, что команды выполняются в нашем окружении, т.е. вместо <code class="docutils literal notranslate"><span class="pre">pytest</span></code> мы напишем <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">run</span> <span class="pre">pytest</span></code>, и так далее. В <code class="docutils literal notranslate"><span class="pre">makefile</span></code> мы определяем так называемые <code class="docutils literal notranslate"><span class="pre">target</span></code> (задачи), которые будут выполняться, когда мы напишем <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">SPECIFY_TARGET</span></code>. Например, для активации окружения и установки зависимостей мы определяем задачу <code class="docutils literal notranslate"><span class="pre">dev</span></code>, и когда мы выполним <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">dev</span></code>, то выполнится все, что относиться к ней, в нашем случае <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">install</span> <span class="pre">--dev</span></code>. Чтобы определить зависимость от другой задачи, которая должна выполниться заранее, мы указываем ее имя после двоеточия.</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">help</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">&quot;Make project with following instructions&quot;</span>
+<span class="w">	</span>@cat<span class="w"> </span>Makefile
+
+<span class="nf">dev</span><span class="o">:</span>
+<span class="w">	</span>pipenv<span class="w"> </span>install<span class="w"> </span>--dev
+
+<span class="nf">test</span><span class="o">:</span><span class="w"> </span><span class="n">dev</span>
+<span class="w">	</span>pipenv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--doctest-modules<span class="w"> </span>--junitxml<span class="o">=</span>junit/test-results.xml
+
+<span class="nf">build</span><span class="o">:</span><span class="w"> </span><span class="n">clean</span>
+<span class="w">	</span>pipenv<span class="w"> </span>install<span class="w"> </span>wheel
+<span class="w">	</span>pipenv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span>sdist<span class="w"> </span>bdist_wheel
+
+<span class="nf">clean</span><span class="o">:</span>
+<span class="w">	</span>@rm<span class="w"> </span>-rf<span class="w"> </span>.pytest_cache/<span class="w"> </span>.mypy_cache/<span class="w"> </span>junit/<span class="w"> </span>build/<span class="w"> </span>dist/<span class="w"> </span>
+<span class="w">	</span>@find<span class="w"> </span>.<span class="w"> </span>-not<span class="w"> </span>-path<span class="w"> </span><span class="s1">&#39;./.venv*&#39;</span><span class="w"> </span>-path<span class="w"> </span><span class="s1">&#39;*/__pycache__*&#39;</span><span class="w"> </span>-delete
+<span class="w">	</span>@find<span class="w"> </span>.<span class="w"> </span>-not<span class="w"> </span>-path<span class="w"> </span><span class="s1">&#39;./.venv*&#39;</span><span class="w"> </span>-path<span class="w"> </span><span class="s1">&#39;*/*.egg-info*&#39;</span><span class="w"> </span>-delete
+</pre></div>
+</div>
+<p>Указав <code class="docutils literal notranslate"><span class="pre">test:</span> <span class="pre">dev</span></code>, мы сделали опцию <code class="docutils literal notranslate"><span class="pre">test</span></code> зависимой от опции <code class="docutils literal notranslate"><span class="pre">dev</span></code>, и поэтому выполнится сначала она, а затем уже <code class="docutils literal notranslate"><span class="pre">test</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:~$<span class="w"> </span>pipenv<span class="w"> </span>shell<span class="w"> </span>
+artem@pc:~$<span class="w"> </span>make<span class="w"> </span><span class="nb">test</span>
+artem@pc:~$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+
+
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>artem@pc:~$<span class="w"> </span>pytest<span class="w"> </span>--doctest-modules<span class="w"> </span>--junitxml<span class="o">=</span>junit/test-results.xml
+<span class="o">==============================</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>session<span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="o">===============================</span>
+platform<span class="w"> </span>linux<span class="w"> </span>--<span class="w"> </span>Python<span class="w"> </span><span class="m">3</span>.10.9,<span class="w"> </span>pytest-7.2.1,<span class="w"> </span>pluggy-1.0.0
+rootdir:<span class="w"> </span>/home/artem/swdev/gitrepo/edu/toolchain_proj/mtracker
+collected<span class="w"> </span><span class="m">1</span><span class="w"> </span>item<span class="w">                                                                 </span>
+
+test/test_mtracker.py<span class="w"> </span>.<span class="w">                                                    </span><span class="o">[</span><span class="m">100</span>%<span class="o">]</span>
+
+-<span class="w"> </span>generated<span class="w"> </span>xml<span class="w"> </span>file:<span class="w"> </span>/home/artem/swdev/gitrepo/edu/toolchain_proj/mtracker/junit/test-results.xml<span class="w"> </span>-
+<span class="o">===============================</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.06s<span class="w"> </span><span class="o">================================</span>
+</pre></div>
+</div>
+<p>Мы видим, что тесты проходят, и мы готовы собрать наш проект. Сделаем для начала очистку и посмотрим, какие файлы добавились при сборке.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:~$<span class="w"> </span>make<span class="w"> </span>clean
+artem@pc:~$<span class="w"> </span>ls
+<span class="w">    </span>LICENSE<span class="w">   </span>mtracker<span class="w">  </span>Pipfile.lock<span class="w">  </span>requirements.txt<span class="w">  </span><span class="nb">test</span>
+<span class="w">    </span>Makefile<span class="w">  </span>Pipfile<span class="w">   </span>README.md<span class="w">     </span>setup.py
+artem@pc:~$<span class="w"> </span>make<span class="w"> </span>build<span class="w"> </span>
+artem@pc:~$<span class="w"> </span>ls
+<span class="w">    </span>build<span class="w">  </span>LICENSE<span class="w">   </span>mtracker<span class="w">           </span>Pipfile<span class="w">       </span>README.md<span class="w">         </span>setup.py
+<span class="w">    </span>dist<span class="w">   </span>Makefile<span class="w">  </span>mtracker.egg-info<span class="w">  </span>Pipfile.lock<span class="w">  </span>requirements.txt<span class="w">  </span><span class="nb">test</span>
+artem@pc:~$<span class="w"> </span>ls<span class="w"> </span>dist
+<span class="w">    </span>mtracker-1.0-py3-none-any.whl
+</pre></div>
+</div>
+<p>У нас появилось несколько новых каталогов. И наш собранный пакет расположен в <code class="docutils literal notranslate"><span class="pre">dist</span></code>. Проверим, что mtracker не установлен в нашем окружении, команда ниже ничего не должна вывести.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>mtracker
+</pre></div>
+</div>
+<p>И устанавливаем собранный пакет <code class="docutils literal notranslate"><span class="pre">mtracker-1.0-py3-none-any.whl</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>artem@pc:~$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./dist/*.whl
+artem@pc:~$<span class="w"> </span>pip<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>mtracker
+<span class="w">    </span>mtracker<span class="w">         </span><span class="m">1</span>.0
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="pypi">
+<h2>Публикация в PyPI<a class="headerlink" href="#pypi" title="Link to this heading">¶</a></h2>
+<p>Теперь, когда у нас есть библиотека в собранном виде, мы можем опубликовать ее в PyPI. Чтобы не засорять <a class="reference external" href="https://pypi.org/">основной индекс</a>, можно публиковать в <a class="reference external" href="https://test.pypi.org/">тестовом</a>. Для публикации своей библиотеки мы будем использовать утилиту <code class="docutils literal notranslate"><span class="pre">twine</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>twine
+</pre></div>
+</div>
+<p>У нас уже есть все для публикации, так как мы уже настроили сборку проекта, и у нас есть как <code class="docutils literal notranslate"><span class="pre">bdist</span></code>, так и <code class="docutils literal notranslate"><span class="pre">sdist</span></code>. Зарегистрируйтесь в <a class="reference external" href="https://test.pypi.org/">тестовом</a> индексе пакетов и выполните две команды, после чего вам будет предложено ввести логин и пароль, <strong>не забудьте также проверить, что имя библиотеки не занято</strong>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>twine<span class="w"> </span>check<span class="w"> </span>dist/*
+twine<span class="w"> </span>upload<span class="w"> </span>-r<span class="w"> </span>testpypi<span class="w"> </span>dist/*
+</pre></div>
+</div>
+<p>После этого вы (и кто угодно) можете установить библиотеку:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>https://test.pypi.org/simple<span class="w"> </span>mtracker
+</pre></div>
+</div>
+<p>Параметр <code class="docutils literal notranslate"><span class="pre">-i</span> <span class="pre">https://test.pypi.org/simple</span></code> нужен только при использовании тестового индекса пакетов.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">toolchain</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../terms/content.html">Терминология</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bash/content.html">Работа в командной строке</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bash/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../git_base/content.html">Git</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/content.html">Git как инструмент командной работы. Работа с удаленными репозиториями.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/exercises.html">Задача: Планирование и организация работы над разработкой чат-бота с использованием Канбан доски</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_project/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/content.html">Знакомство с платформами размещения исходного кода программ на примере Gitflick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/exercises.html">Задание для команды разработчиков: Создание чат-бота для мессенджера Telegram с использованием GitFlick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../team_work_on_a_gitflic/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ide/content.html">Среда разработки</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../styles/content.html">Оформление кода</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styles/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github/content.html">Сервис GitHub</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../stages/content.html">Стадии жизни проекта</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mvp/content.html">Работа над MVP</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../uml/content.html">Факультатив. Стандартные графические схемы при разработке ПО</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uml/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/content.html">Код -&gt; Библиотека</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_to_lib/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_source/content.html">Основы Open Source, базовые определения и принципы устройства</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../open_license/content.html">Лицензии Open Source</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/content.html">Github Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_pages/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/content.html">Знакомство с рабочим окружением</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/exercises.html">Задачи для практики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../path_venv/quiz.html">Вопросы:</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docs/content.html">Документирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/content.html">Тестирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/exercises.html">Задачи:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../logging/content.html">Логирование. Что это и в чем его польза?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/exercises.html">Задача</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging/quiz.html">Вопросы</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Менеджеры пакетов</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ctrl-c-ctrl-v">Ctrl-C/Ctrl-V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sys">Клонируем и указываем путь через sys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pip-git">Ставим через pip, используя git репозиторий</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Делаем сборку библиотеки для публикации. <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pypi">Публикация в PyPI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../managers/content.html">Менеджеры и планировщики</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/exercises.html">Задачи</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../managers/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/content.html">Контейнеризация на примере Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/exercises.html">Практическое задание 1: Развертывание Python кода в Docker контейнере</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_base/quiz.html">Вопросы</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_network/content.html">Концепция сети в Docker</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docker_hub/content.html">Реестр Docker</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../logging/quiz.html" title="предыдущая глава">Вопросы</a></li>
+      <li>Next: <a href="exercises.html" title="следующая глава">Задачи</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Artem Vesnin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/educational_materials/packaging/content.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
